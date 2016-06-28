@@ -14,7 +14,7 @@
 
     <scm>
         <connection>
-            scm:git:ssh://git@git.verinice.org:7999/~rm/verinice-rest-service.git
+            scm:git:ssh://git@git.verinice.org:7999/isms/verinice-rest-service.git
         </connection>
     </scm>
 
