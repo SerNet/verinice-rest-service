@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.verinice.rest-service</groupId>
+        <groupId>org.verinice.restservice</groupId>
         <artifactId>root</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>interface</artifactId>
 
-    <dependencies>     
+    <dependencies>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <scope>provided</scope>
-        </dependency>     
+        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <!-- This module does not have a Spring boot main class -->
@@ -36,11 +38,10 @@
                             <groupId>javax</groupId>
                             <artifactId>javaee-api</artifactId>
                         </exclude>
-                      </excludes>
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 
 </project>
