@@ -10,7 +10,61 @@
     </parent>
     <artifactId>persistence</artifactId>
 
-    <dependencies>     
+    <dependencies>   
+		<!-- The tutorials use the PostgreSQL 9.3.5 database -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>postgresql</groupId> -->
+<!-- 			<artifactId>postgresql</artifactId> -->
+<!-- 			<version>8.4</version> -->
+<!-- 		</dependency> -->
+			 
+		
+		
+		<dependency>
+        	<groupId>org.verinice.rest-service</groupId>
+        	<artifactId>interface</artifactId>
+		</dependency> 
+		
+		
+		
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-rest-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+<!--         <dependency> -->
+<!--             <groupId>com.h2database</groupId> -->
+<!--             <artifactId>h2</artifactId> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency>     -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>  
+		
+		
     </dependencies>
     <build>
         <plugins>

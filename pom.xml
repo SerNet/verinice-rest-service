@@ -29,6 +29,9 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <slf4jVersion>1.6.1</slf4jVersion>
+        <jacksonVersion>2.4.0</jacksonVersion>
+        <javaxVersion>7.0</javaxVersion>
     </properties>
 
     <dependencies>
@@ -52,6 +55,27 @@
           <artifactId>rest</artifactId>
           <version>${project.version}</version>
         </dependency>
+        <dependency>
+          <groupId>org.verinice.rest-service</groupId>
+          <artifactId>service</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jacksonVersion}</version>
+        </dependency>       
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>${javaxVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4jVersion}</version>
+		</dependency>
       </dependencies>
     </dependencyManagement>
 
