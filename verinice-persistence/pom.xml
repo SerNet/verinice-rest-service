@@ -10,7 +10,6 @@
   <artifactId>verinice-persistence</artifactId>
 
   <dependencies>
-    <!-- The tutorials use the PostgreSQL 9.3.5 database -->
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
@@ -48,6 +47,7 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
+    <!-- Use this dependency to run unit tests without a database server -->
     <!--         <dependency> -->
     <!--             <groupId>com.h2database</groupId> -->
     <!--             <artifactId>h2</artifactId> -->
