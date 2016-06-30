@@ -27,11 +27,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
+ * 
  * @author Ruth Motza <rm[at]sernet[dot]de>
  */
 @javax.persistence.Entity
@@ -46,10 +47,11 @@ public class PropertyList {
     @Column(name = "uuid", nullable = false)
     private String uuid;
 
-    @OneToMany(mappedBy = "propertyList")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "propertyList")
+    // @Transient
     private Set<Property> properties;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "typedlist_id", referencedColumnName = "dbid")
     private Entity entity;
 
@@ -77,17 +79,10 @@ public class PropertyList {
         this.properties = properties;
     }
 
-    /**
-     * @return the entity
-     */
     public Entity getEntity() {
         return entity;
     }
 
-    /**
-     * @param entity
-     *            the entity to set
-     */
     public void setEntity(Entity entity) {
         this.entity = entity;
     }
@@ -128,9 +123,11 @@ public class PropertyList {
 
     @Override
     public String toString() {
-        return "PropertyList [dbid=" + dbid + ", uuid=" + uuid
-        // + ", " + "properties=" + properties.size()
-                // + properties
+        return "[" + dbid
+        // + ", uuid=" + uuid
+                + ", " + "properties=" + properties
+                // properties.size()
+                // + getProperties()
                 + "]";
     }
 

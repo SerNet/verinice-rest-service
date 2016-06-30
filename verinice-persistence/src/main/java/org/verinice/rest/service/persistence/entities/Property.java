@@ -19,47 +19,54 @@
  ******************************************************************************/
 package org.verinice.rest.service.persistence.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.verinice.rest.service.persistence.entities.Property.PropertyId;
 
 /**
  * @author Ruth Motza <rm[at]sernet[dot]de>
  */
 @Entity
 @Table(name = "properties")
-public class Property {
+@IdClass(PropertyId.class)
+public class Property implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "dbid", nullable = false)
-    private long dbid;
+    @Column(name = "properties_id", nullable = false)
+    private long propertiesId;
 
-    @Column(name = "propertytype", nullable = true)
+    @Id
+    @Column(name = "propertiesIdx", nullable = false)
+    private int propertiesIdx;
+
+    @Column(name = "propertytype", nullable = false)
     private String propertytype;
 
-    @Column(name = "propertyvalue", nullable = true)
+    @Column(name = "propertyvalue", nullable = false)
     private String propertyvalue;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "properties_id", referencedColumnName = "dbid")
+    @JoinColumn(name = "properties_id", referencedColumnName = "dbid", insertable = false, updatable = false)
+    // @Transient
     private PropertyList propertyList;
 
-    @Column(name = "properties_idx", nullable = false)
-    private int properties_idx;
-
-    public long getDbid() {
-        return dbid;
+    public long getPropertiesId() {
+        return propertiesId;
     }
 
-    public void setDbid(long dbid) {
-        this.dbid = dbid;
+    public void setPropertiesId(long propertiesId) {
+        this.propertiesId = propertiesId;
     }
 
     public String getPropertytype() {
@@ -86,21 +93,20 @@ public class Property {
         this.propertyList = propertyList;
     }
 
-    public int getProperties_idx() {
-        return properties_idx;
+    public int getPropertiesIdx() {
+        return propertiesIdx;
     }
 
-    public void setProperties_idx(int properties_idx) {
-        this.properties_idx = properties_idx;
+    public void setPropertiesIdx(int propertiesIdx) {
+        this.propertiesIdx = propertiesIdx;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (int) (dbid ^ (dbid >>> 32));
-        result = prime * result + properties_idx;
-        result = prime * result + ((propertyList == null) ? 0 : propertyList.hashCode());
+        result = prime * result + (int) (propertiesId ^ (propertiesId >>> 32));
+        result = prime * result + propertiesIdx;
         result = prime * result + ((propertytype == null) ? 0 : propertytype.hashCode());
         result = prime * result + ((propertyvalue == null) ? 0 : propertyvalue.hashCode());
         return result;
@@ -115,9 +121,9 @@ public class Property {
         if (getClass() != obj.getClass())
             return false;
         Property other = (Property) obj;
-        if (dbid != other.dbid)
+        if (propertiesId != other.propertiesId)
             return false;
-        if (properties_idx != other.properties_idx)
+        if (propertiesIdx != other.propertiesIdx)
             return false;
         if (propertyList == null) {
             if (other.propertyList != null)
@@ -139,9 +145,74 @@ public class Property {
 
     @Override
     public String toString() {
-        return "Property [dbid=" + dbid + ", propertytype=" + propertytype + ", propertyvalue="
-                + propertyvalue + ", properties_idx="
-                + properties_idx + "]";
+        return "Property [propertiesId=" + propertiesId + ", propertytype=" + propertytype + ", propertyvalue="
+                + propertyvalue + ", propertiesIdx="
+                + propertiesIdx + "]";
+    }
+
+    /**
+     * Needed to support multiple primary keys
+     * 
+     * @author Ruth Motza <rm[at]sernet[dot]de>
+     */
+    public static class PropertyId implements Serializable {
+
+        private static final long serialVersionUID = 1L;
+
+        long propertiesId;
+
+        int propertiesIdx;
+
+        public PropertyId() {
+        }
+
+        public PropertyId(long propertiesId, int propertiesIdx) {
+            super();
+            this.propertiesId = propertiesId;
+            this.propertiesIdx = propertiesIdx;
+        }
+
+        public long getPropertiesId() {
+            return propertiesId;
+        }
+
+        public void setPropertiesId(long propertiesId) {
+            this.propertiesId = propertiesId;
+        }
+
+        public int getPropertiesIdx() {
+            return propertiesIdx;
+        }
+
+        public void setPropertiesIdx(int propertiesIdx) {
+            this.propertiesIdx = propertiesIdx;
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + (int) (propertiesId ^ (propertiesId >>> 32));
+            result = prime * result + propertiesIdx;
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            PropertyId other = (PropertyId) obj;
+            if (propertiesId != other.propertiesId)
+                return false;
+            if (propertiesIdx != other.propertiesIdx)
+                return false;
+            return true;
+        }
+
     }
 
 }

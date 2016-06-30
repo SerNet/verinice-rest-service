@@ -19,12 +19,17 @@
  ******************************************************************************/
 package org.verinice.rest.service.persistence.entities;
 
+import java.util.Set;
+
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Ruth Motza <rm[at]sernet[dot]de>
@@ -48,8 +53,8 @@ public class Entity {
     // @JoinColumn(name = "dbid", table = "propertylist", referencedColumnName =
     // "typedlist_id")
     // @JoinColumn(name = "typedlist_id", referencedColumnName = "dbid"
-    @OneToOne(mappedBy = "entity")
-    private PropertyList propertyList;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "entity")
+    private Set<PropertyList> propertyLists;
 
     public long getDbid() {
         return dbid;
@@ -57,6 +62,14 @@ public class Entity {
 
     public void setDbid(long dbid) {
         this.dbid = dbid;
+    }
+
+    public Set<PropertyList> getPropertyLists() {
+        return propertyLists;
+    }
+
+    public void setPropertyLists(Set<PropertyList> propertyLists) {
+        this.propertyLists = propertyLists;
     }
 
     public String getUuid() {
@@ -75,13 +88,6 @@ public class Entity {
         this.entitytype = entitytype;
     }
 
-    public PropertyList getPropertyList() {
-        return propertyList;
-    }
-
-    public void setPropertyList(PropertyList propertyList) {
-        this.propertyList = propertyList;
-    }
 
     @Override
     public int hashCode() {
@@ -89,7 +95,7 @@ public class Entity {
         int result = 1;
         result = prime * result + (int) (dbid ^ (dbid >>> 32));
         result = prime * result + ((entitytype == null) ? 0 : entitytype.hashCode());
-        result = prime * result + ((propertyList == null) ? 0 : propertyList.hashCode());
+        result = prime * result + ((propertyLists == null) ? 0 : propertyLists.hashCode());
         result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
         return result;
     }
@@ -110,10 +116,10 @@ public class Entity {
                 return false;
         } else if (!entitytype.equals(other.entitytype))
             return false;
-        if (propertyList == null) {
-            if (other.propertyList != null)
+        if (propertyLists == null) {
+            if (other.propertyLists != null)
                 return false;
-        } else if (!propertyList.equals(other.propertyList))
+        } else if (!propertyLists.equals(other.propertyLists))
             return false;
         if (uuid == null) {
             if (other.uuid != null)
@@ -126,9 +132,9 @@ public class Entity {
     @Override
     public String toString() {
         return "Entity [dbid=" + dbid + ", uuid=" + uuid + ", entitytype=" + entitytype
-                + ",\n propertyList="
-                + propertyList
-                + "]";
+                + ",\n propertyLists="
+                + StringUtils.join(propertyLists, "\n\t")
+                + "\n]";
     }
 
 }
