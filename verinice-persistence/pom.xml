@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.verinice.rest-service</groupId>
-        <artifactId>root</artifactId>
+        <groupId>org.verinice</groupId>
+        <artifactId>rest-service</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>persistence</artifactId>
+    <artifactId>verinice-persistence</artifactId>
 
     <dependencies>   
 		<!-- The tutorials use the PostgreSQL 9.3.5 database -->
@@ -28,8 +28,8 @@
 		</dependency>
 		
 		<dependency>
-        	<groupId>org.verinice.rest-service</groupId>
-        	<artifactId>interface</artifactId>
+        	<groupId>org.verinice</groupId>
+        	<artifactId>verinice-interface</artifactId>
 		</dependency> 
 		
         <dependency>

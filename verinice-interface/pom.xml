@@ -4,22 +4,23 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.verinice.rest-service</groupId>
-        <artifactId>root</artifactId>
+        <groupId>org.verinice</groupId>
+        <artifactId>rest-service</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>service</artifactId>
+    <artifactId>verinice-interface</artifactId>
 
-    <dependencies>    
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>  
+    <dependencies>     
         <dependency>
-        	<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency>     
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -40,5 +41,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>
