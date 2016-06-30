@@ -28,7 +28,7 @@
 	</appender>
 <!-- 	<Loggers> -->
 		<logger name="org.verinice.rest.service.persistence.test" level="debug"/>
-		<logger name="org.hibernate" level="debug"/>
+		<!-- <logger name="org.hibernate" level="debug"/>-->
 	
 		<root level="error">
 			<appender-ref ref="FILE" />

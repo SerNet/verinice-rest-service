@@ -27,20 +27,20 @@ article means _CnATreeElement_.
 The project consist of several modules to seperate concerns. This section
 describes the modules of the project.
 
-### Interface
+### verinice-interface
 
-Module _interface_ contains classes and interfaces which are shared by all other
+Module _verinice-interface_ contains classes and interfaces which are shared by all other
 modules.
 
-### Persistence
+### verinice-persistence
 
-Module _persistence_ contains objects to access data from the database and the
+Module _verinice-persistence_ contains objects to access data from the database and the
 Java Persistence API (JPA) configuration.
 
-### Service
+### verinice-service
 
-Module _service_ contains a Java API of the service.
+Module _verinice-service_ contains a Java API of the service.
 
-### rest
+### verinice-rest
 
-Module _rest_ contains the REST controller for the service.
+Module _verinice-rest_ contains the REST controller for the service.
