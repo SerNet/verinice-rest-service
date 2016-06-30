@@ -19,7 +19,6 @@
  ******************************************************************************/
 package org.verinice.rest.service.persistence.entities;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -48,7 +47,7 @@ public class PropertyList {
     private String uuid;
 
     @OneToMany(mappedBy = "propertyList")
-    private HashSet<Property> properties;
+    private Set<Property> properties;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "typedlist_id", referencedColumnName = "dbid")
@@ -74,7 +73,7 @@ public class PropertyList {
         return properties;
     }
 
-    public void setProperties(HashSet<Property> properties) {
+    public void setProperties(Set<Property> properties) {
         this.properties = properties;
     }
 
