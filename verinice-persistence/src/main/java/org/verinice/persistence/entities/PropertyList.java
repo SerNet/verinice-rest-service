@@ -17,7 +17,7 @@
  * Contributors:
  *     Ruth Motza <rm[at]sernet[dot]de> - initial API and implementation
  ******************************************************************************/
-package org.verinice.rest.service.persistence.entities;
+package org.verinice.persistence.entities;
 
 import java.util.Set;
 
@@ -26,17 +26,18 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
+ * 
  * @author Ruth Motza <rm[at]sernet[dot]de>
  */
 @javax.persistence.Entity
-@Table(name = "entity")
-public class Entity {
+@Table(name = "propertylist")
+public class PropertyList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,15 +47,13 @@ public class Entity {
     @Column(name = "uuid", nullable = false)
     private String uuid;
 
-    @Column(name = "entitytype")
-    private String entitytype;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "propertyList")
+    // @Transient
+    private Set<Property> properties;
 
-    // @OneToOne(fetch = FetchType.EAGER)
-    // @JoinColumn(name = "dbid", table = "propertylist", referencedColumnName =
-    // "typedlist_id")
-    // @JoinColumn(name = "typedlist_id", referencedColumnName = "dbid"
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "entity")
-    private Set<PropertyList> propertyLists;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "typedlist_id", referencedColumnName = "dbid")
+    private Entity entity;
 
     public long getDbid() {
         return dbid;
@@ -62,14 +61,6 @@ public class Entity {
 
     public void setDbid(long dbid) {
         this.dbid = dbid;
-    }
-
-    public Set<PropertyList> getPropertyLists() {
-        return propertyLists;
-    }
-
-    public void setPropertyLists(Set<PropertyList> propertyLists) {
-        this.propertyLists = propertyLists;
     }
 
     public String getUuid() {
@@ -80,22 +71,28 @@ public class Entity {
         this.uuid = uuid;
     }
 
-    public String getEntitytype() {
-        return entitytype;
+    public Set<Property> getProperties() {
+        return properties;
     }
 
-    public void setEntitytype(String entitytype) {
-        this.entitytype = entitytype;
+    public void setProperties(Set<Property> properties) {
+        this.properties = properties;
     }
 
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public void setEntity(Entity entity) {
+        this.entity = entity;
+    }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + (int) (dbid ^ (dbid >>> 32));
-        result = prime * result + ((entitytype == null) ? 0 : entitytype.hashCode());
-        result = prime * result + ((propertyLists == null) ? 0 : propertyLists.hashCode());
+        result = prime * result + ((properties == null) ? 0 : properties.hashCode());
         result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
         return result;
     }
@@ -108,18 +105,13 @@ public class Entity {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Entity other = (Entity) obj;
+        PropertyList other = (PropertyList) obj;
         if (dbid != other.dbid)
             return false;
-        if (entitytype == null) {
-            if (other.entitytype != null)
+        if (properties == null) {
+            if (other.properties != null)
                 return false;
-        } else if (!entitytype.equals(other.entitytype))
-            return false;
-        if (propertyLists == null) {
-            if (other.propertyLists != null)
-                return false;
-        } else if (!propertyLists.equals(other.propertyLists))
+        } else if (!properties.equals(other.properties))
             return false;
         if (uuid == null) {
             if (other.uuid != null)
@@ -131,10 +123,12 @@ public class Entity {
 
     @Override
     public String toString() {
-        return "Entity [dbid=" + dbid + ", uuid=" + uuid + ", entitytype=" + entitytype
-                + ",\n propertyLists="
-                + StringUtils.join(propertyLists, "\n\t")
-                + "\n]";
+        return "[" + dbid
+        // + ", uuid=" + uuid
+                + ", " + "properties=" + properties
+                // properties.size()
+                // + getProperties()
+                + "]";
     }
 
 }

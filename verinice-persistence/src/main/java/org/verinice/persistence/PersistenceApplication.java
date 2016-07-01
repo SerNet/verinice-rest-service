@@ -17,19 +17,19 @@
  * Contributors:
  *     Ruth Motza <rm{a}sernet{dot}de> - initial API and implementation
  ******************************************************************************/
-package org.verinice.rest.service.persistence;
+package org.verinice.persistence;
 
-import org.springframework.data.repository.CrudRepository;
-import org.verinice.rest.service.persistence.entities.Property;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.orm.jpa.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
 
-/**
- * 
- * @author Ruth Motza <rm[at]sernet[dot]de>
- */
-public interface PropertyRepository extends CrudRepository<Property, Long> {
+@SpringBootApplication
+@ComponentScan("org.verinice.persistence")
+@EntityScan("org.verinice.persistence.entities")
+public class PersistenceApplication {
 
-    // CnATreeElement findByDbid(@Param("dbid") String uuid);
-	
-    // CnATreeElement findById(@Param("dbid") long dbid);
-	
+	public static void main(String[] args) {
+		SpringApplication.run(PersistenceApplication.class, args);
+	}
 }

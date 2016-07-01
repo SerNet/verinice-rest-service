@@ -17,19 +17,18 @@
  * Contributors:
  *     Ruth Motza <rm{a}sernet{dot}de> - initial API and implementation
  ******************************************************************************/
-package org.verinice.rest.service.persistence;
+package org.verinice.persistence;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
-import org.verinice.rest.service.persistence.entities.CnATreeElement;
+import org.verinice.persistence.entities.Property;
 
 /**
  * 
  * @author Ruth Motza <rm[at]sernet[dot]de>
  */
-public interface ElementRepository extends CrudRepository<CnATreeElement, Long> {
+public interface PropertyRepository extends CrudRepository<Property, Long> {
 
-    CnATreeElement findByUuid(@Param("uuid") String uuid);
+    // CnATreeElement findByDbid(@Param("dbid") String uuid);
 	
     // CnATreeElement findById(@Param("dbid") long dbid);
 	

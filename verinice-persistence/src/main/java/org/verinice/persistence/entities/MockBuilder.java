@@ -1,5 +1,4 @@
-/*
- * Copyright (c) 2016 Daniel Murygin.
+/** Copyright (c) 2016 Daniel Murygin.
  * 
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -17,30 +16,19 @@
  * Contributors:
  *  Daniel Murygin - initial API and implementation
  */
-package org.verinice.service;
-
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.verinice.interfaces.ElementService;
-import org.verinice.model.Velement;
-import org.verinice.persistence.ElementRepository;
-import org.verinice.persistence.entities.CnATreeElement;
+package org.verinice.persistence.entities;
 
 /**
  *
  * @author Daniel Murygin
  */
-@Service
-public class ElementServiceImpl implements ElementService {
-
-    @Autowired
-    ElementRepository elementRepository;
+public class MockBuilder {
     
-    @Override
-    public Velement getElement(String uuid) {
-        CnATreeElement entityElement = elementRepository.findByUuid(uuid);
-        return ElementConverter.elementForEntity(entityElement);
+    public static final CnATreeElement createAsset(String uuid) {
+        CnATreeElement asset = new CnATreeElement();
+        asset.setUuid(uuid);
+        asset.setType("asset");
+        return asset;
     }
     
 }

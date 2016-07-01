@@ -19,28 +19,24 @@
  */
 package org.verinice.service;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
-import org.verinice.persistence.ElementRepository;
 import org.verinice.persistence.entities.CnATreeElement;
 
 /**
  *
  * @author Daniel Murygin
  */
-@Service
-public class ElementServiceImpl implements ElementService {
+public class ElementConverter {
 
-    @Autowired
-    ElementRepository elementRepository;
-    
-    @Override
-    public Velement getElement(String uuid) {
-        CnATreeElement entityElement = elementRepository.findByUuid(uuid);
-        return ElementConverter.elementForEntity(entityElement);
+    static Velement elementForEntity(CnATreeElement dbEntity) {
+        if(dbEntity==null) {
+            return null;
+        }
+        Velement element = new Velement();
+        element.setUuid(dbEntity.getUuid());   
+        element.setType(dbEntity.getType());
+        // TODO: convert properties
+        return element;
     }
     
 }

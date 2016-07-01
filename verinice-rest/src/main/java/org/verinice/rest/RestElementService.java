@@ -17,22 +17,28 @@
  * Contributors:
  *     Daniel Murygin <dm{a}sernet{dot}de> - initial API and implementation
  ******************************************************************************/
-package org.verinice.interfaces;
+package org.verinice.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
 
 /**
- * This service provides methods to manage verinice elements.
- * A verinice element is a generic element such as
- * an asset from ISO2700x. See class {@link Velement} for details.
+ * REST implementation of the element service.
  *
  * @author Daniel Murygin <dm{a}sernet{dot}de>
  */
-public interface ElementService {
+@RestController
+public class RestElementService implements ElementService {
+
+    @Autowired
+    ElementService elementService;
     
-    /**
-     * @param uuid The UUID of an element
-     * @return The element with the given UUID or null if UUID is no found
-     */
-    public Velement getElement(String uuid);
+    @RequestMapping("/element/{uuid}")
+    public Velement getElement(@PathVariable("uuid")  String uuid) {
+        return elementService.getElement(uuid);     
+    }
 }

@@ -17,7 +17,7 @@
  * Contributors:
  *     Ruth Motza <rm[at]sernet[dot]de> - initial API and implementation
  ******************************************************************************/
-package org.verinice.rest.service.persistence.entities;
+package org.verinice.persistence.entities;
 
 import java.io.Serializable;
 
@@ -30,7 +30,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.verinice.rest.service.persistence.entities.Property.PropertyId;
+import org.verinice.persistence.entities.Property.PropertyId;
 
 /**
  * @author Ruth Motza <rm[at]sernet[dot]de>

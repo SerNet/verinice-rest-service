@@ -15,4 +15,8 @@ Any value defined here will override the pom.xml file value but is only applicab
 -->
         <netbeans.hint.license>lgpl21_1</netbeans.hint.license>
     </properties>
+    <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+        <word>Murygin</word>
+        <word>verinice</word>
+    </spellchecker-wordlist>
 </project-shared-configuration>

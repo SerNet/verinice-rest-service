@@ -30,11 +30,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.verinice.rest.service.persistence.ElementRepository;
-import org.verinice.rest.service.persistence.PersistenceApplication;
-import org.verinice.rest.service.persistence.PropertyRepository;
-import org.verinice.rest.service.persistence.entities.CnATreeElement;
-import org.verinice.rest.service.persistence.entities.Property;
+import org.verinice.persistence.ElementRepository;
+import org.verinice.persistence.PersistenceApplication;
+import org.verinice.persistence.PropertyRepository;
+import org.verinice.persistence.entities.CnATreeElement;
+import org.verinice.persistence.entities.Property;
 
 
 /**

@@ -17,9 +17,7 @@
  * Contributors:
  *     Ruth Motza <rm[at]sernet[dot]de> - initial API and implementation
  ******************************************************************************/
-package org.verinice.rest.service.persistence.entities;
-
-import java.util.Set;
+package org.verinice.persistence.entities;
 
 import javax.persistence.Column;
 import javax.persistence.FetchType;
@@ -27,17 +25,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * 
  * @author Ruth Motza <rm[at]sernet[dot]de>
  */
 @javax.persistence.Entity
-@Table(name = "propertylist")
-public class PropertyList {
+@Table(name = "cnatreeelement")
+public class CnATreeElement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,14 +43,13 @@ public class PropertyList {
     @Column(name = "uuid", nullable = false)
     private String uuid;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "propertyList")
-    // @Transient
-    private Set<Property> properties;
+    @Column(name = "object_type", nullable = false)
+    private String type;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "typedlist_id", referencedColumnName = "dbid")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "entity_id", referencedColumnName = "dbid")
     private Entity entity;
-
+    
     public long getDbid() {
         return dbid;
     }
@@ -71,12 +66,12 @@ public class PropertyList {
         this.uuid = uuid;
     }
 
-    public Set<Property> getProperties() {
-        return properties;
+    public String getType() {
+        return type;
     }
 
-    public void setProperties(Set<Property> properties) {
-        this.properties = properties;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Entity getEntity() {
@@ -92,7 +87,8 @@ public class PropertyList {
         final int prime = 31;
         int result = 1;
         result = prime * result + (int) (dbid ^ (dbid >>> 32));
-        result = prime * result + ((properties == null) ? 0 : properties.hashCode());
+        result = prime * result + ((entity == null) ? 0 : entity.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
         result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
         return result;
     }
@@ -105,13 +101,18 @@ public class PropertyList {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        PropertyList other = (PropertyList) obj;
+        CnATreeElement other = (CnATreeElement) obj;
         if (dbid != other.dbid)
             return false;
-        if (properties == null) {
-            if (other.properties != null)
+        if (entity == null) {
+            if (other.entity != null)
                 return false;
-        } else if (!properties.equals(other.properties))
+        } else if (!entity.equals(other.entity))
+            return false;
+        if (type == null) {
+            if (other.type != null)
+                return false;
+        } else if (!type.equals(other.type))
             return false;
         if (uuid == null) {
             if (other.uuid != null)
@@ -123,12 +124,9 @@ public class PropertyList {
 
     @Override
     public String toString() {
-        return "[" + dbid
-        // + ", uuid=" + uuid
-                + ", " + "properties=" + properties
-                // properties.size()
-                // + getProperties()
-                + "]";
+        return "CnATreeElement [dbid=" + dbid + ", uuid=" + uuid + ", type=" + type + ",\n entity="
+                + entity + "]";
     }
+
 
 }

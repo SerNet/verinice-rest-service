@@ -17,23 +17,26 @@
  * Contributors:
  *     Ruth Motza <rm[at]sernet[dot]de> - initial API and implementation
  ******************************************************************************/
-package org.verinice.rest.service.persistence.entities;
+package org.verinice.persistence.entities;
+
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Ruth Motza <rm[at]sernet[dot]de>
  */
 @javax.persistence.Entity
-@Table(name = "cnatreeelement")
-public class CnATreeElement {
+@Table(name = "entity")
+public class Entity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,19 +46,30 @@ public class CnATreeElement {
     @Column(name = "uuid", nullable = false)
     private String uuid;
 
-    @Column(name = "object_type", nullable = false)
-    private String type;
+    @Column(name = "entitytype")
+    private String entitytype;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "entity_id", referencedColumnName = "dbid")
-    private Entity entity;
-    
+    // @OneToOne(fetch = FetchType.EAGER)
+    // @JoinColumn(name = "dbid", table = "propertylist", referencedColumnName =
+    // "typedlist_id")
+    // @JoinColumn(name = "typedlist_id", referencedColumnName = "dbid"
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "entity")
+    private Set<PropertyList> propertyLists;
+
     public long getDbid() {
         return dbid;
     }
 
     public void setDbid(long dbid) {
         this.dbid = dbid;
+    }
+
+    public Set<PropertyList> getPropertyLists() {
+        return propertyLists;
+    }
+
+    public void setPropertyLists(Set<PropertyList> propertyLists) {
+        this.propertyLists = propertyLists;
     }
 
     public String getUuid() {
@@ -66,29 +80,22 @@ public class CnATreeElement {
         this.uuid = uuid;
     }
 
-    public String getType() {
-        return type;
+    public String getEntitytype() {
+        return entitytype;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setEntitytype(String entitytype) {
+        this.entitytype = entitytype;
     }
 
-    public Entity getEntity() {
-        return entity;
-    }
-
-    public void setEntity(Entity entity) {
-        this.entity = entity;
-    }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + (int) (dbid ^ (dbid >>> 32));
-        result = prime * result + ((entity == null) ? 0 : entity.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + ((entitytype == null) ? 0 : entitytype.hashCode());
+        result = prime * result + ((propertyLists == null) ? 0 : propertyLists.hashCode());
         result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
         return result;
     }
@@ -101,18 +108,18 @@ public class CnATreeElement {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        CnATreeElement other = (CnATreeElement) obj;
+        Entity other = (Entity) obj;
         if (dbid != other.dbid)
             return false;
-        if (entity == null) {
-            if (other.entity != null)
+        if (entitytype == null) {
+            if (other.entitytype != null)
                 return false;
-        } else if (!entity.equals(other.entity))
+        } else if (!entitytype.equals(other.entitytype))
             return false;
-        if (type == null) {
-            if (other.type != null)
+        if (propertyLists == null) {
+            if (other.propertyLists != null)
                 return false;
-        } else if (!type.equals(other.type))
+        } else if (!propertyLists.equals(other.propertyLists))
             return false;
         if (uuid == null) {
             if (other.uuid != null)
@@ -124,9 +131,10 @@ public class CnATreeElement {
 
     @Override
     public String toString() {
-        return "CnATreeElement [dbid=" + dbid + ", uuid=" + uuid + ", type=" + type + ",\n entity="
-                + entity + "]";
+        return "Entity [dbid=" + dbid + ", uuid=" + uuid + ", entitytype=" + entitytype
+                + ",\n propertyLists="
+                + StringUtils.join(propertyLists, "\n\t")
+                + "\n]";
     }
-
 
 }
