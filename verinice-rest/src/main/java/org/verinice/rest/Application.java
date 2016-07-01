@@ -21,6 +21,8 @@ package org.verinice.rest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 /**
  *
@@ -28,6 +30,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Daniel Murygin <dm{a}sernet{dot}de>
  */
 @SpringBootApplication
+@Configuration
+@ComponentScan({"org.verinice.service",
+                "org.verinice.rest"})
 public class Application {
     
     public static void main(String[] args) {

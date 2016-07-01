@@ -17,13 +17,8 @@
  * Contributors:
  *     Daniel Murygin <dm{a}sernet{dot}de> - initial API and implementation
  ******************************************************************************/
-package org.verinice.rest;
+package org.verinice.interfaces;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
 
 /**
@@ -31,14 +26,7 @@ import org.verinice.model.Velement;
  *
  * @author Daniel Murygin <dm{a}sernet{dot}de>
  */
-@RestController
-public class Controller implements ElementService{
+public interface ElementService {
 
-    @Autowired
-    ElementService elementService;
-    
-    @RequestMapping("/element/{uuid}")
-    public Velement getElement(@PathVariable("uuid")  String uuid) {
-        return elementService.getElement(uuid);     
-    }
+    public Velement getElement(String uuid);
 }
