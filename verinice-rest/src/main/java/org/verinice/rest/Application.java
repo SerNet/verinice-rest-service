@@ -31,8 +31,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @SpringBootApplication
 @Configuration
-@ComponentScan({"org.verinice.service",
-                "org.verinice.rest"})
+@ComponentScan({"org.verinice.persistence",
+                "org.verinice.rest",
+                "org.verinice.service"})
 public class Application {
     
     public static void main(String[] args) {
