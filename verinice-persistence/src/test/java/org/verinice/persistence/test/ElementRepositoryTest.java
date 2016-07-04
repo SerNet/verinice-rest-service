@@ -17,7 +17,7 @@
  * Contributors:
  *     Ruth Motza <rm{a}sernet{dot}de> - initial API and implementation
  ******************************************************************************/
-package org.verinice.rest.service.persistence.test;
+package org.verinice.persistence.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

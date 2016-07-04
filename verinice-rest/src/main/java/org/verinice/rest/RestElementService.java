@@ -19,6 +19,8 @@
  ******************************************************************************/
 package org.verinice.rest;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,5 +42,10 @@ public class RestElementService implements ElementService {
     @RequestMapping("/element/{uuid}")
     public Velement getElement(@PathVariable("uuid")  String uuid) {
         return elementService.getElement(uuid);     
+    }
+
+    @RequestMapping("/elements")
+    public Set<Velement> getAllElements() {
+        return elementService.getAllElements();
     }
 }

@@ -18,7 +18,7 @@
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily -->
-			<fileNamePattern>./persistence-test.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<fileNamePattern>./service-test.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>5MB</maxFileSize>

@@ -28,7 +28,7 @@ import java.util.Map;
  * @author Daniel Murygin <dm{a}sernet{dot}de>
  */
 public class Velement {
-    
+
     private String uuid;
     
     private String type;
@@ -113,6 +113,12 @@ public class Velement {
         } else if (!uuid.equals(other.uuid))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Velement [type=" + type + ", title=" + title + ", properties=" + properties
+                + ", uuid=" + uuid + "]";
     }
    
 }

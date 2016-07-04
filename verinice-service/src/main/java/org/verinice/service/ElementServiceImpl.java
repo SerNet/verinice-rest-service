@@ -20,6 +20,11 @@
 package org.verinice.service;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.verinice.interfaces.ElementService;
@@ -34,6 +39,8 @@ import org.verinice.persistence.entities.CnATreeElement;
 @Service
 public class ElementServiceImpl implements ElementService {
 
+    Logger LOG = LoggerFactory.getLogger(ElementServiceImpl.class);
+
     @Autowired
     ElementRepository elementRepository;
     
@@ -41,6 +48,27 @@ public class ElementServiceImpl implements ElementService {
     public Velement getElement(String uuid) {
         CnATreeElement entityElement = elementRepository.findByUuid(uuid);
         return ElementConverter.elementForEntity(entityElement);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.verinice.interfaces.ElementService#getAllElements()
+     */
+    @Override
+    public Set<Velement> getAllElements() {
+
+        Iterable<CnATreeElement> dbElements = elementRepository.findAll();
+        Set<Velement> elements = new HashSet<>();
+        if (dbElements == null) {
+            LOG.error("db connection returns null");
+        } else {
+            dbElements.forEach(element -> {
+                Velement convertedElement = ElementConverter.elementForEntity(element);
+                elements.add(convertedElement);
+            });
+        }
+        return elements;
     }
     
 }

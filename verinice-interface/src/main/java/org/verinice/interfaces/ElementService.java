@@ -19,6 +19,8 @@
  ******************************************************************************/
 package org.verinice.interfaces;
 
+import java.util.Set;
+
 import org.verinice.model.Velement;
 
 /**
@@ -35,4 +37,10 @@ public interface ElementService {
      * @return The element with the given UUID or null if UUID is no found
      */
     public Velement getElement(String uuid);
+
+    /**
+     * 
+     * @return All elements in database
+     */
+    public Set<Velement> getAllElements();
 }
