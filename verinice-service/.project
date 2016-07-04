@@ -2,7 +2,10 @@
 <projectDescription>
   <name>verinice-service</name>
   <comment>Spring Boot Starter Parent. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
-  <projects/>
+  <projects>
+    <project>verinice-interface</project>
+    <project>verinice-persistence</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>
