@@ -19,7 +19,9 @@
  */
 package org.verinice.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,7 +42,7 @@ public class ElementConverter {
     private static Map<String, String> specialties = new HashMap<>();
 
     static{
-        specialties.put("gefaehrdungs-umsetzung", "gefaehrdungsumsetzung_titel_0");
+        specialties.put("gefaehrdungs-umsetzung", "gefaehrdungsumsetzung_titel");
     }
 
     static Velement elementForEntity(CnATreeElement dbEntity) {
@@ -58,12 +60,13 @@ public class ElementConverter {
 
     private static String getTitle(Velement element, CnATreeElement dbEntity) {
         if (specialties.containsKey(dbEntity.getType())) {
-            return element.getProperties().get(specialties.get(dbEntity.getType()));
+            return element.getProperties().get(specialties.get(dbEntity.getType())).iterator()
+                    .next();
         }
         if (element.getProperties() != null && !element.getProperties().isEmpty()) {
             for (String key : element.getProperties().keySet()) {
-                if (key.toLowerCase().endsWith("name_0")) {
-                    return element.getProperties().get(key);
+                if (key.toLowerCase().endsWith("name")) {
+                    return element.getProperties().get(key).iterator().next();
                 }
             }
 
@@ -71,23 +74,25 @@ public class ElementConverter {
         return null;
     }
 
-    private static Map<String, String> convertPropertyLists(CnATreeElement dbEntity) {
+    private static Map<String, List<String>> convertPropertyLists(CnATreeElement dbEntity) {
 
-        Map<String, String> propertyMap = new HashMap<>();
+        Map<String, List<String>> propertyMap = new HashMap<>();
         if (dbEntity.getEntity() != null && dbEntity.getEntity().getPropertyLists() != null) {
+
         dbEntity.getEntity().getPropertyLists().forEach(propertyList -> {
             Set<Property> properties = propertyList.getProperties();
             if (properties != null) {
-                properties.forEach(property -> {
-                    propertyMap.put(property.getPropertytype() + "_" + property.getPropertiesIdx(),
-                            property.getPropertyvalue());
-                });
+                    List<String> values = new ArrayList<>();
+                    String type = properties.iterator().next().getPropertytype();
+                    properties.forEach(property -> values.add(property.getPropertyvalue()));
+                    propertyMap.put(type, values);
 
             } else {
                 LOG.error("properties are null for propertyList : " + propertyList.getUuid());
 
             }
         });
+
         }
 
         return propertyMap;

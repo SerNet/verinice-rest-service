@@ -20,6 +20,7 @@
 package org.verinice.model;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,10 +33,18 @@ public class Velement {
     private String uuid;
     
     private String type;
-    
+
     private String title;
+
+    private String srcId;
+
+    private String extId;
+
+    private String parentId;
+
+    private String scopeId;
     
-    private Map<String, String> properties;
+    private Map<String, List<String>> properties;
 
     public Velement() {
         super();
@@ -71,22 +80,54 @@ public class Velement {
         this.title = title;
     }
     
-    public Map<String, String> getProperties() {
+    public String getSrcId() {
+        return srcId;
+    }
+
+    public void setSrcId(String srcId) {
+        this.srcId = srcId;
+    }
+
+    public String getExtId() {
+        return extId;
+    }
+
+    public void setExtId(String extId) {
+        this.extId = extId;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getScopeId() {
+        return scopeId;
+    }
+
+    public void setScopeId(String scopeId) {
+        this.scopeId = scopeId;
+    }
+
+    public Map<String, List<String>> getProperties() {
         if(properties==null) {
             properties = createPropertyMap();
         }
         return properties;
     }
     
-    public void setProperties(Map<String, String> properties) {
+    public void setProperties(Map<String, List<String>> properties) {
         this.properties = properties;
     }
     
-    public void addProperty(String key, String value) {
+    public void addProperty(String key, List<String> value) {
         getProperties().put(key, value);
     }
 
-    private Map<String, String> createPropertyMap() {
+    private Map<String, List<String>> createPropertyMap() {
         return new HashMap<>();
     }
 
