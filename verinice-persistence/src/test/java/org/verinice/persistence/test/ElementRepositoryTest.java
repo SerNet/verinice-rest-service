@@ -21,6 +21,7 @@ package org.verinice.persistence.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,12 +30,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.verinice.persistence.ElementRepository;
 import org.verinice.persistence.PersistenceApplication;
 import org.verinice.persistence.PropertyRepository;
 import org.verinice.persistence.entities.CnATreeElement;
-import org.verinice.persistence.entities.Property;
 
 
 /**
@@ -61,37 +64,43 @@ public class ElementRepositoryTest {
         // element.setType("incident_scenario");
         // element.setUuid("abdb719c-e7b7-4c93-977c-55f3fb789e03");
         // element.setType("bsimodel");
-        element.setUuid("fa606973-73fc-4ba5-8cd6-cde7a2428ba7");
+        element.setUuid("f061407d-a60f-49ed-be3a-0b22ca703864");
         // element = elementRepository.save(element);
     }
 
     @Test
     public void testFindOne() {
-        Iterable<CnATreeElement> elementResult = elementRepository.findAll();
-        // CnATreeElement findByUuid =
-        // elementRepository.findByUuid(element.getUuid());
-        LOG.debug("result: " + (elementResult != null));
-        if (elementResult != null) {
-            // LOG.debug(elementResult.iterator().next().toString());
-            elementResult.forEach((element) -> LOG.debug(element.toString()));
+
+        Pageable topTen = new PageRequest(0, 100);
+        Page<CnATreeElement> findAll = elementRepository.findAll(topTen);
+        findAll.forEach(elem -> LOG.debug(elem.toString()));
+        // Iterable<CnATreeElement> elementResult = elementRepository.findAll();
+        CnATreeElement findByUuid = elementRepository.findByUuid(element.getUuid());
+        if (findByUuid == null) {
+            fail("element null");
         }
+        // LOG.debug("result: " + (elementResult != null));
+        // if (elementResult != null) {
+            // LOG.debug(elementResult.iterator().next().toString());
+        // elementResult.forEach((element) -> LOG.debug(element.toString()));
+        // }
         // check(findByUuid, element);
-        // LOG.debug(findByUuid.toString());
+        LOG.debug(findByUuid.toString());
         // assertTrue(elementResult != null);
 
-        Iterable<Property> findAll = pRepository.findAll();
-        if (findAll != null) {
-            Property next = findAll.iterator().next();
-            if (next != null)
-                LOG.debug(next.toString());
-            // findAll.forEach(p -> {
-            // if (p != null)
-            // LOG.debug(p.toString());
-             else
-             LOG.debug("property null");
-        // );
-        } else
-            LOG.debug("no properties found");
+        // Iterable<Property> findAll = pRepository.findAll();
+        // if (findAll != null) {
+        // Property next = findAll.iterator().next();
+        // if (next != null)
+        // LOG.debug(next.toString());
+        // // findAll.forEach(p -> {
+        // // if (p != null)
+        // // LOG.debug(p.toString());
+        // else
+        // LOG.debug("property null");
+        // // );
+        // } else
+        // LOG.debug("no properties found");
     }
 
     private void check(CnATreeElement elementResult, CnATreeElement element2) {

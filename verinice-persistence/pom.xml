@@ -62,8 +62,13 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
-
+    
+	<dependency> 
+	  <groupId>com.oracle</groupId> 
+	  <artifactId>ojdbc7</artifactId> 
+    </dependency>
   </dependencies>
+
   <build>
     <plugins>
       <!-- This module does not have a Spring boot main class -->

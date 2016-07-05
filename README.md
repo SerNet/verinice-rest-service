@@ -44,3 +44,13 @@ Module _verinice-service_ contains a Java API of the service.
 ### verinice-rest
 
 Module _verinice-rest_ contains the REST controller for the service.
+
+## BUILD
+
+To run the build with maven you need to add the ojdbc7.jar (12.1.0.2) to your private repository
+Download the file, e.g. from [here](http://www.oracle.com/technetwork/database/features/jdbc/default-2280470.html).
+
+After downloading you need to add the file to your maven repository:
+`mvn install:install-file -Dfile=ojdbc7.jar  -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0.2 -Dpackaging=jar`
+
+After that the build should run successfully.
