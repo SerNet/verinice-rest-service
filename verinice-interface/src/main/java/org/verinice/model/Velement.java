@@ -36,13 +36,13 @@ public class Velement {
 
     private String title;
 
-    private String srcId;
+    private String sourceId;
 
     private String extId;
 
-    private String parentId;
+    private int parentId;
 
-    private String scopeId;
+    private int scopeId;
     
     private Map<String, List<String>> properties;
 
@@ -80,12 +80,12 @@ public class Velement {
         this.title = title;
     }
     
-    public String getSrcId() {
-        return srcId;
+    public String getSourceId() {
+        return sourceId;
     }
 
-    public void setSrcId(String srcId) {
-        this.srcId = srcId;
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
     }
 
     public String getExtId() {
@@ -96,19 +96,19 @@ public class Velement {
         this.extId = extId;
     }
 
-    public String getParentId() {
+    public int getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(int parentId) {
         this.parentId = parentId;
     }
 
-    public String getScopeId() {
+    public int getScopeId() {
         return scopeId;
     }
 
-    public void setScopeId(String scopeId) {
+    public void setScopeId(int scopeId) {
         this.scopeId = scopeId;
     }
 

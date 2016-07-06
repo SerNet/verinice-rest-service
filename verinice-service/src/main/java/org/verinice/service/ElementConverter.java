@@ -54,6 +54,12 @@ public class ElementConverter {
         element.setType(dbEntity.getType());
         element.setProperties(convertPropertyLists(dbEntity));
         element.setTitle(getTitle(element, dbEntity));
+        if (dbEntity.getScopeId() != null)
+            element.setScopeId(dbEntity.getScopeId());
+        element.setExtId(dbEntity.getExtId());
+        if (dbEntity.getParentId() != null)
+            element.setParentId(dbEntity.getParentId());
+        element.setSourceId(dbEntity.getSourceId());
 
         return element;
     }

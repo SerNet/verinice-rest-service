@@ -46,6 +46,18 @@ public class CnATreeElement {
     @Column(name = "object_type", nullable = false)
     private String type;
 
+    @Column(name = "sourceid", nullable = true)
+    private String sourceId;
+
+    @Column(name = "extid", nullable = true)
+    private String extId;
+
+    @Column(name = "parent", nullable = true)
+    private Integer parentId;
+
+    @Column(name = "scope_id", nullable = true)
+    private Integer scopeId;
+
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "entity_id", referencedColumnName = "dbid")
     private Entity entity;
@@ -72,6 +84,38 @@ public class CnATreeElement {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
+    }
+
+    public String getExtId() {
+        return extId;
+    }
+
+    public void setExtId(String extId) {
+        this.extId = extId;
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
+    }
+
+    public Integer getScopeId() {
+        return scopeId;
+    }
+
+    public void setScopeId(int scopeId) {
+        this.scopeId = scopeId;
     }
 
     public Entity getEntity() {
