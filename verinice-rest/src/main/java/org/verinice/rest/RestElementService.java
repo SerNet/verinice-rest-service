@@ -24,6 +24,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
@@ -44,8 +45,9 @@ public class RestElementService implements ElementService {
         return elementService.getElement(uuid);     
     }
 
-    @RequestMapping("/elements")
-    public Set<Velement> getAllElements() {
-        return elementService.getAllElements();
+    @RequestMapping(value = "/elements")
+    public Set<Velement> getAllElements(
+            @RequestParam(required = false) Integer limit) {
+        return elementService.getAllElements(limit);
     }
 }

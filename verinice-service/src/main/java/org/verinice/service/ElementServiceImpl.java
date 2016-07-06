@@ -26,6 +26,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
@@ -39,7 +42,11 @@ import org.verinice.persistence.entities.CnATreeElement;
 @Service
 public class ElementServiceImpl implements ElementService {
 
-    Logger LOG = LoggerFactory.getLogger(ElementServiceImpl.class);
+    private static final int LIMIT_MAX = 1000;
+    private static final int LIMIT_DEFAULT = 500;
+    private static final int LIMIT_MIN = 1;
+
+    private static final Logger LOG = LoggerFactory.getLogger(ElementServiceImpl.class);
 
     @Autowired
     ElementRepository elementRepository;
@@ -56,9 +63,22 @@ public class ElementServiceImpl implements ElementService {
      * @see org.verinice.interfaces.ElementService#getAllElements()
      */
     @Override
-    public Set<Velement> getAllElements() {
+    public Set<Velement> getAllElements(Integer limit) {
 
-        Iterable<CnATreeElement> dbElements = elementRepository.findAll();
+
+        LOG.debug("limit: " + limit);
+        int requestLimit;
+        if (limit == null){
+            requestLimit = LIMIT_DEFAULT;
+        }else if(limit <= LIMIT_MIN){
+            requestLimit = LIMIT_MIN;
+        } else if (limit >= LIMIT_MAX) {
+            requestLimit = LIMIT_MAX;
+        } else {
+            requestLimit = limit.intValue();
+        }
+        Pageable limitation = new PageRequest(0, requestLimit);
+        Page<CnATreeElement> dbElements = elementRepository.findAll(limitation);
         Set<Velement> elements = new HashSet<>();
         if (dbElements == null) {
             LOG.error("db connection returns null");

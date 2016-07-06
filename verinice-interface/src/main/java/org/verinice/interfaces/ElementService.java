@@ -31,7 +31,7 @@ import org.verinice.model.Velement;
  * @author Daniel Murygin <dm{a}sernet{dot}de>
  */
 public interface ElementService {
-    
+
     /**
      * @param uuid The UUID of an element
      * @return The element with the given UUID or null if UUID is no found
@@ -39,8 +39,10 @@ public interface ElementService {
     public Velement getElement(String uuid);
 
     /**
-     * 
+     * @param limit
+     *            - the limit of objects to be retrieved from database. If null
+     *            a default limit is used.
      * @return All elements in database
      */
-    public Set<Velement> getAllElements();
+    public Set<Velement> getAllElements(Integer limit);
 }
