@@ -45,13 +45,75 @@ Module _verinice-service_ contains a Java API of the service.
 
 Module _verinice-rest_ contains the REST controller for the service.
 
-## BUILD
 
-To run the build with maven you need to add the ojdbc7.jar (12.1.0.2) to your private repository
-Download the file, e.g. from [here](http://www.oracle.com/technetwork/database/features/jdbc/default-2280470.html).
-In addition the jar-file can be found in the lib folder.
+## Build
 
-Afterwards you need to add the file to your maven repository:
-`mvn install:install-file -Dfile=ojdbc7.jar  -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0.2 -Dpackaging=jar`
+### Oracle JDBC Driver
 
-After that the build should run successfully.
+This project depends on Oracle's JDBC driver to be build successfully. It is not
+available in Maven Central but only in Oracle's Maven repository
+(https://maven.oracle.com).
+
+In order to use it, it is necessary have an Oracle account, acknowledge the
+terms of service agreement and configure the local Maven installation with
+credentials for accessing the repository. The whole process is [explained in the
+Oracle Help
+Center](http://docs.oracle.com/middleware/1213/core/MAVEN/config_maven_repo.htm).
+
+An [article](https://blogs.oracle.com/dev2dev/entry/how_to_get_oracle_jdbc) on
+Oracle's developer blog explains how to include Oracle's JDBC drivers into a
+Maven build, also explaining the details of accessing Oracle's Maven repository.
+
+In short, add the following to your local Maven configuration:
+
+```xml
+~/.m2/security-settings.xml
+
+<settingsSecurity>
+<master>{maven-master-password}</master>
+</settingsSecurity>
+```
+
+```xml
+~/.m2/settings.xml
+
+<settings>
+  <servers>
+    <server>
+      <id>maven.oracle.com
+      </id>
+      <username>oracle-account-username</username>
+      <password>{oracle-account-password}</password>
+      <configuration>
+        <basicAuthScope>
+          <host>ANY
+          </host>
+          <port>ANY
+          </port>
+          <realm>OAM 11g
+          </realm>
+        </basicAuthScope>
+        <httpConfiguration>
+          <all>
+            <params>
+              <property>
+                <name>http.protocol.allow-circular-redirects
+                </name>
+                <value>%b,true
+                </value>
+              </property>
+            </params>
+          </all>
+        </httpConfiguration>
+      </configuration>
+    </server>
+  </servers>
+</settings>
+```
+
+Substitute `maven-master-password` with the encrypted version of a random
+password. Encrypt the password via `mvn -emp`.
+
+Substitute `oracle-account-username` with the user name of your Oracle account
+and `oracle-account-password` with an encrypted version of your Oracle account
+password. Use `mvn -ep` to encrypt it.
