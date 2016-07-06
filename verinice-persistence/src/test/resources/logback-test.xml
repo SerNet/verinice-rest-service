@@ -26,14 +26,12 @@
 		</rollingPolicy>
 
 	</appender>
-<!-- 	<Loggers> -->
 		<logger name="org.verinice.persistence.test" level="debug"/>
-		<!-- <logger name="org.hibernate" level="debug"/>-->
+		<logger name="org.hibernate" level="warn"/>
 	
 		<root level="error">
 			<appender-ref ref="FILE" />
 			<appender-ref ref="STDOUT" />
 		</root>
-<!-- 	</Loggers> -->
 
 </configuration>
