@@ -40,20 +40,40 @@ public interface ElementService {
 
     /**
      *
-     * @param limit
-     *            - the limit of objects to be retrieved from database. If null
-     *            a default limit is used.
+     * @param firstResult
+     *            - the index of the first result to be retrieved if null or <0
+     *            the index is 0
+     * @param size
+     *            - the number of objects to be retrieved from database. If null
+     *            or <1 a default limit is used.
      * @param key
      *            - possibility to specify a propertyType that need to exist. %
      *            can be used as a placeholder
      * @param value
      *            - possibility to specify a propertyValue that need to exist. %
      *            can be used as a placeholder
-     * @return All elements in database
+     * @return All elements in database based on the restricting parameters
      */
     public Set<Velement> getAllElements(Integer firstResult, Integer limit, String key,
             String value);
 
+    /**
+     *
+     * @param scopeId
+     * @param firstResult
+     *            - the index of the first result to be retrieved if null or <0
+     *            the index is 0
+     * @param size
+     *            - the number of objects to be retrieved from database. If null
+     *            or <1 a default limit is used.
+     * @param key
+     *            - possibility to specify a propertyType that need to exist. %
+     *            can be used as a placeholder
+     * @param value
+     *            - possibility to specify a propertyValue that need to exist. %
+     *            can be used as a placeholder
+     * @return All elements in database based on the restricting parameters
+     */
     public Set<Velement> getScopedElements(Integer scopeId, Integer firstResult, Integer size,
             String key,
             String value);

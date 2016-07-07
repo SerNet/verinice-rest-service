@@ -37,6 +37,7 @@ import javax.persistence.criteria.Root;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
@@ -53,14 +54,25 @@ import org.verinice.persistence.entities.PropertyList;
 @Service
 public class ElementServiceImpl implements ElementService {
 
-    private static final int LIMIT_MAX = 1000;
-    private static final int LIMIT_DEFAULT = 500;
-    private static final int LIMIT_MIN = 1;
+    private static final String PROPERTY_MAX_SIZE = "org.verinice.rest.jpa.maxsize";
+    private static final String PROPERTY_DEFAULT_SIZE = "org.verinice.rest.jpa.defaultsize";
+    private static final String PROPERTY_MIN_SIZE = "org.verinice.rest.jpa.minsize";
+
+    private static final int BACKUP_SIZE_MAX = 1000;
+    private static final int BACKUP_SIZE_DEFAULT = 500;
+    private static final int BACKUP_SIZE_MIN = 1;
+
+    private int sizeMax = -1;
+    private int sizeDefault = -1;
+    private int sizeMin = -1;
 
     private static final Logger LOG = LoggerFactory.getLogger(ElementServiceImpl.class);
 
     @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    Environment environment;
 
     @Autowired
     ElementRepository elementRepository;
@@ -81,7 +93,7 @@ public class ElementServiceImpl implements ElementService {
     public Set<Velement> getAllElements(Integer firstResult, Integer limit, String key,
             String value) {
 
-        LOG.debug("variables:\n\tfirst result " + firstResult
+        LOG.debug("variables:\n\tfirst result: " + firstResult
                 + "\n\tlimit: " + limit
                 + "\n\tpropertytype: " + key
                 + "\n\tpropertyvalue: " + value);
@@ -102,11 +114,10 @@ public class ElementServiceImpl implements ElementService {
             String key,
             String value) {
 
-        LOG.debug("variables:\n\tfirst result " + firstResult
+        LOG.debug("variables:\n\tfirst result: " + firstResult
                 + "\n\tlimit: " + size
                 + "\n\tpropertytype: " + key
                 + "\n\tpropertyvalue: " + value);
-
         List<CnATreeElement> dbElements = executeQuery(firstResult, size, key, value, scopeId);
         return ElementConverter.elementsForEntitys(dbElements);
     }
@@ -134,32 +145,61 @@ public class ElementServiceImpl implements ElementService {
             conditions.add(cb.equal(rootelement.get("scopeId"), scopeId));
         }
         query.where(conditions.toArray(new Predicate[conditions.size()]));
-
         TypedQuery<CnATreeElement> typedQuery = entityManager.createQuery(query);
-        int firstIndex = firstResult == null || firstResult.intValue() < 0 ? -1 : firstResult;
+        int firstIndex = firstResult == null || firstResult.intValue() < 0 ? 0 : firstResult;
         typedQuery.setFirstResult(firstIndex);
         int requestLimit = getLimit(size);
-        LOG.debug("resultset-maxSize: " + requestLimit);
+        LOG.debug("resultset-maxSize:\t" + requestLimit);
         typedQuery.setMaxResults(requestLimit);
 
         List<CnATreeElement> dbElements = typedQuery.getResultList();
-        LOG.debug("result size: " + dbElements.size());
-
+        LOG.debug("resultset-size:\t" + dbElements.size());
         return dbElements;
     }
 
     private int getLimit(Integer limit) {
-        int requestLimit;
+        initBorders();
         if (limit == null) {
-            requestLimit = LIMIT_DEFAULT;
-        } else if (limit <= LIMIT_MIN) {
-            requestLimit = LIMIT_MIN;
-        } else if (limit >= LIMIT_MAX) {
-            requestLimit = LIMIT_MAX;
-        } else {
-            requestLimit = limit.intValue();
+            LOG.info("no size entered --> default size used [" + sizeDefault + "]");
+            return sizeDefault;
+        } else if (limit <= sizeMin) {
+            LOG.warn("Entered size [" + limit + "] is smaller than minSize [" + sizeMin + "]");
+            return sizeMin;
+        } else if (limit >= sizeMax) {
+            LOG.warn("Entered size [" + limit + "] is higher than maxSize [" + sizeMax + "]");
+            return sizeMax;
         }
-        return requestLimit;
+        return limit.intValue();
     }
 
+    private void initBorders() {
+
+        if (sizeDefault == -1) {
+            Integer def = getPropertyAsInteger(PROPERTY_DEFAULT_SIZE);
+            sizeDefault = def == null ? BACKUP_SIZE_DEFAULT : def;
+        }
+        if (sizeMin == -1) {
+            Integer min = getPropertyAsInteger(PROPERTY_MIN_SIZE);
+            sizeMin = min == null ? BACKUP_SIZE_MIN : min;
+        }
+        if (sizeMax == -1) {
+            Integer max = getPropertyAsInteger(PROPERTY_MAX_SIZE);
+            sizeMax = max == null ? BACKUP_SIZE_MAX : max;
+        }
+    }
+
+    private Integer getPropertyAsInteger(String property) {
+        String propertyValue = environment.getProperty(property);
+        LOG.debug("env_variable[" + property + "]=" + propertyValue);
+        if (propertyValue == null) {
+            return null;
+        }
+        try {
+            int parseInt = Integer.parseInt(propertyValue);
+            return new Integer(parseInt);
+        } catch (NumberFormatException e) {
+            LOG.error("property " + property + " not of type integer");
+            return null;
+        }
+    }
 }

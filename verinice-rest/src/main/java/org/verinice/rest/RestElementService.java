@@ -30,7 +30,7 @@ import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
 
 /**
- * REST implementation of the element service.
+ * REST implementation of {@link ElementService}.
  *
  * @author Daniel Murygin <dm{a}sernet{dot}de>
  */
