@@ -47,7 +47,9 @@ public class RestElementService implements ElementService {
 
     @RequestMapping(value = "/elements")
     public Set<Velement> getAllElements(
-            @RequestParam(required = false) Integer limit) {
-        return elementService.getAllElements(limit);
+            @RequestParam(required = false) Integer limit,
+            @RequestParam(required = false) String propertyType,
+            @RequestParam(required = false) String propertyValue) {
+        return elementService.getAllElements(limit, propertyType, propertyValue);
     }
 }

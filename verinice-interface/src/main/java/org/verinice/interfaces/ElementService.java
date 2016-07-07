@@ -39,10 +39,18 @@ public interface ElementService {
     public Velement getElement(String uuid);
 
     /**
+     *
      * @param limit
      *            - the limit of objects to be retrieved from database. If null
      *            a default limit is used.
+     * @param propertyType
+     *            - possibility to specify a propertyType that need to exist. %
+     *            can be used as a placeholder
+     * @param propertyValue
+     *            - possibility to specify a propertyValue that need to exist. %
+     *            can be used as a placeholder
      * @return All elements in database
      */
-    public Set<Velement> getAllElements(Integer limit);
+    public Set<Velement> getAllElements(Integer limit, String propertyType,
+            String propertyValue);
 }
