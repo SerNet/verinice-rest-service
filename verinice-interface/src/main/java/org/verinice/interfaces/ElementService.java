@@ -52,5 +52,5 @@ public interface ElementService {
      * @return All elements in database
      */
     public Set<Velement> getAllElements(Integer limit, String propertyType,
-            String propertyValue);
+            String propertyValue, Integer scopeId);
 }

@@ -80,11 +80,11 @@ public class ElementServiceImpl implements ElementService {
      */
     @Override
     public Set<Velement> getAllElements(Integer limit, String propertyType,
-            String propertyValue) {
+            String propertyValue, Integer scopeId) {
 
 
         LOG.debug("variables:\n\tlimit: " + limit + "\n\tpropertytype: " + propertyType
-                + "\n\tpropertyvalue: " + propertyValue);
+                + "\n\tpropertyvalue: " + propertyValue + "\n\tscopeId: " + scopeId);
         int requestLimit;
         if (limit == null){
             requestLimit = LIMIT_DEFAULT;
@@ -113,6 +113,9 @@ public class ElementServiceImpl implements ElementService {
         }
         if (propertyValue != null) {
             conditions.add(cb.like(join3.get("propertyvalue"), value));
+        }
+        if (scopeId != null) {
+            conditions.add(cb.equal(c.get("scopeId"), scopeId));
         }
         q.where(conditions.toArray(new Predicate[conditions.size()]));
 
