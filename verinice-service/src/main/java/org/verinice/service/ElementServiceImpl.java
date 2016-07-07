@@ -21,7 +21,6 @@ package org.verinice.service;
 
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -32,7 +31,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -61,11 +59,12 @@ public class ElementServiceImpl implements ElementService {
 
     private static final Logger LOG = LoggerFactory.getLogger(ElementServiceImpl.class);
 
+    @PersistenceContext
+    EntityManager entityManager;
+
     @Autowired
     ElementRepository elementRepository;
     
-    @PersistenceContext
-    EntityManager em;
 
     @Override
     public Velement getElement(String uuid) {
@@ -79,62 +78,88 @@ public class ElementServiceImpl implements ElementService {
      * @see org.verinice.interfaces.ElementService#getAllElements()
      */
     @Override
-    public Set<Velement> getAllElements(Integer limit, String propertyType,
-            String propertyValue, Integer scopeId) {
+    public Set<Velement> getAllElements(Integer firstResult, Integer limit, String key,
+            String value) {
+
+        LOG.debug("variables:\n\tfirst result " + firstResult
+                + "\n\tlimit: " + limit
+                + "\n\tpropertytype: " + key
+                + "\n\tpropertyvalue: " + value);
+
+        List<CnATreeElement> dbElements = executeQuery(firstResult, limit, key, value, null);
+        return ElementConverter.elementsForEntitys(dbElements);
+    }
 
 
-        LOG.debug("variables:\n\tlimit: " + limit + "\n\tpropertytype: " + propertyType
-                + "\n\tpropertyvalue: " + propertyValue + "\n\tscopeId: " + scopeId);
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.verinice.interfaces.ElementService#getScopedElements(java.lang.
+     * Integer, java.lang.Integer, java.lang.String, java.lang.String)
+     */
+    @Override
+    public Set<Velement> getScopedElements(Integer scopeId, Integer firstResult, Integer size,
+            String key,
+            String value) {
+
+        LOG.debug("variables:\n\tfirst result " + firstResult
+                + "\n\tlimit: " + size
+                + "\n\tpropertytype: " + key
+                + "\n\tpropertyvalue: " + value);
+
+        List<CnATreeElement> dbElements = executeQuery(firstResult, size, key, value, scopeId);
+        return ElementConverter.elementsForEntitys(dbElements);
+    }
+
+
+    private List<CnATreeElement> executeQuery(Integer firstResult, Integer size, String key,
+            String value, Integer scopeId) {
+
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<CnATreeElement> query = cb.createQuery(CnATreeElement.class);
+        Root<CnATreeElement> rootelement = query.from(CnATreeElement.class);
+        query.select(rootelement);
+        Join<CnATreeElement, Entity> entityJoin = rootelement.join("entity", JoinType.LEFT);
+        Join<PropertyList, Entity> propertyListJoin = entityJoin.join("propertyLists", JoinType.LEFT);
+        Join<PropertyList, Property> propertyJoin = propertyListJoin.join("properties", JoinType.LEFT);
+
+        List<Predicate> conditions = new ArrayList<>();
+        if (key != null) {
+            conditions.add(cb.like(propertyJoin.get("propertytype"), key));
+        }
+        if (value != null) {
+            conditions.add(cb.like(propertyJoin.get("propertyvalue"), value));
+        }
+        if (scopeId != null) {
+            conditions.add(cb.equal(rootelement.get("scopeId"), scopeId));
+        }
+        query.where(conditions.toArray(new Predicate[conditions.size()]));
+
+        TypedQuery<CnATreeElement> typedQuery = entityManager.createQuery(query);
+        int firstIndex = firstResult == null || firstResult.intValue() < 0 ? -1 : firstResult;
+        typedQuery.setFirstResult(firstIndex);
+        int requestLimit = getLimit(size);
+        LOG.debug("resultset-maxSize: " + requestLimit);
+        typedQuery.setMaxResults(requestLimit);
+
+        List<CnATreeElement> dbElements = typedQuery.getResultList();
+        LOG.debug("result size: " + dbElements.size());
+
+        return dbElements;
+    }
+
+    private int getLimit(Integer limit) {
         int requestLimit;
-        if (limit == null){
+        if (limit == null) {
             requestLimit = LIMIT_DEFAULT;
-        }else if(limit <= LIMIT_MIN){
+        } else if (limit <= LIMIT_MIN) {
             requestLimit = LIMIT_MIN;
         } else if (limit >= LIMIT_MAX) {
             requestLimit = LIMIT_MAX;
         } else {
             requestLimit = limit.intValue();
         }
-        LOG.debug("resultset-limit: " + requestLimit);
-
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<CnATreeElement> q = cb.createQuery(CnATreeElement.class);
-        Root<CnATreeElement> c = q.from(CnATreeElement.class);
-        q.select(c);
-        ParameterExpression<String> type = cb.parameter(String.class);
-        ParameterExpression<String> value = cb.parameter(String.class);
-        Join<CnATreeElement, Entity> join = c.join("entity", JoinType.LEFT);
-        Join<PropertyList, Entity> join2 = join.join("propertyLists", JoinType.LEFT);
-        Join<PropertyList, Property> join3 = join2.join("properties", JoinType.LEFT);
-
-        List<Predicate> conditions = new ArrayList<>();
-        if (propertyType != null) {
-            conditions.add(cb.like(join3.get("propertytype"), type));
-        }
-        if (propertyValue != null) {
-            conditions.add(cb.like(join3.get("propertyvalue"), value));
-        }
-        if (scopeId != null) {
-            conditions.add(cb.equal(c.get("scopeId"), scopeId));
-        }
-        q.where(conditions.toArray(new Predicate[conditions.size()]));
-
-        TypedQuery<CnATreeElement> query = em.createQuery(q);
-        if (propertyType != null)
-            query.setParameter(type, propertyType);
-        if (propertyValue != null)
-            query.setParameter(value, propertyValue);
-        query.setMaxResults(requestLimit);
-        List<CnATreeElement> dbElements = query.getResultList();
-
-        LOG.debug("result size: " + dbElements.size());
-        Set<Velement> elements = new HashSet<>();
-        dbElements.forEach(element -> {
-            Velement convertedElement = ElementConverter.elementForEntity(element);
-            elements.add(convertedElement);
-        });
-        return elements;
+        return requestLimit;
     }
 
-    
 }

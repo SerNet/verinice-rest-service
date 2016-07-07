@@ -43,14 +43,18 @@ public interface ElementService {
      * @param limit
      *            - the limit of objects to be retrieved from database. If null
      *            a default limit is used.
-     * @param propertyType
+     * @param key
      *            - possibility to specify a propertyType that need to exist. %
      *            can be used as a placeholder
-     * @param propertyValue
+     * @param value
      *            - possibility to specify a propertyValue that need to exist. %
      *            can be used as a placeholder
      * @return All elements in database
      */
-    public Set<Velement> getAllElements(Integer limit, String propertyType,
-            String propertyValue, Integer scopeId);
+    public Set<Velement> getAllElements(Integer firstResult, Integer limit, String key,
+            String value);
+
+    public Set<Velement> getScopedElements(Integer scopeId, Integer firstResult, Integer size,
+            String key,
+            String value);
 }

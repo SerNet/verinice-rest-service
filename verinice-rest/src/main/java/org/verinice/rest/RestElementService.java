@@ -47,10 +47,20 @@ public class RestElementService implements ElementService {
 
     @RequestMapping(value = "/elements")
     public Set<Velement> getAllElements(
-            @RequestParam(required = false) Integer limit,
-            @RequestParam(required = false) String propertyType,
-            @RequestParam(required = false) String propertyValue,
-            @RequestParam(required = false) Integer scopeId) {
-        return elementService.getAllElements(limit, propertyType, propertyValue, scopeId);
+            @RequestParam(required = false) Integer firstResult,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) String key,
+            @RequestParam(required = false) String value) {
+        return elementService.getAllElements(firstResult, size, key, value);
+    }
+
+    @RequestMapping(value = "/{scopeId}/elements")
+    public Set<Velement> getScopedElements(
+            @PathVariable("scopeId") Integer scopeId,
+            @RequestParam(required = false) Integer firstResult,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) String key,
+            @RequestParam(required = false) String value) {
+        return elementService.getScopedElements(scopeId, firstResult, size, key, value);
     }
 }

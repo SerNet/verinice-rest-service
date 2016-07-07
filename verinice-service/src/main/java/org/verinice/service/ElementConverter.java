@@ -21,6 +21,7 @@ package org.verinice.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -62,6 +63,13 @@ public class ElementConverter {
         element.setSourceId(dbEntity.getSourceId());
 
         return element;
+    }
+
+    static Set<Velement> elementsForEntitys(Iterable<CnATreeElement> dbEntities) {
+
+        HashSet<Velement> velements = new HashSet<>();
+        dbEntities.forEach(dbentity -> velements.add(elementForEntity(dbentity)));
+        return velements;
     }
 
     private static String getTitle(Velement element, CnATreeElement dbEntity) {
