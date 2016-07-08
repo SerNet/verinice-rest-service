@@ -39,6 +39,7 @@
     <jacksonVersion>2.4.0</jacksonVersion>
     <javaxVersion>7.0</javaxVersion>
     <apacheCommonsLangVersion>3.0</apacheCommonsLangVersion>
+    <javaxVersion>3.0.0</javaxVersion>
   </properties>
 
   <dependencies></dependencies>
@@ -86,6 +87,11 @@
         <artifactId>commons-lang3</artifactId>
         <version>${apacheCommonsLangVersion}</version>
       </dependency>
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>${javaxVersion}</version>
+        </dependency>
     </dependencies>
   </dependencyManagement>
 
