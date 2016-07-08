@@ -78,8 +78,13 @@ public class ElementServiceImpl implements ElementService {
     ElementRepository elementRepository;
     
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.verinice.interfaces.ElementService#loadElement(java.lang.String)
+     */
     @Override
-    public Velement getElement(String uuid) {
+    public Velement loadElement(String uuid) {
         CnATreeElement entityElement = elementRepository.findByUuid(uuid);
         return ElementConverter.elementForEntity(entityElement);
     }
@@ -87,10 +92,12 @@ public class ElementServiceImpl implements ElementService {
     /*
      * (non-Javadoc)
      * 
-     * @see org.verinice.interfaces.ElementService#getAllElements()
+     * @see
+     * org.verinice.interfaces.ElementService#loadElements(java.lang.Integer,
+     * java.lang.Integer, java.lang.String, java.lang.String)
      */
     @Override
-    public Set<Velement> getAllElements(Integer firstResult, Integer limit, String key,
+    public Set<Velement> loadElements(Integer firstResult, Integer limit, String key,
             String value) {
 
         LOG.debug("variables:\n\tfirst result: " + firstResult
@@ -105,12 +112,14 @@ public class ElementServiceImpl implements ElementService {
 
     /*
      * (non-Javadoc)
-     *
-     * @see org.verinice.interfaces.ElementService#getScopedElements(java.lang.
-     * Integer, java.lang.Integer, java.lang.String, java.lang.String)
+     * 
+     * @see
+     * org.verinice.interfaces.ElementService#loadElementsOfScope(java.lang.
+     * Integer, java.lang.Integer, java.lang.Integer, java.lang.String,
+     * java.lang.String)
      */
     @Override
-    public Set<Velement> getScopedElements(Integer scopeId, Integer firstResult, Integer size,
+    public Set<Velement> loadElementsOfScope(Integer scopeId, Integer firstResult, Integer size,
             String key,
             String value) {
 

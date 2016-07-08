@@ -36,7 +36,7 @@ public interface ElementService {
      * @param uuid The UUID of an element
      * @return The element with the given UUID or null if UUID is no found
      */
-    public Velement getElement(String uuid);
+    public Velement loadElement(String uuid);
 
     /**
      *
@@ -54,7 +54,7 @@ public interface ElementService {
      *            can be used as a placeholder
      * @return All elements in database based on the restricting parameters
      */
-    public Set<Velement> getAllElements(Integer firstResult, Integer limit, String key,
+    public Set<Velement> loadElements(Integer firstResult, Integer size, String key,
             String value);
 
     /**
@@ -74,7 +74,7 @@ public interface ElementService {
      *            can be used as a placeholder
      * @return All elements in database based on the restricting parameters
      */
-    public Set<Velement> getScopedElements(Integer scopeId, Integer firstResult, Integer size,
+    public Set<Velement> loadElementsOfScope(Integer scopeId, Integer firstResult, Integer size,
             String key,
             String value);
 }

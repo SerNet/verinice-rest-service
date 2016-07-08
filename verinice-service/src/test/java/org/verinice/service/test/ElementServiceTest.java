@@ -78,7 +78,7 @@ public class ElementServiceTest {
         CnATreeElement dbEntity = MockBuilder.createAsset(uuid);
         when(elementRepository.findByUuid(dbEntity.getUuid())).thenReturn(dbEntity);
        
-        Velement element = elementService.getElement(uuid);
+        Velement element = elementService.loadElement(uuid);
         Assert.assertNotNull(element);
         Assert.assertEquals(uuid, element.getUuid());
     }
