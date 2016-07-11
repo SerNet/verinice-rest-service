@@ -19,6 +19,12 @@
  ******************************************************************************/
 package org.verinice.persistence.entities;
 
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.FilterDefs;
+import org.hibernate.annotations.Filters;
+import org.hibernate.annotations.ParamDef;
+
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,6 +38,25 @@ import javax.persistence.Table;
  * @author Ruth Motza <rm[at]sernet[dot]de>
  */
 @javax.persistence.Entity
+@FilterDefs({
+    @FilterDef(name = "userAccessReadFilter", parameters = {
+        @ParamDef(name = "currentRoles", type = "string"),
+        @ParamDef(name = "readAllowed", type = "boolean")}),
+    @FilterDef(name = "scopeFilter", parameters = @ParamDef(name = "scopeId", type = "int"))})
+@Filters({
+    @Filter(name = "userAccessReadFilter", condition = "(\n"
+            + "object_type = 'bsimodel' or \n"
+            + "object_type = 'iso27kmodel' or \n"
+            + "exists (select p.dbid from permission p where \n"
+            + "  p.cte_id = dbId and \n"
+            + "  p.role in (:currentRoles) and \n"
+            + "  p.readAllowed = :readAllowed)\n"
+            + ")"),
+    @Filter(name = "scopeFilter", condition = "(\n"
+            + "object_type = 'bsimodel' or \n"
+            + "object_type = 'iso27kmodel' or \n"
+            + "scope_id = :scopeId\n"
+            + ")")})
 @Table(name = "cnatreeelement")
 public class CnATreeElement {
 
