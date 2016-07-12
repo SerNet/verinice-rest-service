@@ -19,7 +19,13 @@
  ******************************************************************************/
 package org.verinice.security;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.codec.Hex;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -27,7 +33,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 public class VeriniceClassicPasswordEncoder implements PasswordEncoder {
 
-    PasswordEncoder encoder = new BCryptPasswordEncoder();
+    PasswordEncoder encoder = new BCryptPasswordEncoder(); // new
+                                                           // MessageDigestPasswordEncoder
+    @Autowired
+    Environment environment;
 
     /*
      * (non-Javadoc)
@@ -39,6 +48,8 @@ public class VeriniceClassicPasswordEncoder implements PasswordEncoder {
     @Override
     public String encode(CharSequence password) {
         // TODO rmotza Auto-generated method stub
+        // String a1 = username + ":" + realm + ":" + password;
+        // md5Hex(a1);
         return encoder.encode(password);
     }
 
@@ -52,7 +63,18 @@ public class VeriniceClassicPasswordEncoder implements PasswordEncoder {
     @Override
     public boolean matches(CharSequence arg0, String arg1) {
         // TODO rmotza Auto-generated method stub
+
         return encoder.matches(arg0, arg1);
+    }
+
+    private String md5Hex(String data) {
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalStateException("No MD5 algorithm available!");
+        }
+        return new String(Hex.encode(digest.digest(data.getBytes())));
     }
 
 }

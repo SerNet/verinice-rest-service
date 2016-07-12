@@ -21,6 +21,7 @@ package org.verinice.rest.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,10 +38,15 @@ public class AuthenticationConfiguration extends GlobalAuthenticationConfigurerA
     @Autowired
     UserDetailsService userDetailService;
     
+    @Autowired
+    Environment environment;
+
     @Override
     public void init(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService);
-        // .passwordEncoder(PasswordEncoderFactory.getInstance());
+        auth.authenticationProvider(
+                new VeriniceAuthenticationProvider(userDetailService, environment));
+        auth.authenticationEventPublisher(new DefaultAuthenticationEventPublisher());
     }
 
     

@@ -19,8 +19,6 @@
  ******************************************************************************/
 package org.verinice.persistence;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.verinice.persistence.entities.CnATreeElement;
@@ -32,10 +30,4 @@ import org.verinice.persistence.entities.CnATreeElement;
 public interface ElementRepository extends CrudRepository<CnATreeElement, Long> {
 
     CnATreeElement findByUuid(@Param("uuid") String uuid);
-
-    Page<CnATreeElement> findAll(Pageable pageable);
-
-    // CnATreeElement findByProperty(@Param("propertytype") String popertytype,
-    // @Param("propertvalue") String popertyvalue);
-	
 }

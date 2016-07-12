@@ -47,17 +47,6 @@ public class SpringUserDetailService implements UserDetailsService{
         }
         return new User(account.getLogin(), account.getPassword(), true, true, true, true,
                 AuthorityUtils.createAuthorityList("USER"));
-        // Account account = accountRepository.findByUsername(username);
-        // if(account != null) {
-        // return new User(account.getUsername(), account.getPassword(), true,
-        // true, true, true,
-        // AuthorityUtils.createAuthorityList("USER"));
-        // } else {
-        // throw new UsernameNotFoundException("could not find the user '"
-        // + username + "'");
-        // }
-        // return new User("test", "test",
-        // AuthorityUtils.createAuthorityList("USER"));
     }
     
 }

@@ -17,7 +17,7 @@
  * Contributors:
  *  Daniel Murygin - initial API and implementation
  */
-package org.verinice.service;
+package org.verinice.persistence.entities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,8 +29,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.verinice.model.Velement;
-import org.verinice.persistence.entities.CnATreeElement;
-import org.verinice.persistence.entities.Property;
 
 /**
  *
@@ -40,13 +38,13 @@ public class ElementConverter {
 
     private static final Logger LOG = LoggerFactory.getLogger(ElementConverter.class);
 
-    private static Map<String, String> specialties = new HashMap<>();
+    private static Map<String, String> specialNamePropertyTypes = new HashMap<>();
 
     static{
-        specialties.put("gefaehrdungs-umsetzung", "gefaehrdungsumsetzung_titel");
+        specialNamePropertyTypes.put("gefaehrdungs-umsetzung", "gefaehrdungsumsetzung_titel");
     }
 
-    static Velement elementForEntity(CnATreeElement dbEntity) {
+    public static Velement elementForEntity(CnATreeElement dbEntity) {
         if(dbEntity==null) {
             return null;
         }
@@ -65,7 +63,7 @@ public class ElementConverter {
         return element;
     }
 
-    static Set<Velement> elementsForEntitys(Iterable<CnATreeElement> dbEntities) {
+    public static Set<Velement> elementsForEntitys(Iterable<CnATreeElement> dbEntities) {
 
         HashSet<Velement> velements = new HashSet<>();
         dbEntities.forEach(dbentity -> velements.add(elementForEntity(dbentity)));
@@ -73,8 +71,8 @@ public class ElementConverter {
     }
 
     private static String getTitle(Velement element, CnATreeElement dbEntity) {
-        if (specialties.containsKey(dbEntity.getType())) {
-            return element.getProperties().get(specialties.get(dbEntity.getType())).iterator()
+        if (specialNamePropertyTypes.containsKey(dbEntity.getType())) {
+            return element.getProperties().get(specialNamePropertyTypes.get(dbEntity.getType())).iterator()
                     .next();
         }
         if (element.getProperties() != null && !element.getProperties().isEmpty()) {

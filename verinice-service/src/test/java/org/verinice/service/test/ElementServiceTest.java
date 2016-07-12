@@ -19,6 +19,8 @@
  */
 package org.verinice.service.test;
 
+import static org.mockito.Mockito.when;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -28,15 +30,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
-import org.verinice.persistence.ElementRepository;
+import org.verinice.persistence.VeriniceElementDAO;
 import org.verinice.persistence.entities.CnATreeElement;
 import org.verinice.persistence.entities.MockBuilder;
 import org.verinice.service.ElementServiceImpl;
@@ -49,7 +49,7 @@ import org.verinice.service.ElementServiceImpl;
 public class ElementServiceTest {
     
     @Mock 
-    ElementRepository elementRepository;
+    VeriniceElementDAO dao;
     
     @InjectMocks
     @Autowired
@@ -76,7 +76,7 @@ public class ElementServiceTest {
     public void loadElement() {  
         String uuid = "123";
         CnATreeElement dbEntity = MockBuilder.createAsset(uuid);
-        when(elementRepository.findByUuid(dbEntity.getUuid())).thenReturn(dbEntity);
+        when(dao.findByUuid(dbEntity.getUuid())).thenReturn(dbEntity);
        
         Velement element = elementService.loadElement(uuid);
         Assert.assertNotNull(element);

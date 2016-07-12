@@ -35,7 +35,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     final private String[] UNSECURED_RESOURCES = {
-            // "/service/account/create/**"
+            /* At the moment there are no unsecured services */
     };
     
     @Override
