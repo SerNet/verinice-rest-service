@@ -8,6 +8,7 @@
     <artifactId>verinice-rest-service</artifactId>
     <version>0.1.0-SNAPSHOT</version>
   </parent>
+  
   <artifactId>verinice-rest</artifactId>
 
   <dependencies>
@@ -43,9 +44,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <build>
-    <plugins>
-    </plugins>
-  </build>
 
 </project>
