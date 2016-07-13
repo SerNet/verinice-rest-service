@@ -37,7 +37,8 @@
 
     <apache.commons.lang.version>3.0</apache.commons.lang.version>
     <javax.el.api.version>3.0.0</javax.el.api.version>
-    <jackson.databind.version>2.8.0</jackson.databind.version>
+    <jackson.databind.version>2.4.0</jackson.databind.version>
+    <jackson.datatype.jsr310.version>2.4.0</jackson.datatype.jsr310.version>
     <javaee.api.version>7.0</javaee.api.version>
     <junit.version>4.12</junit.version>
   </properties>
@@ -79,6 +80,11 @@
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
         <version>${jackson.databind.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-jsr310</artifactId>
+        <version>${jackson.datatype.jsr310.version}</version>
       </dependency>
       <dependency>
         <groupId>javax</groupId>
