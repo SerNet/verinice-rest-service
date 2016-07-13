@@ -46,22 +46,22 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.verinice</groupId>
+        <groupId>${project.groupId}</groupId>
         <artifactId>verinice-interface</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.verinice</groupId>
+        <groupId>${project.groupId}</groupId>
         <artifactId>verinice-persistence</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.verinice</groupId>
+        <groupId>${project.groupId}</groupId>
         <artifactId>verinice-rest</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.verinice</groupId>
+        <groupId>${project.groupId}</groupId>
         <artifactId>verinice-service</artifactId>
         <version>${project.version}</version>
       </dependency>
