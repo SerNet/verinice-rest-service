@@ -41,6 +41,9 @@
     <jackson.datatype.jsr310.version>2.4.0</jackson.datatype.jsr310.version>
     <javaee.api.version>7.0</javaee.api.version>
     <junit.version>4.12</junit.version>
+    <hibernate.core.version>4.3.11.Final</hibernate.core.version>
+    <hibernate.jpa.2.1.api.version>1.0.0.Final</hibernate.jpa.2.1.api.version>
+    <slf4j.api.version>1.7.21</slf4j.api.version>
   </properties>
 
   <dependencies>
@@ -48,6 +51,11 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.api.version}</version>
     </dependency>
   </dependencies>
 
@@ -101,6 +109,16 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
         <version>${apache.commons.lang.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>${hibernate.core.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate.javax.persistence</groupId>
+        <artifactId>hibernate-jpa-2.1-api</artifactId>
+        <version>${hibernate.jpa.2.1.api.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
