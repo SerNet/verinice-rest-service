@@ -40,9 +40,11 @@
     <jackson.databind.version>2.4.0</jackson.databind.version>
     <jackson.datatype.jsr310.version>2.4.0</jackson.datatype.jsr310.version>
     <javaee.api.version>7.0</javaee.api.version>
+    <jcl.over.slf4j.version>1.7.21</jcl.over.slf4j.version>
     <junit.version>4.12</junit.version>
     <hibernate.core.version>4.3.11.Final</hibernate.core.version>
     <hibernate.jpa.2.1.api.version>1.0.0.Final</hibernate.jpa.2.1.api.version>
+    <mockito.core.version>1.10.19</mockito.core.version>
     <slf4j.api.version>1.7.21</slf4j.api.version>
   </properties>
 
@@ -119,6 +121,18 @@
         <groupId>org.hibernate.javax.persistence</groupId>
         <artifactId>hibernate-jpa-2.1-api</artifactId>
         <version>${hibernate.jpa.2.1.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
+        <version>${jcl.over.slf4j.version}</version>
+      </dependency>
+
+      <!-- Test scoped -->
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>${mockito.core.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
