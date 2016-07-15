@@ -35,9 +35,6 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     VeriniceAccountDAO dao;
 
-    public AccountServiceImpl() {
-    }
-
     @Override
     public Account findByLogin(String login) {
         return dao.findAccount(login);

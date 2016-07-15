@@ -18,17 +18,23 @@
  */
 package org.verinice.persistence.entities;
 
+import org.verinice.model.Account;
+
 /**
  *
  * @author Daniel Murygin
  */
 public class MockBuilder {
-    
+
     public static final CnATreeElement createAsset(String uuid) {
         CnATreeElement asset = new CnATreeElement();
         asset.setUuid(uuid);
         asset.setType("asset");
         return asset;
+    }
+
+    public static final Account createTestAccount() {
+        return new Account("test", "test");
     }
     
 }
