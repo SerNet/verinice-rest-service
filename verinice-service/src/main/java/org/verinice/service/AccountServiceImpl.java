@@ -17,6 +17,7 @@
  * Contributors:
  *     Ruth Motza <rm{a}sernet{dot}de> - initial API and implementation
  ******************************************************************************/
+
 package org.verinice.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,9 @@ import org.verinice.model.Account;
 import org.verinice.persistence.VeriniceAccountDAO;
 
 /**
- * 
- * @author Ruth Motza <rm[at]sernet[dot]de>
+ * TODO.
+ *
+ * @author Ruth Motza {@literal <rm[at]sernet[dot]de>}
  */
 @Service
 public class AccountServiceImpl implements AccountService {

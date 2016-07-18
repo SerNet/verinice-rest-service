@@ -17,7 +17,22 @@
  * Contributors:
  *     Ruth Motza <rm[at]sernet[dot]de> - initial API and implementation
  ******************************************************************************/
+
 package org.verinice.persistence;
+
+import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+import org.verinice.persistence.entities.CnATreeElement;
+import org.verinice.persistence.entities.Entity;
+import org.verinice.persistence.entities.Property;
+import org.verinice.persistence.entities.PropertyList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,23 +44,16 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.verinice.persistence.entities.CnATreeElement;
-import org.verinice.persistence.entities.Entity;
-import org.verinice.persistence.entities.Property;
-import org.verinice.persistence.entities.PropertyList;
-
 /**
- * @author Ruth Motza <rm[at]sernet[dot]de>
+ * TODO.
+ *
+ * @author Ruth Motza {@literal <rm[at]sernet[dot]de>}
  */
 @Service
-public class VeriniceElementDAO extends VeriniceDAO {
+@EnableWebSecurity
+public class VeriniceElementDao extends VeriniceDao {
 
-
-    private static final Logger LOG = LoggerFactory.getLogger(VeriniceElementDAO.class);
+    private static final Logger logger = LoggerFactory.getLogger(VeriniceElementDao.class);
 
     @Autowired
     ElementRepository elementRepository;
@@ -62,13 +70,33 @@ public class VeriniceElementDAO extends VeriniceDAO {
     private int sizeDefault = -1;
     private int sizeMin = -1;
 
-
+    /**
+     * TODO.
+     *
+     * @param uuid TODO
+     * @return TODO
+     */
     public CnATreeElement findByUuid(String uuid) {
+
+        activateAccessControlFilters();
+
         return elementRepository.findByUuid(uuid);
     }
 
-    public List<CnATreeElement> fintByCriteria(Integer firstResult, Integer size, String key,
+    /**
+     * TODO.
+     *
+     * @param firstResult TODO
+     * @param size TODO
+     * @param key TODO
+     * @param value TODO
+     * @param scopeId TODO
+     * @return TODO
+     */
+    public List<CnATreeElement> findByCriteria(Integer firstResult, Integer size, String key,
             String value, Integer scopeId) {
+
+        activateAccessControlFilters();
 
         CriteriaQuery<CnATreeElement> query = getCriteriaBuilder()
                 .createQuery(CnATreeElement.class);
@@ -92,30 +120,38 @@ public class VeriniceElementDAO extends VeriniceDAO {
         }
         query.where(conditions.toArray(new Predicate[conditions.size()]));
         TypedQuery<CnATreeElement> typedQuery = entityManager.createQuery(query);
-        int firstIndex = firstResult == null || firstResult.intValue() < 0 ? 0 : firstResult;
+        int firstIndex;
+        if (firstResult == null || firstResult < 0) {
+            firstIndex = 0;
+        } else {
+            firstIndex = firstResult;
+        }
         typedQuery.setFirstResult(firstIndex);
         int requestLimit = getLimit(size);
-        LOG.debug("resultset-maxSize:\t" + requestLimit);
+        logger.debug("resultset-maxSize:\t" + requestLimit);
         typedQuery.setMaxResults(requestLimit);
 
         List<CnATreeElement> dbElements = typedQuery.getResultList();
-        LOG.debug("resultset-size:\t" + dbElements.size());
+        logger.debug("resultset-size:\t" + dbElements.size());
+
         return dbElements;
     }
 
     private int getLimit(Integer limit) {
+
         initBorders();
         if (limit == null) {
-            LOG.info("no size entered --> default size used [" + sizeDefault + "]");
+            logger.info("no size entered --> default size used [" + sizeDefault + "]");
             return sizeDefault;
         } else if (limit <= sizeMin) {
-            LOG.warn("Entered size [" + limit + "] is smaller than minSize [" + sizeMin + "]");
+            logger.warn("Entered size [" + limit + "] is smaller than minSize [" + sizeMin + "]");
             return sizeMin;
         } else if (limit >= sizeMax) {
-            LOG.warn("Entered size [" + limit + "] is higher than maxSize [" + sizeMax + "]");
+            logger.warn("Entered size [" + limit + "] is higher than maxSize [" + sizeMax + "]");
             return sizeMax;
         }
-        return limit.intValue();
+
+        return limit;
     }
 
     private void initBorders() {
@@ -135,18 +171,39 @@ public class VeriniceElementDAO extends VeriniceDAO {
     }
 
     private Integer getPropertyAsInteger(String property) {
+
         String propertyValue = environment.getProperty(property);
-        LOG.debug("env_variable[" + property + "]=" + propertyValue);
+        logger.debug("env_variable[" + property + "]=" + propertyValue);
         if (propertyValue == null) {
             return null;
         }
         try {
             int parseInt = Integer.parseInt(propertyValue);
-            return new Integer(parseInt);
-        } catch (NumberFormatException e) {
-            LOG.error("property " + property + " not of type integer");
+            return parseInt;
+        } catch (NumberFormatException ex) {
+            logger.error("property " + property + " not of type integer");
             return null;
         }
     }
 
+    private void activateAccessControlFilters() {
+
+        UserDetails userDetails;
+        userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        logger.debug("Active user: " + userDetails.getUsername());
+
+        List<String> accountGroups = getAccountGroups(userDetails.getUsername());
+
+        final Session session = entityManager.unwrap(Session.class);
+
+        // Test with 286304 || 312099
+        session.enableFilter("scopeFilter").setParameter("scopeId", 286304);
+        //session.enableFilter("userReadAccessFilter").setParameter("currentGroups", "user-default-group");
+    }
+
+    private List<String> getAccountGroups(String username) {
+
+        return new ArrayList<String>();
+    }
 }

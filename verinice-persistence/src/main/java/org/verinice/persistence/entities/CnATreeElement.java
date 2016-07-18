@@ -17,6 +17,7 @@
  * Contributors:
  *     Ruth Motza <rm[at]sernet[dot]de> - initial API and implementation
  ******************************************************************************/
+
 package org.verinice.persistence.entities;
 
 import org.hibernate.annotations.Filter;
@@ -35,28 +36,31 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * @author Ruth Motza <rm[at]sernet[dot]de>
+ * TEST.
+ *
+ * @author Ruth Motza {@literal <rm[at]sernet[dot]de>}
  */
 @javax.persistence.Entity
 @FilterDefs({
-    @FilterDef(name = "userAccessReadFilter", parameters = {
+    @FilterDef(name = "userReadAccessFilter", parameters = {
         @ParamDef(name = "currentRoles", type = "string"),
         @ParamDef(name = "readAllowed", type = "boolean")}),
-    @FilterDef(name = "scopeFilter", parameters = @ParamDef(name = "scopeId", type = "int"))})
+    @FilterDef(name = "scopeFilter", parameters = @ParamDef(name = "scopeId", type = "int")),
+    @FilterDef(name = "testFilter")})
 @Filters({
-    @Filter(name = "userAccessReadFilter", condition = "(\n"
+    @Filter(name = "userReadAccessFilter", condition = "(\n"
             + "object_type = 'bsimodel' or \n"
             + "object_type = 'iso27kmodel' or \n"
             + "exists (select p.dbid from permission p where \n"
             + "  p.cte_id = dbId and \n"
-            + "  p.role in (:currentRoles) and \n"
-            + "  p.readAllowed = :readAllowed)\n"
+            + "  p.role in (:currentGroups))\n"
             + ")"),
     @Filter(name = "scopeFilter", condition = "(\n"
             + "object_type = 'bsimodel' or \n"
             + "object_type = 'iso27kmodel' or \n"
             + "scope_id = :scopeId\n"
-            + ")")})
+            + ")"),
+    @Filter(name = "testFilter", condition = "uuid = 'baf0d970-b3f7-464d-86f0-4200f33593cc'")})
 @Table(name = "cnatreeelement")
 public class CnATreeElement {
 
@@ -164,30 +168,40 @@ public class CnATreeElement {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         CnATreeElement other = (CnATreeElement) obj;
-        if (dbid != other.dbid)
+        if (dbid != other.dbid) {
             return false;
+        }
         if (entity == null) {
-            if (other.entity != null)
+            if (other.entity != null) {
                 return false;
-        } else if (!entity.equals(other.entity))
+            }
+        } else if (!entity.equals(other.entity)) {
             return false;
+        }
         if (type == null) {
-            if (other.type != null)
+            if (other.type != null) {
                 return false;
-        } else if (!type.equals(other.type))
+            }
+        } else if (!type.equals(other.type)) {
             return false;
+        }
         if (uuid == null) {
-            if (other.uuid != null)
+            if (other.uuid != null) {
                 return false;
-        } else if (!uuid.equals(other.uuid))
+            }
+        } else if (!uuid.equals(other.uuid)) {
             return false;
+        }
         return true;
     }
 

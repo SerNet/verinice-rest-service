@@ -29,7 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
-import org.verinice.persistence.VeriniceElementDAO;
+import org.verinice.persistence.VeriniceElementDao;
 import org.verinice.persistence.entities.CnATreeElement;
 import org.verinice.persistence.entities.ElementConverter;
 
@@ -44,7 +44,7 @@ public class ElementServiceImpl implements ElementService {
     private static final Logger LOG = LoggerFactory.getLogger(ElementServiceImpl.class);
 
     @Autowired
-    VeriniceElementDAO dao;
+    VeriniceElementDao dao;
 
     /*
      * (non-Javadoc)
@@ -73,7 +73,7 @@ public class ElementServiceImpl implements ElementService {
                 + "\n\tpropertytype: " + key
                 + "\n\tpropertyvalue: " + value);
 
-        List<CnATreeElement> dbElements = dao.fintByCriteria(firstResult, limit, key, value, null);
+        List<CnATreeElement> dbElements = dao.findByCriteria(firstResult, limit, key, value, null);
         return ElementConverter.elementsForEntitys(dbElements);
     }
 
@@ -95,7 +95,7 @@ public class ElementServiceImpl implements ElementService {
                 + "\n\tlimit: " + size
                 + "\n\tpropertytype: " + key
                 + "\n\tpropertyvalue: " + value);
-        List<CnATreeElement> dbElements = dao.fintByCriteria(firstResult, size, key, value, scopeId);
+        List<CnATreeElement> dbElements = dao.findByCriteria(firstResult, size, key, value, scopeId);
         return ElementConverter.elementsForEntitys(dbElements);
     }
 

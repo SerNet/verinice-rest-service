@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
  * @author Ruth Motza <rm[at]sernet[dot]de>
  */
 @Service
-public abstract class VeriniceDAO {
+public abstract class VeriniceDao {
 
     @PersistenceContext
     protected EntityManager entityManager;

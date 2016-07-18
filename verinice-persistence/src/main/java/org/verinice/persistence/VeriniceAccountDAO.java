@@ -45,7 +45,7 @@ import org.verinice.persistence.entities.PropertyList;
  * @author Ruth Motza <rm[at]sernet[dot]de>
  */
 @Service
-public class VeriniceAccountDAO extends VeriniceDAO {
+public class VeriniceAccountDAO extends VeriniceDao {
 
     private static final Logger LOG = LoggerFactory.getLogger(VeriniceAccountDAO.class);
     private static final String TEST_ACC_ACTIVE = "org.verinice.testAccountActive";

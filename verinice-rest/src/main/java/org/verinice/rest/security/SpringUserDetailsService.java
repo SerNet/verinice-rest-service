@@ -17,6 +17,7 @@
  * Contributors:
  *     Ruth Motza <rm{a}sernet{dot}de> - initial API and implementation
  ******************************************************************************/
+
 package org.verinice.rest.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +31,12 @@ import org.verinice.model.Account;
 import org.verinice.service.AccountServiceImpl;
 
 /**
+ * TODO.
  *
- * @author Ruth Motza <rm[at]sernet[dot]de>
+ * @author Ruth Motza {@literal <rm[at]sernet[dot]de>}
  */
 @Service
-public class SpringUserDetailService implements UserDetailsService{
+public class SpringUserDetailsService implements UserDetailsService {
 
     @Autowired
     AccountServiceImpl accountService;

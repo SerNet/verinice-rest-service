@@ -17,6 +17,7 @@
  * Contributors:
  *     Ruth Motza <rm{a}sernet{dot}de> - initial API and implementation
  ******************************************************************************/
+
 package org.verinice.rest.security;
 
 import org.springframework.context.annotation.Configuration;
@@ -28,21 +29,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * Spring security configuration. See:
  * http://ryanjbaxter.com/2015/01/06/securing-rest-apis-with-spring-boot/
  *
- * @author Ruth Motza <rm[at]sernet[dot]de>
+ * @author Ruth Motza {@literal <rm[at]sernet[dot]de>}
  */
 @EnableWebSecurity
 @Configuration
 class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    final private String[] UNSECURED_RESOURCES = {
-            /* At the moment there are no unsecured services */
-    };
+    // At the moment there are no unsecured services
+    private final String[] unsecuredResources = {};
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers(UNSECURED_RESOURCES).permitAll();
-        http.authorizeRequests().anyRequest().fullyAuthenticated().and().
-                httpBasic().and().
-                csrf().disable();
+        http.authorizeRequests().antMatchers(unsecuredResources).permitAll();
+        http.authorizeRequests().anyRequest()
+                .fullyAuthenticated().and().httpBasic().and().csrf().disable();
     }
 }
