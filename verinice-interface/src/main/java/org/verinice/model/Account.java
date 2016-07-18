@@ -23,18 +23,12 @@ package org.verinice.model;
  * 
  * @author Ruth Motza <rm[at]sernet[dot]de>
  */
-// @Entity
 public class Account {
-    
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.AUTO)
-    // @Column(unique = true, nullable = false)
+
     private long id;
     
-    // @Column(unique = true, nullable = false, length = 254)
     private String login;
     
-    // @Column(nullable = false, length = 100)
     private String password;
 
     public Account() {
