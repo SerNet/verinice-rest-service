@@ -14,7 +14,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.verinice.interfaces.AccountService;
 import org.verinice.model.Account;
-import org.verinice.persistence.VeriniceAccountDAO;
+import org.verinice.persistence.VeriniceAccountDao;
 import org.verinice.persistence.entities.MockBuilder;
 
 
@@ -27,7 +27,7 @@ import org.verinice.persistence.entities.MockBuilder;
 public class AccountServiceTest {
 
     @Mock
-    VeriniceAccountDAO dao;
+    VeriniceAccountDao dao;
 
     @InjectMocks
     @Autowired

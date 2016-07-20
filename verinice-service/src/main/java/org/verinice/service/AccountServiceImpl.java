@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.verinice.interfaces.AccountService;
 import org.verinice.model.Account;
-import org.verinice.persistence.VeriniceAccountDAO;
+import org.verinice.persistence.VeriniceAccountDao;
 
 /**
  * TODO.
@@ -35,7 +35,7 @@ import org.verinice.persistence.VeriniceAccountDAO;
 public class AccountServiceImpl implements AccountService {
 
     @Autowired
-    VeriniceAccountDAO dao;
+    VeriniceAccountDao dao;
 
     @Override
     public Account findByLogin(String login) {

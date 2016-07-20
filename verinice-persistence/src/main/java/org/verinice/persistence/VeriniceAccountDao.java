@@ -19,17 +19,6 @@
  ******************************************************************************/
 package org.verinice.persistence;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -41,17 +30,24 @@ import org.verinice.persistence.entities.Entity;
 import org.verinice.persistence.entities.Property;
 import org.verinice.persistence.entities.PropertyList;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 /**
  * @author Ruth Motza <rm[at]sernet[dot]de>
  */
 @Service
-public class VeriniceAccountDAO extends VeriniceDao {
+public class VeriniceAccountDao extends VeriniceDao {
 
-    private static final Logger LOG = LoggerFactory.getLogger(VeriniceAccountDAO.class);
-    private static final String TEST_ACC_ACTIVE = "org.verinice.testAccountActive";
-    private static final String TEST_ACCOUNT_ACTIVE = "true";
-    private static final String TEST_USERNAME = "test";
-    private static final String TEST_PASSWORD = "test";
+    private static final Logger LOG = LoggerFactory.getLogger(VeriniceAccountDao.class);
 
     /**
      * 
@@ -61,11 +57,6 @@ public class VeriniceAccountDAO extends VeriniceDao {
      */
     public Account findAccount(String loginName) {
 
-        String testAccountActive = environment.getProperty(TEST_ACC_ACTIVE);
-        LOG.debug("test account active:" + testAccountActive);
-        if (TEST_ACCOUNT_ACTIVE.equals(testAccountActive) && loginName.equals(TEST_USERNAME)) {
-            return new Account(TEST_USERNAME, TEST_PASSWORD);
-        }
         CriteriaQuery<Entity> query = getCriteriaBuilder().createQuery(Entity.class);
         Root<Entity> rootelement = query.from(Entity.class);
         query.select(rootelement);
@@ -96,7 +87,5 @@ public class VeriniceAccountDAO extends VeriniceDao {
             LOG.debug("user " + loginName + " not found");
             return null;
         }
-
     }
-
 }
