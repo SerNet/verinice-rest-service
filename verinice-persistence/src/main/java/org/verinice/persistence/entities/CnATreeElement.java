@@ -42,9 +42,8 @@ import javax.persistence.Table;
  */
 @javax.persistence.Entity
 @FilterDefs({
-    @FilterDef(name = "userReadAccessFilter", parameters = {
-        @ParamDef(name = "currentRoles", type = "string"),
-        @ParamDef(name = "readAllowed", type = "boolean")}),
+    @FilterDef(name = "userReadAccessFilter", parameters =
+        @ParamDef(name = "currentAccountGroups", type = "string")),
     @FilterDef(name = "scopeFilter", parameters = @ParamDef(name = "scopeId", type = "int")),
     @FilterDef(name = "testFilter")})
 @Filters({
@@ -53,7 +52,7 @@ import javax.persistence.Table;
             + "object_type = 'iso27kmodel' or \n"
             + "exists (select p.dbid from permission p where \n"
             + "  p.cte_id = dbId and \n"
-            + "  p.role in (:currentGroups))\n"
+            + "  p.role in (:currentAccountGroups))\n"
             + ")"),
     @Filter(name = "scopeFilter", condition = "(\n"
             + "object_type = 'bsimodel' or \n"
