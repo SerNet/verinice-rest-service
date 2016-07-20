@@ -17,6 +17,7 @@
  * Contributors:
  *     Ruth Motza <rm[at]sernet[dot]de> - initial API and implementation
  ******************************************************************************/
+
 package org.verinice.persistence;
 
 import org.slf4j.Logger;
@@ -35,57 +36,66 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
- * @author Ruth Motza <rm[at]sernet[dot]de>
+ * TODO.
+ *
+ * @author Ruth Motza {@literal <rm[at]sernet[dot]de>}
  */
 @Service
 public class VeriniceAccountDao extends VeriniceDao {
 
-    private static final Logger LOG = LoggerFactory.getLogger(VeriniceAccountDao.class);
+    private static final Logger logger = LoggerFactory.getLogger(VeriniceAccountDao.class);
 
     /**
+     * Returns an {@link Account} with the given login name.
      * 
-     * @param loginName
-     * @return - An {@link Account} to the given Username or null if there is no
-     *         account with this loginName
+     * @param loginName the login name for which the according {@link Account} should be returned
+     * @return - the {@link Account} with the given user name or null if doesn't exist.
      */
     public Account findAccount(String loginName) {
 
-        CriteriaQuery<Entity> query = getCriteriaBuilder().createQuery(Entity.class);
-        Root<Entity> rootelement = query.from(Entity.class);
-        query.select(rootelement);
-        Join<PropertyList, Entity> propertyListJoin = rootelement.join("propertyLists",
-                JoinType.LEFT);
-        Join<PropertyList, Property> propertyJoin = propertyListJoin.join("properties",
-                JoinType.LEFT);
-
-        List<Predicate> conditions = new ArrayList<>();
-        conditions.add(getCriteriaBuilder().like(propertyJoin.get("propertytype"),
-                "configuration_benutzername"));
-        conditions.add(getCriteriaBuilder().like(propertyJoin.get("propertyvalue"), loginName));
-        query.where(conditions.toArray(new Predicate[conditions.size()]));
-        TypedQuery<Entity> typedQuery = entityManager.createQuery(query);
+        TypedQuery<Entity> query = buildQuery(loginName);
 
         try {
-            Entity dbEntity = typedQuery.getSingleResult();
-            CnaTreeElement cnATreeElement = new CnaTreeElement();
-            cnATreeElement.setEntity(dbEntity);
-
-            Velement v = ElementConverter
-                    .elementForEntity(cnATreeElement);
-
+            Entity entity = query.getSingleResult();
+            CnaTreeElement cnaTreeElement = new CnaTreeElement();
+            cnaTreeElement.setEntity(entity);
+            Velement element = ElementConverter.elementForEntity(cnaTreeElement);
             ArrayList<String> passwordProperty = new ArrayList<>(
-                    v.getProperties().get("configuration_passwort"));
+                    element.getProperties().get("configuration_passwort"));
+
             return new Account(loginName, passwordProperty.get(0));
-        } catch (NoResultException e) {
-            LOG.debug("user " + loginName + " not found");
-            return null;
+
+        } catch (NoResultException ex) {
+            logger.debug("Login name '" + loginName + "' not found", ex);
         }
+
+        return null;
+    }
+
+    private TypedQuery<Entity> buildQuery(String loginName) {
+
+        CriteriaBuilder builder = getCriteriaBuilder();
+
+        CriteriaQuery<Entity> query = builder.createQuery(Entity.class);
+        Root<Entity> entity = query.from(Entity.class);
+        Join<PropertyList, Entity> propertyListJoin = entity.join("propertyLists");
+        Join<PropertyList, Property> propertiesJoin = propertyListJoin.join("properties");
+
+        List<Predicate> conditions = new ArrayList<>();
+        Path<String> propertyTypePath = propertiesJoin.get("propertytype");
+        conditions.add(builder.like(propertyTypePath, "configuration_benutzername"));
+        Path<String> propertyvaluePath = propertiesJoin.get("propertyvalue");
+        conditions.add(builder.like(propertyvaluePath, loginName));
+        query.where(conditions.toArray(new Predicate[conditions.size()]));
+
+        return entityManager.createQuery(query);
     }
 }
