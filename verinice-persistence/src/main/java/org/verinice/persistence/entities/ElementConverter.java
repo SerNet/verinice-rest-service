@@ -44,7 +44,7 @@ public class ElementConverter {
         specialNamePropertyTypes.put("gefaehrdungs-umsetzung", "gefaehrdungsumsetzung_titel");
     }
 
-    public static Velement elementForEntity(CnATreeElement dbEntity) {
+    public static Velement elementForEntity(CnaTreeElement dbEntity) {
         if(dbEntity==null) {
             return null;
         }
@@ -63,14 +63,14 @@ public class ElementConverter {
         return element;
     }
 
-    public static Set<Velement> elementsForEntitys(Iterable<CnATreeElement> dbEntities) {
+    public static Set<Velement> elementsForEntitys(Iterable<CnaTreeElement> dbEntities) {
 
         HashSet<Velement> velements = new HashSet<>();
         dbEntities.forEach(dbentity -> velements.add(elementForEntity(dbentity)));
         return velements;
     }
 
-    private static String getTitle(Velement element, CnATreeElement dbEntity) {
+    private static String getTitle(Velement element, CnaTreeElement dbEntity) {
         if (specialNamePropertyTypes.containsKey(dbEntity.getType())) {
             return element.getProperties().get(specialNamePropertyTypes.get(dbEntity.getType())).iterator()
                     .next();
@@ -86,7 +86,7 @@ public class ElementConverter {
         return null;
     }
 
-    private static Map<String, List<String>> convertPropertyLists(CnATreeElement dbEntity) {
+    private static Map<String, List<String>> convertPropertyLists(CnaTreeElement dbEntity) {
 
         Map<String, List<String>> propertyMap = new HashMap<>();
         if (dbEntity.getEntity() != null && dbEntity.getEntity().getPropertyLists() != null) {

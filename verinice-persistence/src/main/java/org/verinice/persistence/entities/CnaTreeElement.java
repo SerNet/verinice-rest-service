@@ -61,7 +61,7 @@ import javax.persistence.Table;
             + ")"),
     @Filter(name = "testFilter", condition = "uuid = 'baf0d970-b3f7-464d-86f0-4200f33593cc'")})
 @Table(name = "cnatreeelement")
-public class CnATreeElement {
+public class CnaTreeElement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -176,7 +176,7 @@ public class CnATreeElement {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        CnATreeElement other = (CnATreeElement) obj;
+        CnaTreeElement other = (CnaTreeElement) obj;
         if (dbid != other.dbid) {
             return false;
         }

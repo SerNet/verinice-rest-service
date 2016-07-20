@@ -21,13 +21,13 @@ package org.verinice.persistence;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.verinice.persistence.entities.CnATreeElement;
+import org.verinice.persistence.entities.CnaTreeElement;
 
 /**
  * 
  * @author Ruth Motza <rm[at]sernet[dot]de>
  */
-public interface ElementRepository extends CrudRepository<CnATreeElement, Long> {
+public interface ElementRepository extends CrudRepository<CnaTreeElement, Long> {
 
-    CnATreeElement findByUuid(@Param("uuid") String uuid);
+    CnaTreeElement findByUuid(@Param("uuid") String uuid);
 }

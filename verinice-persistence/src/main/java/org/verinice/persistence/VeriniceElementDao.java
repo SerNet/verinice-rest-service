@@ -28,7 +28,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.verinice.persistence.entities.CnATreeElement;
+import org.verinice.persistence.entities.CnaTreeElement;
 import org.verinice.persistence.entities.Entity;
 import org.verinice.persistence.entities.Property;
 import org.verinice.persistence.entities.PropertyList;
@@ -75,7 +75,7 @@ public class VeriniceElementDao extends VeriniceDao {
      * @param uuid TODO
      * @return TODO
      */
-    public CnATreeElement findByUuid(String uuid) {
+    public CnaTreeElement findByUuid(String uuid) {
 
         activateAccessControlFilters();
 
@@ -92,16 +92,16 @@ public class VeriniceElementDao extends VeriniceDao {
      * @param scopeId TODO
      * @return TODO
      */
-    public List<CnATreeElement> findByCriteria(Integer firstResult, Integer size, String key,
+    public List<CnaTreeElement> findByCriteria(Integer firstResult, Integer size, String key,
             String value, Integer scopeId) {
 
         activateAccessControlFilters();
 
-        CriteriaQuery<CnATreeElement> query = getCriteriaBuilder()
-                .createQuery(CnATreeElement.class);
-        Root<CnATreeElement> rootelement = query.from(CnATreeElement.class);
+        CriteriaQuery<CnaTreeElement> query = getCriteriaBuilder()
+                .createQuery(CnaTreeElement.class);
+        Root<CnaTreeElement> rootelement = query.from(CnaTreeElement.class);
         query.select(rootelement);
-        Join<CnATreeElement, Entity> entityJoin = rootelement.join("entity", JoinType.LEFT);
+        Join<CnaTreeElement, Entity> entityJoin = rootelement.join("entity", JoinType.LEFT);
         Join<PropertyList, Entity> propertyListJoin = entityJoin.join("propertyLists",
                 JoinType.LEFT);
         Join<PropertyList, Property> propertyJoin = propertyListJoin.join("properties",
@@ -118,7 +118,7 @@ public class VeriniceElementDao extends VeriniceDao {
             conditions.add(getCriteriaBuilder().equal(rootelement.get("scopeId"), scopeId));
         }
         query.where(conditions.toArray(new Predicate[conditions.size()]));
-        TypedQuery<CnATreeElement> typedQuery = entityManager.createQuery(query);
+        TypedQuery<CnaTreeElement> typedQuery = entityManager.createQuery(query);
         int firstIndex;
         if (firstResult == null || firstResult < 0) {
             firstIndex = 0;
@@ -130,7 +130,7 @@ public class VeriniceElementDao extends VeriniceDao {
         logger.debug("resultset-maxSize:\t" + requestLimit);
         typedQuery.setMaxResults(requestLimit);
 
-        List<CnATreeElement> dbElements = typedQuery.getResultList();
+        List<CnaTreeElement> dbElements = typedQuery.getResultList();
         logger.debug("resultset-size:\t" + dbElements.size());
 
         return dbElements;

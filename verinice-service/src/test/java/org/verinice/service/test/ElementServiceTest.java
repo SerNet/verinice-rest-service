@@ -37,7 +37,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
 import org.verinice.persistence.VeriniceElementDao;
-import org.verinice.persistence.entities.CnATreeElement;
+import org.verinice.persistence.entities.CnaTreeElement;
 import org.verinice.persistence.entities.MockBuilder;
 import org.verinice.service.ElementServiceImpl;
 /**
@@ -75,7 +75,7 @@ public class ElementServiceTest {
     @Test
     public void loadElement() {  
         String uuid = "123";
-        CnATreeElement dbEntity = MockBuilder.createAsset(uuid);
+        CnaTreeElement dbEntity = MockBuilder.createAsset(uuid);
         when(dao.findByUuid(dbEntity.getUuid())).thenReturn(dbEntity);
        
         Velement element = elementService.loadElement(uuid);

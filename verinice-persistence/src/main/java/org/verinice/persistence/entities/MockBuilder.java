@@ -26,8 +26,8 @@ import org.verinice.model.Account;
  */
 public class MockBuilder {
 
-    public static final CnATreeElement createAsset(String uuid) {
-        CnATreeElement asset = new CnATreeElement();
+    public static final CnaTreeElement createAsset(String uuid) {
+        CnaTreeElement asset = new CnaTreeElement();
         asset.setUuid(uuid);
         asset.setType("asset");
         return asset;

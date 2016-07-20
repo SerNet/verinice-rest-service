@@ -32,7 +32,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.verinice.persistence.ElementRepository;
 import org.verinice.persistence.PersistenceApplication;
-import org.verinice.persistence.entities.CnATreeElement;
+import org.verinice.persistence.entities.CnaTreeElement;
 
 
 /**
@@ -47,13 +47,13 @@ public class ElementRepositoryTest {
     @Autowired
     private ElementRepository elementRepository;
 
-    private CnATreeElement element;
-    private CnATreeElement element2;
+    private CnaTreeElement element;
+    private CnaTreeElement element2;
 
     @Before
     public void init() {
-        element = new CnATreeElement();
-        element2 = new CnATreeElement();
+        element = new CnaTreeElement();
+        element2 = new CnaTreeElement();
         element2.setUuid("eae74c67-b57b-4541-8de7-35cc43e93396");
         element2.setType("incident_scenario");
         element.setUuid("abdb719c-e7b7-4c93-977c-55f3fb789e03");
@@ -65,13 +65,13 @@ public class ElementRepositoryTest {
     @Test
     public void testFindOne() {
 
-        CnATreeElement findByUuid = elementRepository.findByUuid(element.getUuid());
+        CnaTreeElement findByUuid = elementRepository.findByUuid(element.getUuid());
         check(findByUuid, element);
         findByUuid = elementRepository.findByUuid(element2.getUuid());
         check(findByUuid, element2);
     }
 
-    private void check(CnATreeElement elementResult, CnATreeElement element2) {
+    private void check(CnaTreeElement elementResult, CnaTreeElement element2) {
         assertTrue("element null", elementResult != null);
         assertEquals("wrong uuid", elementResult.getUuid(), element.getUuid());
         assertEquals("wrong type", elementResult.getType(), element.getType());

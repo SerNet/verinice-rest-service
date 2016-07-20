@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.verinice.model.Account;
 import org.verinice.model.Velement;
-import org.verinice.persistence.entities.CnATreeElement;
+import org.verinice.persistence.entities.CnaTreeElement;
 import org.verinice.persistence.entities.ElementConverter;
 import org.verinice.persistence.entities.Entity;
 import org.verinice.persistence.entities.Property;
@@ -74,7 +74,7 @@ public class VeriniceAccountDao extends VeriniceDao {
 
         try {
             Entity dbEntity = typedQuery.getSingleResult();
-            CnATreeElement cnATreeElement = new CnATreeElement();
+            CnaTreeElement cnATreeElement = new CnaTreeElement();
             cnATreeElement.setEntity(dbEntity);
 
             Velement v = ElementConverter
