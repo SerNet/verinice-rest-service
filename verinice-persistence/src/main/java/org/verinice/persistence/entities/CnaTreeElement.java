@@ -42,24 +42,24 @@ import javax.persistence.Table;
  */
 @javax.persistence.Entity
 @FilterDefs({
-    @FilterDef(name = "userReadAccessFilter", parameters =
-        @ParamDef(name = "currentAccountGroups", type = "string")),
-    @FilterDef(name = "scopeFilter", parameters = @ParamDef(name = "scopeId", type = "int")),
-    @FilterDef(name = "testFilter")})
+        @FilterDef(name = "userReadAccess", parameters =
+                @ParamDef(name = "accountGroups", type = "string")),
+        @FilterDef(name = "scope", parameters = @ParamDef(name = "scopeId", type = "int")),
+        @FilterDef(name = "test") })
 @Filters({
-    @Filter(name = "userReadAccessFilter", condition = "(\n"
+        @Filter(name = "userReadAccess", condition = "(\n"
             + "object_type = 'bsimodel' or \n"
             + "object_type = 'iso27kmodel' or \n"
             + "exists (select p.dbid from permission p where \n"
             + "  p.cte_id = dbId and \n"
-            + "  p.role in (:currentAccountGroups))\n"
+            + "  p.role in (:accountGroups))\n"
             + ")"),
-    @Filter(name = "scopeFilter", condition = "(\n"
+        @Filter(name = "scope", condition = "(\n"
             + "object_type = 'bsimodel' or \n"
             + "object_type = 'iso27kmodel' or \n"
             + "scope_id = :scopeId\n"
             + ")"),
-    @Filter(name = "testFilter", condition = "uuid = 'baf0d970-b3f7-464d-86f0-4200f33593cc'")})
+    @Filter(name = "test", condition = "uuid = 'baf0d970-b3f7-464d-86f0-4200f33593cc'")})
 @Table(name = "cnatreeelement")
 public class CnaTreeElement {
 

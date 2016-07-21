@@ -197,8 +197,10 @@ public class VeriniceElementDao extends VeriniceDao {
         final Session session = entityManager.unwrap(Session.class);
 
         // Test with 286304 || 312099
-        session.enableFilter("scopeFilter").setParameter("scopeId", 286304);
+        session.enableFilter("scope").setParameter("scopeId", 312099);
         //session.enableFilter("userReadAccessFilter").setParameter("currentGroups", "user-default-group");
+
+        session.enableFilter("test");
     }
 
     private List<String> getAccountGroups(String username) {
