@@ -21,8 +21,6 @@
 package org.verinice.rest.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -40,15 +38,15 @@ public class SpringUserDetailsService implements UserDetailsService {
 
     @Autowired
     AccountServiceImpl accountService;
-    
+
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         Account account = accountService.findByLogin(login);
+
         if (account == null) {
             throw new UsernameNotFoundException(login);
         }
-        return new User(account.getLogin(), account.getPassword(), true, true, true, true,
-                AuthorityUtils.createAuthorityList("USER"));
+
+        return account;
     }
-    
 }

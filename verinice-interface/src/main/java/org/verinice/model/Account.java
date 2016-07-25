@@ -17,28 +17,40 @@
  * Contributors:
  *     Ruth Motza <rm{a}sernet{dot}de> - initial API and implementation
  ******************************************************************************/
+
 package org.verinice.model;
 
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+
+import java.util.List;
+
 /**
- * 
- * @author Ruth Motza <rm[at]sernet[dot]de>
+ * TODO.
+ *
+ * @author Ruth Motza {@literal <rm[at]sernet[dot]de>}
  */
-public class Account {
+@SuppressWarnings("serial")
+public class Account extends User {
 
     private long id;
-    
     private String login;
-    
     private String password;
+    private int scopeId;
+    private List<String> accountGroups;
 
-    public Account() {
-    }
-    
+    /**
+     * Creates an Account with a login and a password.
+     *
+     * @param login the login name for the new Account
+     * @param password the password for the new Account
+     */
     public Account(String login, String password) {
+        super(login, password, AuthorityUtils.createAuthorityList("USER"));
         this.login = login;
         this.password = password;
     }
-    
+
     public long getId() {
         return id;
     }
@@ -55,11 +67,28 @@ public class Account {
         this.login = login;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getScopeId() {
+        return scopeId;
+    }
+
+    public void setScopeId(int scopeId) {
+        this.scopeId = scopeId;
+    }
+
+    public List<String> getAccountGroups() {
+        return accountGroups;
+    }
+
+    public void setAccountGroups(List<String> accountGroups) {
+        this.accountGroups = accountGroups;
     }
 }

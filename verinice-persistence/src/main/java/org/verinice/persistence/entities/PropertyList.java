@@ -1,22 +1,23 @@
 /*******************************************************************************
  * Copyright (c) 2016 Ruth Motza.
  *
- * This program is free software: you can redistribute it and/or 
- * modify it under the terms of the GNU Lesser General Public License 
- * as published by the Free Software Foundation, either version 3 
+ * This program is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3
  * of the License, or (at your option) any later version.
- * This program is distributed in the hope that it will be useful,    
- * but WITHOUT ANY WARRANTY; without even the implied warranty 
- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program. 
+ * along with this program.
  * If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * Contributors:
  *     Ruth Motza <rm[at]sernet[dot]de> - initial API and implementation
  ******************************************************************************/
+
 package org.verinice.persistence.entities;
 
 import java.util.Set;
@@ -32,8 +33,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * 
- * @author Ruth Motza <rm[at]sernet[dot]de>
+ * TODO.
+ *
+ * @author Ruth Motza {@literal <rm[at]sernet[dot]de>}
  */
 @javax.persistence.Entity
 @Table(name = "propertylist")
@@ -48,12 +50,14 @@ public class PropertyList {
     private String uuid;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "propertyList")
-    // @Transient
     private Set<Property> properties;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "typedlist_id", referencedColumnName = "dbid")
     private Entity entity;
+
+    @Column(name = "typedlist_id", insertable=false, updatable=false)
+    private long typedlistId;
 
     public long getDbid() {
         return dbid;
@@ -99,32 +103,40 @@ public class PropertyList {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         PropertyList other = (PropertyList) obj;
-        if (dbid != other.dbid)
+        if (dbid != other.dbid) {
             return false;
+        }
         if (properties == null) {
-            if (other.properties != null)
+            if (other.properties != null) {
                 return false;
-        } else if (!properties.equals(other.properties))
+            }
+        } else if (!properties.equals(other.properties)) {
             return false;
+        }
         if (uuid == null) {
-            if (other.uuid != null)
+            if (other.uuid != null) {
                 return false;
-        } else if (!uuid.equals(other.uuid))
+            }
+        } else if (!uuid.equals(other.uuid)) {
             return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
         return "[" + dbid
-        // + ", uuid=" + uuid
+                // + ", uuid=" + uuid
                 + ", " + "properties=" + properties
                 // properties.size()
                 // + getProperties()
