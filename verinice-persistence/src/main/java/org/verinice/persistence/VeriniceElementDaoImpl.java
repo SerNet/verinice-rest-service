@@ -182,10 +182,14 @@ public class VeriniceElementDaoImpl extends VeriniceDao implements VeriniceEleme
         // session.enableFilter("test");
 
         // Test with 286304 || 312099
-        Filter scopeFilter = session.enableFilter("scope");
-        scopeFilter.setParameter("scopeId", account.getScopeId());
+        //scopeFilter.setParameter("scopeId", 312099);
 
-        Filter userReadAccessFilter = session.enableFilter("userReadAccess");
-        userReadAccessFilter.setParameterList("accountGroups", account.getAccountGroups());
+        if (account.isScoped()) {
+            Filter scopeFilter = session.enableFilter("scope");
+            scopeFilter.setParameter("scopeId", account.getScopeId());
+        }
+
+//        Filter userReadAccessFilter = session.enableFilter("userReadAccess");
+//        userReadAccessFilter.setParameterList("accountGroups", account.getAccountGroups());
     }
 }

@@ -59,6 +59,9 @@ public class PropertyList {
     @Column(name = "typedlist_id", insertable=false, updatable=false)
     private long typedlistId;
 
+    @Column(name = "list_idx", insertable=false, updatable=false)
+    private String listIdx;
+
     public long getDbid() {
         return dbid;
     }

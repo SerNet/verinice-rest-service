@@ -65,6 +65,9 @@ public class VeriniceAccountDao extends VeriniceDao {
         int scopeId = getScopeIdForLoginName(loginName);
         logger.debug("Current user's scope id: " + scopeId);
 
+        boolean scoped = isAccountScoped(loginName);
+        logger.debug("Current user's scope status: " + scoped);
+
         TypedQuery<Entity> propertiesQuery = buildQueryForProperties(loginName);
 
         try {
@@ -80,6 +83,7 @@ public class VeriniceAccountDao extends VeriniceDao {
 
             Account account = new Account(loginName, password);
             account.setScopeId(scopeId);
+            account.setScoped(scoped);
             account.setAccountGroups(accountGroups);
 
             return account;
@@ -134,5 +138,44 @@ public class VeriniceAccountDao extends VeriniceDao {
         }
 
         return scopeId;
+    }
+
+    private boolean isAccountScoped(String loginName) {
+
+        String jpql = "\n"
+                + "SELECT"
+                + "  p1.propertyvalue \n"
+                + "FROM Property p1 \n"
+                + "WHERE p1.propertiesId IN ( \n"
+                + "  SELECT \n"
+                + "    pl1.dbid \n"
+                + "  FROM PropertyList pl1 \n"
+                + "  WHERE pl1.typedlistId IN ( \n"
+                + "    SELECT \n"
+                + "      pl2.typedlistId \n"
+                + "    FROM PropertyList pl2 \n"
+                + "    WHERE pl2.dbid IN ( \n"
+                + "      SELECT \n"
+                + "        p2.propertiesId \n"
+                + "      FROM Property p2 \n"
+                + "      WHERE p2.propertytype = 'configuration_benutzername' \n"
+                + "      AND p2.propertyvalue = :loginName \n"
+                + "    ) \n"
+                + "  ) \n"
+                + "  AND pl1.listIdx = 'configuration_scope' \n"
+                + ")";
+
+        Query query = entityManager.createQuery(jpql).setParameter("loginName", loginName);
+
+        boolean scoped = true;
+        try {
+            if ("configuration_scope_no".equals(query.getSingleResult().toString())) {
+                scoped = false;
+            }
+        } catch (Exception ex) {
+            logger.error("Could not retrieve scope status for user '" + loginName + "'", ex);
+        }
+
+        return scoped;
     }
 }

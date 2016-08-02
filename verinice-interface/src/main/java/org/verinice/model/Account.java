@@ -37,6 +37,7 @@ public class Account extends User {
     private String login;
     private String password;
     private int scopeId;
+    private boolean scoped;
     private List<String> accountGroups;
 
     /**
@@ -82,6 +83,14 @@ public class Account extends User {
 
     public void setScopeId(int scopeId) {
         this.scopeId = scopeId;
+    }
+
+    public boolean isScoped() {
+        return scoped;
+    }
+
+    public void setScoped(boolean scoped) {
+        this.scoped = scoped;
     }
 
     public List<String> getAccountGroups() {
