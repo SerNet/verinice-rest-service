@@ -20,7 +20,6 @@
 
 package org.verinice.persistence;
 
-import org.hibernate.Filter;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +73,7 @@ public class VeriniceElementDaoImpl extends VeriniceDao implements VeriniceEleme
     @Override
     public CnaTreeElement findByUuid(String uuid) {
 
-        activateAccessControlFilters();
+        enableAccessControlFilters();
 
         return elementRepository.findByUuid(uuid);
     }
@@ -83,7 +82,7 @@ public class VeriniceElementDaoImpl extends VeriniceDao implements VeriniceEleme
     public List<CnaTreeElement> findByCriteria(Integer firstResult, Integer size, String key,
             String value, Integer scopeId) {
 
-        activateAccessControlFilters();
+        enableAccessControlFilters();
 
         CriteriaQuery<CnaTreeElement> query = getCriteriaBuilder().createQuery(
                 CnaTreeElement.class);
@@ -172,24 +171,18 @@ public class VeriniceElementDaoImpl extends VeriniceDao implements VeriniceEleme
         }
     }
 
-    private void activateAccessControlFilters() {
+    private void enableAccessControlFilters() {
 
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Account account = (Account) securityContext.getAuthentication().getPrincipal();
 
         Session session = entityManager.unwrap(Session.class);
 
-        // session.enableFilter("test");
-
-        // Test with 286304 || 312099
-        //scopeFilter.setParameter("scopeId", 312099);
-
         if (account.isScoped()) {
-            Filter scopeFilter = session.enableFilter("scope");
-            scopeFilter.setParameter("scopeId", account.getScopeId());
+            session.enableFilter("scope").setParameter("scopeId", account.getScopeId());
         }
 
-//        Filter userReadAccessFilter = session.enableFilter("userReadAccess");
-//        userReadAccessFilter.setParameterList("accountGroups", account.getAccountGroups());
+        session.enableFilter("userReadAccess")
+                .setParameterList("accountGroups", account.getAccountGroups());
     }
 }

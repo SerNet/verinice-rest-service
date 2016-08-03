@@ -62,11 +62,8 @@ public class VeriniceAccountDao extends VeriniceDao {
      */
     public Account findAccount(String loginName) {
 
-        int scopeId = getScopeIdForLoginName(loginName);
-        logger.debug("Current user's scope id: " + scopeId);
-
         boolean scoped = isAccountScoped(loginName);
-        logger.debug("Current user's scope status: " + scoped);
+        int scopeId = getScopeIdForLoginName(loginName);
 
         TypedQuery<Entity> propertiesQuery = buildQueryForProperties(loginName);
 
@@ -79,11 +76,10 @@ public class VeriniceAccountDao extends VeriniceDao {
             String password = element.getProperties().get("configuration_passwort").get(0);
 
             List<String> accountGroups = element.getProperties().get("configuration_rolle");
-            logger.debug("Current user's account groups: " + accountGroups.toString());
 
             Account account = new Account(loginName, password);
-            account.setScopeId(scopeId);
             account.setScoped(scoped);
+            account.setScopeId(scopeId);
             account.setAccountGroups(accountGroups);
 
             return account;
@@ -173,7 +169,8 @@ public class VeriniceAccountDao extends VeriniceDao {
                 scoped = false;
             }
         } catch (Exception ex) {
-            logger.error("Could not retrieve scope status for user '" + loginName + "'", ex);
+            logger.error("Could not retrieve scope status for user '" + loginName + "'."
+                    + "Treating account as if being scoped for security reasons.", ex);
         }
 
         return scoped;
