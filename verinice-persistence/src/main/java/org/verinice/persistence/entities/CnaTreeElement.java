@@ -45,7 +45,7 @@ import javax.persistence.Table;
         @FilterDef(name = "userReadAccess", parameters =
                 @ParamDef(name = "accountGroups", type = "string")),
         @FilterDef(name = "scope", parameters = @ParamDef(name = "scopeId", type = "int")),
-        @FilterDef(name = "test") })
+})
 @Filters({
         @Filter(name = "userReadAccess", condition = "(\n"
             + "object_type = 'bsimodel' or \n"
@@ -58,8 +58,8 @@ import javax.persistence.Table;
             + "object_type = 'bsimodel' or \n"
             + "object_type = 'iso27kmodel' or \n"
             + "scope_id = :scopeId\n"
-            + ")"),
-    @Filter(name = "test", condition = "uuid = 'baf0d970-b3f7-464d-86f0-4200f33593cc'")})
+            + ")")
+})
 @Table(name = "cnatreeelement")
 public class CnaTreeElement {
 

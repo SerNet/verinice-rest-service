@@ -111,6 +111,8 @@ public class VeriniceAccountDao extends VeriniceDao {
 
     private int getScopeIdForLoginName(String loginName) {
 
+        // Retrieves the scopeId of an CnaTreeElement as a function of the 'propertytype'
+        // 'configuration_benutzername' whose value is provided via :loginName.
         String jpql = "\n"
                 + "SELECT cte.scopeId FROM CnaTreeElement cte \n"
                 + "WHERE cte.dbid IN ( \n"
@@ -122,9 +124,9 @@ public class VeriniceAccountDao extends VeriniceDao {
                 + "      WHERE pl.dbid IN ( \n"
                 + "        SELECT p.propertiesId FROM Property p \n"
                 + "        WHERE p.propertytype = 'configuration_benutzername' \n"
-                + "        AND p.propertyvalue = :login))))";
+                + "        AND p.propertyvalue = :loginName))))";
 
-        Query query = entityManager.createQuery(jpql).setParameter("login", loginName);
+        Query query = entityManager.createQuery(jpql).setParameter("loginName", loginName);
 
         int scopeId = -1;
         try {
@@ -138,6 +140,9 @@ public class VeriniceAccountDao extends VeriniceDao {
 
     private boolean isAccountScoped(String loginName) {
 
+        // Retrieves the 'propertyvalue' for the 'propertytype' 'configuration_scope' as a
+        // function of the 'propertytype' 'configuraiton_benutzername' whose 'propertyvalue' is
+        // provided via :loginName.
         String jpql = "\n"
                 + "SELECT"
                 + "  p1.propertyvalue \n"
