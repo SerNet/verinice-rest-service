@@ -58,7 +58,7 @@ public class VeriniceAccountDao extends VeriniceDao {
 
     private static final Logger logger = LoggerFactory.getLogger(VeriniceAccountDao.class);
 
-    private static final String SCOPEID_FOR_ACCOUNT_JPQL = "scopeid-for-account.jpql";
+    private static final String SCOPEID_FOR_ACCOUNT_JPQL = "scopeid-for-account.sql";
 
     /**
      * Returns an {@link Account} with the given login name.
