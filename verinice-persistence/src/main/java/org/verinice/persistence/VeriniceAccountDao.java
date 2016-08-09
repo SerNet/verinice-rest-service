@@ -62,9 +62,6 @@ public class VeriniceAccountDao extends VeriniceDao {
      */
     public Account findAccount(String loginName) {
 
-        boolean scoped = isAccountScoped(loginName);
-        int scopeId = getScopeIdForLoginName(loginName);
-
         TypedQuery<Entity> propertiesQuery = buildQueryForProperties(loginName);
 
         try {
@@ -77,9 +74,14 @@ public class VeriniceAccountDao extends VeriniceDao {
 
             List<String> accountGroups = element.getProperties().get("configuration_rolle");
 
+            // User level access control is accomplished by means of a virtual group with the
+            // user's name.
+            accountGroups.add(loginName);
+
             Account account = new Account(loginName, password);
-            account.setScoped(scoped);
-            account.setScopeId(scopeId);
+            account.setScoped(isAccountScoped(loginName));
+            account.setScopeId(getScopeIdForLoginName(loginName));
+            account.setAdmin(isAccountAdmin(loginName));
             account.setAccountGroups(accountGroups);
 
             return account;
@@ -114,17 +116,31 @@ public class VeriniceAccountDao extends VeriniceDao {
         // Retrieves the scopeId of an CnaTreeElement as a function of the 'propertytype'
         // 'configuration_benutzername' whose value is provided via :loginName.
         String jpql = "\n"
-                + "SELECT cte.scopeId FROM CnaTreeElement cte \n"
+                + "SELECT \n"
+                + "  cte.scopeId \n"
+                + "FROM CnaTreeElement cte \n"
                 + "WHERE cte.dbid IN ( \n"
-                + "  SELECT c.personId FROM Configuration c \n"
+                + "  SELECT \n"
+                + "    c.personId \n"
+                + "  FROM Configuration c \n"
                 + "  WHERE c.entityId IN ( \n"
-                + "    SELECT e.dbid FROM Entity e \n"
+                + "    SELECT \n"
+                + "      e.dbid \n"
+                + "    FROM Entity e \n"
                 + "    WHERE e.dbid IN ( \n"
-                + "      SELECT pl.typedlistId FROM PropertyList pl \n"
+                + "      SELECT \n"
+                + "        pl.typedlistId \n"
+                + "      FROM PropertyList pl \n"
                 + "      WHERE pl.dbid IN ( \n"
-                + "        SELECT p.propertiesId FROM Property p \n"
+                + "        SELECT \n"
+                + "          p.propertiesId \n"
+                + "        FROM Property p \n"
                 + "        WHERE p.propertytype = 'configuration_benutzername' \n"
-                + "        AND p.propertyvalue = :loginName))))";
+                + "        AND p.propertyvalue = :loginName \n"
+                + "      ) \n"
+                + "    ) \n"
+                + "  ) \n"
+                + ")";
 
         Query query = entityManager.createQuery(jpql).setParameter("loginName", loginName);
 
@@ -144,7 +160,7 @@ public class VeriniceAccountDao extends VeriniceDao {
         // function of the 'propertytype' 'configuraiton_benutzername' whose 'propertyvalue' is
         // provided via :loginName.
         String jpql = "\n"
-                + "SELECT"
+                + "SELECT \n"
                 + "  p1.propertyvalue \n"
                 + "FROM Property p1 \n"
                 + "WHERE p1.propertiesId IN ( \n"
@@ -175,9 +191,52 @@ public class VeriniceAccountDao extends VeriniceDao {
             }
         } catch (Exception ex) {
             logger.error("Could not retrieve scope status for user '" + loginName + "'."
-                    + "Treating account as if being scoped for security reasons.", ex);
+                    + "Treating account as scoped.", ex);
         }
 
         return scoped;
+    }
+
+    private boolean isAccountAdmin(String loginName) {
+
+        // Retrieves the 'propertyvalue' for the 'propertytype' 'configuration_isadmin' as a
+        // function of the 'propertytype' 'configuraiton_benutzername' whose 'propertyvalue' is
+        // provided via :loginName.
+        String jpql = "\n"
+                + "SELECT \n"
+                + "  p1.propertyvalue \n"
+                + "FROM Property p1 \n"
+                + "WHERE p1.propertiesId IN ( \n"
+                + "  SELECT \n"
+                + "    pl1.dbid \n"
+                + "  FROM PropertyList pl1 \n"
+                + "  WHERE pl1.typedlistId IN ( \n"
+                + "    SELECT \n"
+                + "      pl2.typedlistId \n"
+                + "    FROM PropertyList pl2 \n"
+                + "    WHERE pl2.dbid IN ( \n"
+                + "      SELECT \n"
+                + "        p2.propertiesId \n"
+                + "      FROM Property p2 \n"
+                + "      WHERE p2.propertytype = 'configuration_benutzername' \n"
+                + "      AND p2.propertyvalue = :loginName \n"
+                + "    ) \n"
+                + "  ) \n"
+                + "  AND pl1.listIdx = 'configuration_isadmin' \n"
+                + ")";
+
+        Query query = entityManager.createQuery(jpql).setParameter("loginName", loginName);
+
+        boolean admin = false;
+        try {
+            if ("configuration_isadmin_yes".equals(query.getSingleResult().toString())) {
+                admin = true;
+            }
+        } catch (Exception ex) {
+            logger.error("Could not retrieve admin status for user '" + loginName + "'."
+                    + "Treating account as non-admin.", ex);
+        }
+
+        return admin;
     }
 }

@@ -38,6 +38,7 @@ public class Account extends User {
     private String password;
     private int scopeId;
     private boolean scoped;
+    private boolean admin;
     private List<String> accountGroups;
 
     /**
@@ -91,6 +92,14 @@ public class Account extends User {
 
     public void setScoped(boolean scoped) {
         this.scoped = scoped;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
     public List<String> getAccountGroups() {

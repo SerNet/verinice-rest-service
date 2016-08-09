@@ -182,7 +182,9 @@ public class VeriniceElementDaoImpl extends VeriniceDao implements VeriniceEleme
             session.enableFilter("scope").setParameter("scopeId", account.getScopeId());
         }
 
-        session.enableFilter("userReadAccess")
-                .setParameterList("accountGroups", account.getAccountGroups());
+        if (!account.isAdmin()) {
+            session.enableFilter("userReadAccess").setParameterList("accountGroups",
+                    account.getAccountGroups());
+        }
     }
 }
