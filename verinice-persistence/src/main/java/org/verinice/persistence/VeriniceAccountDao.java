@@ -20,6 +20,9 @@
 
 package org.verinice.persistence;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,7 @@ import org.verinice.persistence.entities.Entity;
 import org.verinice.persistence.entities.Property;
 import org.verinice.persistence.entities.PropertyList;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +58,8 @@ public class VeriniceAccountDao extends VeriniceDao {
 
     private static final Logger logger = LoggerFactory.getLogger(VeriniceAccountDao.class);
 
+    private static final String SCOPEID_FOR_ACCOUNT_JPQL = "scopeid-for-account.jpql";
+
     /**
      * Returns an {@link Account} with the given login name.
      *
@@ -71,7 +77,16 @@ public class VeriniceAccountDao extends VeriniceDao {
             Velement element = ElementConverter.elementForEntity(cnaTreeElement);
 
             String password = element.getProperties().get("configuration_passwort").get(0);
-
+            String adminProperty = element.getProperties().get("configuration_isadmin").get(0);
+            boolean admin = false;
+            if (adminProperty == "configuration_isadmin_yes") {
+                admin = true;
+            }
+            String scopedProperty = element.getProperties().get("configuration_scope").get(0);
+            boolean scoped = false;
+            if (scopedProperty == "configuration_scoped_yes") {
+                scoped = true;
+            }
             List<String> accountGroups = element.getProperties().get("configuration_rolle");
 
             // User level access control is accomplished by means of a virtual group with the
@@ -79,9 +94,9 @@ public class VeriniceAccountDao extends VeriniceDao {
             accountGroups.add(loginName);
 
             Account account = new Account(loginName, password);
-            account.setScoped(isAccountScoped(loginName));
+            account.setScoped(scoped);
             account.setScopeId(getScopeIdForLoginName(loginName));
-            account.setAdmin(isAccountAdmin(loginName));
+            account.setAdmin(admin);
             account.setAccountGroups(accountGroups);
 
             return account;
@@ -113,34 +128,14 @@ public class VeriniceAccountDao extends VeriniceDao {
 
     private int getScopeIdForLoginName(String loginName) {
 
-        // Retrieves the scopeId of an CnaTreeElement as a function of the 'propertytype'
-        // 'configuration_benutzername' whose value is provided via :loginName.
-        String jpql = "\n"
-                + "SELECT \n"
-                + "  cte.scopeId \n"
-                + "FROM CnaTreeElement cte \n"
-                + "WHERE cte.dbid IN ( \n"
-                + "  SELECT \n"
-                + "    c.personId \n"
-                + "  FROM Configuration c \n"
-                + "  WHERE c.entityId IN ( \n"
-                + "    SELECT \n"
-                + "      e.dbid \n"
-                + "    FROM Entity e \n"
-                + "    WHERE e.dbid IN ( \n"
-                + "      SELECT \n"
-                + "        pl.typedlistId \n"
-                + "      FROM PropertyList pl \n"
-                + "      WHERE pl.dbid IN ( \n"
-                + "        SELECT \n"
-                + "          p.propertiesId \n"
-                + "        FROM Property p \n"
-                + "        WHERE p.propertytype = 'configuration_benutzername' \n"
-                + "        AND p.propertyvalue = :loginName \n"
-                + "      ) \n"
-                + "    ) \n"
-                + "  ) \n"
-                + ")";
+        String fileName = SCOPEID_FOR_ACCOUNT_JPQL;
+
+        String jpql = null;
+        try {
+            jpql = Resources.toString(Resources.getResource(fileName), Charsets.UTF_8);
+        } catch (IOException ex) {
+            logger.error("Error reading JPQL query from file: " + fileName, ex);
+        }
 
         Query query = entityManager.createQuery(jpql).setParameter("loginName", loginName);
 
@@ -148,95 +143,9 @@ public class VeriniceAccountDao extends VeriniceDao {
         try {
             scopeId = (Integer) query.getSingleResult();
         } catch (Exception ex) {
-            logger.error("Could not retrieve scope id for user '" + loginName + "'", ex);
+            logger.error("Could not retrieve scope id for user: '" + loginName + "'", ex);
         }
 
         return scopeId;
-    }
-
-    private boolean isAccountScoped(String loginName) {
-
-        // Retrieves the 'propertyvalue' for the 'propertytype' 'configuration_scope' as a
-        // function of the 'propertytype' 'configuraiton_benutzername' whose 'propertyvalue' is
-        // provided via :loginName.
-        String jpql = "\n"
-                + "SELECT \n"
-                + "  p1.propertyvalue \n"
-                + "FROM Property p1 \n"
-                + "WHERE p1.propertiesId IN ( \n"
-                + "  SELECT \n"
-                + "    pl1.dbid \n"
-                + "  FROM PropertyList pl1 \n"
-                + "  WHERE pl1.typedlistId IN ( \n"
-                + "    SELECT \n"
-                + "      pl2.typedlistId \n"
-                + "    FROM PropertyList pl2 \n"
-                + "    WHERE pl2.dbid IN ( \n"
-                + "      SELECT \n"
-                + "        p2.propertiesId \n"
-                + "      FROM Property p2 \n"
-                + "      WHERE p2.propertytype = 'configuration_benutzername' \n"
-                + "      AND p2.propertyvalue = :loginName \n"
-                + "    ) \n"
-                + "  ) \n"
-                + "  AND pl1.listIdx = 'configuration_scope' \n"
-                + ")";
-
-        Query query = entityManager.createQuery(jpql).setParameter("loginName", loginName);
-
-        boolean scoped = true;
-        try {
-            if ("configuration_scope_no".equals(query.getSingleResult().toString())) {
-                scoped = false;
-            }
-        } catch (Exception ex) {
-            logger.error("Could not retrieve scope status for user '" + loginName + "'."
-                    + "Treating account as scoped.", ex);
-        }
-
-        return scoped;
-    }
-
-    private boolean isAccountAdmin(String loginName) {
-
-        // Retrieves the 'propertyvalue' for the 'propertytype' 'configuration_isadmin' as a
-        // function of the 'propertytype' 'configuraiton_benutzername' whose 'propertyvalue' is
-        // provided via :loginName.
-        String jpql = "\n"
-                + "SELECT \n"
-                + "  p1.propertyvalue \n"
-                + "FROM Property p1 \n"
-                + "WHERE p1.propertiesId IN ( \n"
-                + "  SELECT \n"
-                + "    pl1.dbid \n"
-                + "  FROM PropertyList pl1 \n"
-                + "  WHERE pl1.typedlistId IN ( \n"
-                + "    SELECT \n"
-                + "      pl2.typedlistId \n"
-                + "    FROM PropertyList pl2 \n"
-                + "    WHERE pl2.dbid IN ( \n"
-                + "      SELECT \n"
-                + "        p2.propertiesId \n"
-                + "      FROM Property p2 \n"
-                + "      WHERE p2.propertytype = 'configuration_benutzername' \n"
-                + "      AND p2.propertyvalue = :loginName \n"
-                + "    ) \n"
-                + "  ) \n"
-                + "  AND pl1.listIdx = 'configuration_isadmin' \n"
-                + ")";
-
-        Query query = entityManager.createQuery(jpql).setParameter("loginName", loginName);
-
-        boolean admin = false;
-        try {
-            if ("configuration_isadmin_yes".equals(query.getSingleResult().toString())) {
-                admin = true;
-            }
-        } catch (Exception ex) {
-            logger.error("Could not retrieve admin status for user '" + loginName + "'."
-                    + "Treating account as non-admin.", ex);
-        }
-
-        return admin;
     }
 }
