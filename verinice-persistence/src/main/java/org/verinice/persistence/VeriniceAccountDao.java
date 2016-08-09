@@ -79,12 +79,12 @@ public class VeriniceAccountDao extends VeriniceDao {
             String password = element.getProperties().get("configuration_passwort").get(0);
             String adminProperty = element.getProperties().get("configuration_isadmin").get(0);
             boolean admin = false;
-            if (adminProperty == "configuration_isadmin_yes") {
+            if ("configuration_isadmin_yes".equals(adminProperty)) {
                 admin = true;
             }
             String scopedProperty = element.getProperties().get("configuration_scope").get(0);
             boolean scoped = false;
-            if (scopedProperty == "configuration_scoped_yes") {
+            if ("configuration_scoped_yes".equals(scopedProperty)) {
                 scoped = true;
             }
             List<String> accountGroups = element.getProperties().get("configuration_rolle");
