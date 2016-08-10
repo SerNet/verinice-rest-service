@@ -105,6 +105,7 @@ public class VeriniceElementDaoImpl extends VeriniceDao implements VeriniceEleme
             conditions.add(getCriteriaBuilder().equal(rootelement.get("scopeId"), scopeId));
         }
         query.where(conditions.toArray(new Predicate[conditions.size()]));
+        query.distinct(true);
         TypedQuery<CnaTreeElement> typedQuery = entityManager.createQuery(query);
         int firstIndex;
         if (firstResult == null || firstResult < 0) {
