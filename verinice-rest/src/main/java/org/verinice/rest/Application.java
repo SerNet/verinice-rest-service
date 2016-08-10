@@ -36,6 +36,10 @@ import org.springframework.context.annotation.Configuration;
                 "org.verinice.service"})
 public class Application {
     
+    private Application() {
+        super();
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

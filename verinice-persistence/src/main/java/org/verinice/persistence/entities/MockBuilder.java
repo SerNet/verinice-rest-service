@@ -25,6 +25,10 @@ import org.verinice.model.Account;
  * @author Daniel Murygin
  */
 public class MockBuilder {
+    
+    private MockBuilder() {
+        super();
+    }
 
     public static final CnaTreeElement createAsset(String uuid) {
         CnaTreeElement asset = new CnaTreeElement();

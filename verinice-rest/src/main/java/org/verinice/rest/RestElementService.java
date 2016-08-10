@@ -47,6 +47,7 @@ public class RestElementService implements ElementService {
      * @see org.verinice.interfaces.ElementService#loadElement(java.lang.String)
      */
     @RequestMapping("/element/{uuid}")
+    @Override
     public Velement loadElement(@PathVariable("uuid")  String uuid) {
         return elementService.loadElement(uuid);     
     }

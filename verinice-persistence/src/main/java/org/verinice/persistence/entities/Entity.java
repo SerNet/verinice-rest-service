@@ -21,6 +21,7 @@ package org.verinice.persistence.entities;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -36,8 +37,10 @@ import javax.persistence.Table;
  */
 @javax.persistence.Entity
 @Table(name = "entity")
-public class Entity {
+public class Entity implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "dbid", nullable = false)

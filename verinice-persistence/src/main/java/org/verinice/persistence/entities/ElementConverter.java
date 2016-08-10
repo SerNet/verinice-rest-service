@@ -34,7 +34,7 @@ import org.verinice.model.Velement;
  *
  * @author Daniel Murygin
  */
-public class ElementConverter {
+public final class ElementConverter {
 
     private static final Logger LOG = LoggerFactory.getLogger(ElementConverter.class);
 
@@ -42,6 +42,10 @@ public class ElementConverter {
 
     static{
         specialNamePropertyTypes.put("gefaehrdungs-umsetzung", "gefaehrdungsumsetzung_titel");
+    }
+    
+    private ElementConverter() {
+        super();
     }
 
     public static Velement elementForEntity(CnaTreeElement dbEntity) {

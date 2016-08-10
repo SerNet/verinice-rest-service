@@ -58,7 +58,6 @@ public class Property implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "properties_id", referencedColumnName = "dbid", insertable = false, updatable = false)
-    // @Transient
     private PropertyList propertyList;
 
     public long getPropertiesId() {
@@ -164,6 +163,7 @@ public class Property implements Serializable {
         int propertiesIdx;
 
         public PropertyId() {
+            // Empty constructor for JPA
         }
 
         public PropertyId(long propertiesId, int propertiesIdx) {
