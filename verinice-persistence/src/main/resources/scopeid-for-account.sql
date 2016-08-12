@@ -18,7 +18,7 @@ WHERE cte.dbid IN (
           p.propertiesId
         FROM Property p
         WHERE p.propertytype = 'configuration_benutzername'
-        AND p.propertyvalue = :loginName
+        AND p.propertyvalue LIKE :loginName
       )
     )
   )
