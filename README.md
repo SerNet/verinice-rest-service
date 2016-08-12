@@ -9,18 +9,149 @@ Boot](http://projects.spring.io/spring-boot/) application build with
 
 ## Service
 
-This section describes the methods of the service. The term _object_ in this
+This section describes the methods of the service. The term _element_ in this
 article means _CnATreeElement_.
-* Load objects by scope id.
-  * Parameter: one scope id
-  * Return value: A list of objects or _null_
-* Load object by UUID id.
-  * Parameter: one UUID
-  * Return value: One object or _null_
-* Load objects by property key value pair.
-  * Parameter: A property key and a property value
-  * Return value: A list of objects or _null_
 
+### Load Element
+
+#### URL
+
+* ``/element/{uuid}``
+* Example: ``/element/f35b982c-8ad4-4515-96ee-df5fdd4247b9``
+
+#### URL Params
+Required:
+* ``uuid=[string]``
+* Example: ``uuid=f35b982c-8ad4-4515-96ee-df5fdd4247b9``
+
+#### Success Response
+* Code: 200
+* Content (If an element with the given UUID exists):
+      {
+        "uuid": "7b254b9a-94f5-4acf-a57b-a53f0982e3f2",
+        "type": "asset",
+        "title": "Asset (Kopie 4)  (Kopie 2) ",
+        "sourceId": null,
+        "extId": null,
+        "parentId": 405,
+        "scopeId": 373,
+        "properties": {
+          "asset_value_confidentiality": [
+            "0"
+          ],
+          "asset_value_method_confidentiality": [
+            "1"
+          ],
+      }
+
+### Load elements of scope
+
+Load all elements of one scope.
+
+#### URL
+* ``/scope/{scopeId}/elements?key={key}&value={value}&size={size}&firstResult={firstResult}``
+* Example: ``/scope/23567/elements?key=asset_value_method_availability&value=1&size=10&firstResult=5``
+
+#### Method
+``GET``
+
+#### URL Params
+Required:
+* ``scopeId=[integer]``
+* Example: ``scopeId=23567``
+Optional:
+* ``key=[string]``
+* Example: ``key=asset_value_method_availability``
+* Hint: %25 (URL Encoding for %) is a place holder for any string (e.g. ``key=%25asset%25``)
+* ``value=[string]``
+* Example: ``value=1``
+* Hint: %25 (URL Encoding for %) is a place holder for any string (e.g. ``key=%25asset%25``)
+* ``size=[integer]``
+* Example: ``value=100``
+* Default: 500, adaptable through property
+* ``firstResult=[integer]``
+* Example: ``value=5``
+* Default: 0, adaptable through property
+
+#### Success Response:
+* Code: 200
+* Content:
+      [{
+        "uuid": "bbca9b32-2fa7-4939-87fc-a3c046bcb510",
+        "type": "response_group",
+        "title": "Reaktionen",
+        "sourceId": null,
+        "extId": null,
+        "parentId": 373,
+        "scopeId": 373,
+        "properties": {
+        "response_group_name": [
+         "Reaktionen"
+        ]
+        }
+      },
+      {
+        "uuid": "f59f1d6c-45ca-435e-a666-b8668969f0e0",
+        "type": "asset",
+        "title": "Asset (Kopie 1)  (Kopie 3)  (Kopie 2) ",
+        "sourceId": null,
+        "extId": null,
+        "parentId": 405,
+        "scopeId": 373,
+        "properties": {
+          "asset_value_confidentiality": [
+            "0"
+          ],
+          "asset_value_method_confidentiality": [
+            "1"
+          ],
+          "asset_value_method_availability": [
+            "1"
+          ]
+        }
+      }]
+#### Error Response:
+* Code: ``401 UNAUTHORIZED``
+* Content: ``{ error : "Log in" }``
+
+### Search elements by property
+Search elements by property key and value.
+
+#### URL
+* ``/elements?key={key}&value={value}&size={size}&firstResult={firstResult}``
+* Example: ``/elements?key=asset_value_method_availability&value=1&size=10&firstResult=5``
+
+#### Method:
+``GET``
+
+#### URL Params
+Optional:
+* ``key=[string]``
+* Example: ``key=asset_value_method_availability``
+* Hint: %25 (URL Encoding for %) is a place holder for any string (e.g. ``key=%25asset%25``)
+
+
+* ``value=[string]``
+* Example: ``value=1``
+* Hint: %25 (URL Encoding for %) is a place holder for any string (e.g. ``key=%25asset%25``)
+
+
+* ``size=[integer]``
+* Example: ``size=100``
+* Default: 500, adaptable through property
+
+
+* ``firstResult=[integer]``
+* Example: ``firstResult=5``
+* Default: 0, adaptable through property
+
+#### Success Response:
+* Code: ``200``
+* Content: See capter _Load elements of scope_
+
+#### Error Response:
+* Code: ``401 UNAUTHORIZED``
+* Content: ``{ error : "Log in" }``
 
 ## Modules
 
