@@ -24,7 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * Represent a element/object in the dynamic object model of verinice.
+ * Based an the attribute type instances can be every object type in verinice.
+ * This is a pojo class to transfer data only without other methods.
  *
  * @author Daniel Murygin <dm{a}sernet{dot}de>
  */

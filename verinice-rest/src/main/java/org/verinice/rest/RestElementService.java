@@ -40,11 +40,9 @@ public class RestElementService implements ElementService {
     @Autowired
     ElementService elementService;
 
-
-    /*
-     * @Override(non-Javadoc)
-     * 
-     * @see org.verinice.interfaces.ElementService#loadElement(java.lang.String)
+    /**
+     * @see org.verinice.interfaces.ElementService#loadElement(
+     *  java.lang.String)
      */
     @RequestMapping("/element/{uuid}")
     @Override
@@ -52,39 +50,34 @@ public class RestElementService implements ElementService {
         return elementService.loadElement(uuid);     
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.verinice.interfaces.ElementService#loadElements(java.lang.Integer,
-     * java.lang.Integer, java.lang.String, java.lang.String)
+    /**
+     * @see org.verinice.interfaces.ElementService#loadElements(
+     *  java.lang.Integer, java.lang.Integer, java.lang.String, 
+     *  java.lang.String)
      */
     @Override
     @RequestMapping(value = "/elements")
     public Set<Velement> loadElements(
-            @RequestParam(required = false) Integer firstResult,
-            @RequestParam(required = false) Integer size,
-            @RequestParam(required = false) String key,
-            @RequestParam(required = false) String value) {
-        return elementService.loadElements(firstResult, size, key, value);
+            @RequestParam(required = false) String key, 
+            @RequestParam(required = false) String value, 
+            @RequestParam(required = false) Integer size, 
+            @RequestParam(required = false) Integer firstResult) {
+        return elementService.loadElements(key, value, size, firstResult);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.verinice.interfaces.ElementService#loadElementsOfScope(java.lang.
-     * Integer, java.lang.Integer, java.lang.Integer, java.lang.String,
-     * java.lang.String)
+    /**
+     * @see org.verinice.interfaces.ElementService#loadElementsOfScope(
+     *  java.lang.Integer, java.lang.Integer, java.lang.Integer, 
+     *  java.lang.String, java.lang.String)
      */
     @Override
     @RequestMapping(value = "/scope/{scopeId}/elements")
     public Set<Velement> loadElementsOfScope(
-            @PathVariable("scopeId") Integer scopeId,
-            @RequestParam(required = false) Integer firstResult,
-            @RequestParam(required = false) Integer size,
-            @RequestParam(required = false) String key,
-            @RequestParam(required = false) String value) {
-        return elementService.loadElementsOfScope(scopeId, firstResult, size, key, value);
+            @PathVariable(value = "scopeId") Integer scopeId, 
+            @RequestParam(required = false) String key, 
+            @RequestParam(required = false) String value, 
+            @RequestParam(required = false) Integer size, 
+            @RequestParam(required = false) Integer firstResult) {
+        return elementService.loadElementsOfScope(scopeId, key, value, size, firstResult);
     }
 }

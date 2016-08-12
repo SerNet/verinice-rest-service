@@ -37,44 +37,32 @@ public interface ElementService {
      * @return The element with the given UUID or null if UUID is no found
      */
     public Velement loadElement(String uuid);
-
+    
     /**
-     *
-     * @param firstResult
-     *            - the index of the first result to be retrieved if null or <0
-     *            the index is 0
-     * @param size
-     *            - the number of objects to be retrieved from database. If null
-     *            or <1 a default limit is used.
-     * @param key
-     *            - possibility to specify a propertyType that need to exist. %
-     *            can be used as a placeholder
-     * @param value
-     *            - possibility to specify a propertyValue that need to exist. %
-     *            can be used as a placeholder
+     * 
+     * @param key A property key / id from SNCA.xml that need to exist. % can be
+     *  used as a placeholder
+     * @param value A propertyValue that need to exist. % can be used as a 
+     *  placeholder.
+     * @param size The number of objects to be retrieved from database. If null
+     *  or < 1 a default limit is used.
+     * @param firstResult The index of the first result to be retrieved if null 
+     * or < 0 firstResult is 0
      * @return All elements in database based on the restricting parameters
      */
-    public Set<Velement> loadElements(Integer firstResult, Integer size, String key,
-            String value);
+    public Set<Velement> loadElements(String key, String value, Integer size, Integer firstResult);
 
     /**
-     *
-     * @param scopeId
-     * @param firstResult
-     *            - the index of the first result to be retrieved if null or <0
-     *            the index is 0
-     * @param size
-     *            - the number of objects to be retrieved from database. If null
-     *            or <1 a default limit is used.
-     * @param key
-     *            - possibility to specify a propertyType that need to exist. %
-     *            can be used as a placeholder
-     * @param value
-     *            - possibility to specify a propertyValue that need to exist. %
-     *            can be used as a placeholder
+     * @param scopeId The database id of a scope. May be null.
+     * @param key A property key / id from SNCA.xml that need to exist. % can be
+     *  used as a placeholder
+     * @param value A propertyValue that need to exist. % can be used as a 
+     *  placeholder.
+     * @param size The number of objects to be retrieved from database. If null
+     *  or < 1 a default limit is used.
+     * @param firstResult The index of the first result to be retrieved if null 
+     * or < 0 firstResult is 0
      * @return All elements in database based on the restricting parameters
      */
-    public Set<Velement> loadElementsOfScope(Integer scopeId, Integer firstResult, Integer size,
-            String key,
-            String value);
+    public Set<Velement> loadElementsOfScope(Integer scopeId, String key, String value, Integer size, Integer firstResult);
 }

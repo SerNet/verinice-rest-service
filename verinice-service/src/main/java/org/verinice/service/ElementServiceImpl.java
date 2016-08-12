@@ -17,7 +17,6 @@
  * Contributors:
  *  Daniel Murygin - initial API and implementation
  */
-
 package org.verinice.service;
 
 
@@ -35,7 +34,7 @@ import java.util.Set;
 import org.verinice.persistence.CnaTreeElementDao;
 
 /**
- * TODO.
+ * Implementation of the element service which uses a {@link CnaTreeElementDao}.
  *
  * @author Daniel Murygin
  */
@@ -54,27 +53,17 @@ public class ElementServiceImpl implements ElementService {
     }
 
     @Override
-    public Set<Velement> loadElements(Integer firstResult, Integer limit, String key,
-            String value) {
-
-        LOG.debug("variables:\n\tfirst result: " + firstResult
-                + "\n\tlimit: " + limit
-                + "\n\tpropertytype: " + key
-                + "\n\tpropertyvalue: " + value);
-
-        List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(null, key, value, limit, firstResult);
-
+    public Set<Velement> loadElements(String key, String value, Integer size, Integer firstResult) {
+        LOG.debug("Key: " + key + ", value: " + value + ", size: " + size + ", first result: " + firstResult);
+        List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(null, key, value, size, firstResult);
         return ElementConverter.elementsForEntitys(dbElements);
     }
 
     @Override
-    public Set<Velement> loadElementsOfScope(Integer scopeId, Integer firstResult, Integer size,
-            String key, String value) {
-
-        LOG.debug("variables:\n\tfirst result: " + firstResult + "\n\tlimit: " + size
-                + "\n\tpropertytype: " + key + "\n\tpropertyvalue: " + value);
-        List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(scopeId, key, value,
-                size, firstResult);
+    public Set<Velement> loadElementsOfScope(Integer scopeId, String key, String value, Integer size, Integer firstResult) {
+        LOG.debug("Scope id: " + scopeId + "Key: " + key + ", value: " + value + ", size: " + size + ", first result: " + firstResult);
+        List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(scopeId, key, 
+                value, size, firstResult);
         return ElementConverter.elementsForEntitys(dbElements);
     }
 }

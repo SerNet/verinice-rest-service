@@ -29,8 +29,11 @@ import org.verinice.model.Account;
 import org.verinice.service.AccountServiceImpl;
 
 /**
- * TODO.
- *
+ * Spring security configuration. This class load an account by the given 
+ * username. Password check is not handles by this class.
+ * 
+ * See: http://ryanjbaxter.com/2015/01/06/securing-rest-apis-with-spring-boot/
+ * 
  * @author Ruth Motza {@literal <rm[at]sernet[dot]de>}
  */
 @Service

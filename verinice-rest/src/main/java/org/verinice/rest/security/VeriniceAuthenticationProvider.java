@@ -39,13 +39,15 @@ import org.springframework.util.Assert;
  * An {@link AuthenticationProvider} implementation that retrieves user details
  * from a {@link UserDetailsService}.
  *
+ * See: http://ryanjbaxter.com/2015/01/06/securing-rest-apis-with-spring-boot/
+ * 
  * @author Ben Alex
  * @author Rob Winch
  * @author rmotza
  */
 public class VeriniceAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
-
+    private static final Logger LOG = LoggerFactory.getLogger(VeriniceAuthenticationProvider.class);
 
     public VeriniceAuthenticationProvider(UserDetailsService userDetailsService,
             Environment environment) {
@@ -54,15 +56,7 @@ public class VeriniceAuthenticationProvider extends AbstractUserDetailsAuthentic
         this.environement = environment;
     }
 
-    // ~ Static fields/initializers
-    // =====================================================================================
-
-    private static final Logger LOG = LoggerFactory.getLogger(VeriniceAuthenticationProvider.class);
-
-    // ~ Instance fields
-    // ================================================================================================
-
-    Environment environement;
+    private Environment environement;
 
     /**
      * The password used to perform
@@ -74,10 +68,6 @@ public class VeriniceAuthenticationProvider extends AbstractUserDetailsAuthentic
     private SaltSource saltSource;
 
     private UserDetailsService userDetailsService;
-
-    // ~ Methods
-    // ========================================================================================================
-
 
     private boolean checkPassword(UserDetails userDetails,
             UsernamePasswordAuthenticationToken authentication) {
@@ -219,8 +209,6 @@ public class VeriniceAuthenticationProvider extends AbstractUserDetailsAuthentic
         }
         return loadedUser;
     }
-
-
 
     /**
      * The source of salts to use when decoding passwords. <code>null</code> is

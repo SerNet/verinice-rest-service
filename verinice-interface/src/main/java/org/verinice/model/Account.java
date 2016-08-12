@@ -26,12 +26,16 @@ import org.springframework.security.core.userdetails.User;
 import java.util.List;
 
 /**
- * TODO.
+ * Represents an user account which properties and groups to which it belongs.
+ * This class implements interface
+ * org.springframework.security.core.userdetails.UserDetails and therefore can
+ * be used in Spring security.
  *
  * @author Ruth Motza {@literal <rm[at]sernet[dot]de>}
  */
-@SuppressWarnings("serial")
 public class Account extends User {
+
+    private static final long serialVersionUID = 1L;
 
     private long id;
     private String login;
