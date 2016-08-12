@@ -33,6 +33,8 @@ import javax.persistence.Table;
 import org.verinice.persistence.entities.Property.PropertyId;
 
 /**
+ * Entity class for table properties.
+ * 
  * @author Ruth Motza <rm[at]sernet[dot]de>
  */
 @Entity

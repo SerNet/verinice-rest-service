@@ -30,7 +30,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * Java Bean for representing the {@code configuration} table in the Verinice database.
+ * Entity class for table configuration.
  *
  * @author Moritz Reiter
  */

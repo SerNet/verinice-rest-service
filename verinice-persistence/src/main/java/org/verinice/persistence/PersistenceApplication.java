@@ -29,7 +29,7 @@ import org.springframework.context.annotation.ComponentScan;
 @EntityScan("org.verinice.persistence.entities")
 public class PersistenceApplication {
 
-	private PersistenceApplication() {
+    public PersistenceApplication() {
         super();
     }
 

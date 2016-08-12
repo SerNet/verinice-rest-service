@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account findByLogin(String login) {
-        return dao.findAccount(login);
+        return dao.findByLoginName(login);
     }
 
 }

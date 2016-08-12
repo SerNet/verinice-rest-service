@@ -21,7 +21,8 @@ package org.verinice.persistence.entities;
 import org.verinice.model.Account;
 
 /**
- *
+ * Factory class to create mock instances of classes for testing.
+ * 
  * @author Daniel Murygin
  */
 public class MockBuilder {

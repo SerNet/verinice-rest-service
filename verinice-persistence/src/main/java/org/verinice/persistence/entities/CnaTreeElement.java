@@ -36,7 +36,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * TODO.
+ * Entity class for table cnatreeelement.
  *
  * @author Ruth Motza {@literal <rm[at]sernet[dot]de>}
  */

@@ -33,6 +33,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
+ * Entity class for table entity.
+ * 
  * @author Ruth Motza <rm[at]sernet[dot]de>
  */
 @javax.persistence.Entity

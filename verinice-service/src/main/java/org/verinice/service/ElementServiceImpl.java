@@ -27,12 +27,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
-import org.verinice.persistence.VeriniceElementDao;
 import org.verinice.persistence.entities.CnaTreeElement;
 import org.verinice.persistence.entities.ElementConverter;
 
 import java.util.List;
 import java.util.Set;
+import org.verinice.persistence.CnaTreeElementDao;
 
 /**
  * TODO.
@@ -42,11 +42,10 @@ import java.util.Set;
 @Service
 public class ElementServiceImpl implements ElementService {
 
-
     private static final Logger LOG = LoggerFactory.getLogger(ElementServiceImpl.class);
 
     @Autowired
-    VeriniceElementDao dao;
+    CnaTreeElementDao dao;
 
     @Override
     public Velement loadElement(String uuid) {
@@ -63,7 +62,7 @@ public class ElementServiceImpl implements ElementService {
                 + "\n\tpropertytype: " + key
                 + "\n\tpropertyvalue: " + value);
 
-        List<CnaTreeElement> dbElements = dao.findByCriteria(firstResult, limit, key, value, null);
+        List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(null, key, value, limit, firstResult);
 
         return ElementConverter.elementsForEntitys(dbElements);
     }
@@ -74,8 +73,8 @@ public class ElementServiceImpl implements ElementService {
 
         LOG.debug("variables:\n\tfirst result: " + firstResult + "\n\tlimit: " + size
                 + "\n\tpropertytype: " + key + "\n\tpropertyvalue: " + value);
-        List<CnaTreeElement> dbElements = dao.findByCriteria(firstResult, size, key, value,
-                scopeId);
+        List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(scopeId, key, value,
+                size, firstResult);
         return ElementConverter.elementsForEntitys(dbElements);
     }
 }

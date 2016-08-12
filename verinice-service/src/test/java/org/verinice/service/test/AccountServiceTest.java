@@ -42,7 +42,7 @@ public class AccountServiceTest {
     public void createAccount() {
 
         Account accountResult = MockBuilder.createTestAccount();
-        when(dao.findAccount("test")).thenReturn(accountResult);
+        when(dao.findByLoginName("test")).thenReturn(accountResult);
 
         Account account = accountService.findByLogin("test");
 

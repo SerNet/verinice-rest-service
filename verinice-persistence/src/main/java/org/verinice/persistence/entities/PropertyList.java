@@ -34,8 +34,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * TODO.
- *
+ * Entity class for table propertylist.
+ * 
  * @author Ruth Motza {@literal <rm[at]sernet[dot]de>}
  */
 @javax.persistence.Entity

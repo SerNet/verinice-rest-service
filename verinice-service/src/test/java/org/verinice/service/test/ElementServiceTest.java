@@ -36,10 +36,10 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
-import org.verinice.persistence.VeriniceElementDao;
 import org.verinice.persistence.entities.CnaTreeElement;
 import org.verinice.persistence.entities.MockBuilder;
 import org.verinice.service.ElementServiceImpl;
+import org.verinice.persistence.CnaTreeElementDao;
 /**
  *
  * @author Daniel Murygin
@@ -49,7 +49,7 @@ import org.verinice.service.ElementServiceImpl;
 public class ElementServiceTest {
     
     @Mock 
-    VeriniceElementDao dao;
+    CnaTreeElementDao dao;
     
     @InjectMocks
     @Autowired

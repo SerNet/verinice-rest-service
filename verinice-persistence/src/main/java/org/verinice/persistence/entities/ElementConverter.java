@@ -31,7 +31,11 @@ import org.slf4j.LoggerFactory;
 import org.verinice.model.Velement;
 
 /**
- *
+ * This class provides methods to convert an instance of one class to an 
+ * instance of a different class.
+ * 
+ * Do not instantiate this class use public static methods.
+ * 
  * @author Daniel Murygin
  */
 public final class ElementConverter {
@@ -44,6 +48,9 @@ public final class ElementConverter {
         specialNamePropertyTypes.put("gefaehrdungs-umsetzung", "gefaehrdungsumsetzung_titel");
     }
     
+    /**
+     * Do not instantiate this class use public static methods.
+     */
     private ElementConverter() {
         super();
     }
@@ -91,7 +98,6 @@ public final class ElementConverter {
     }
 
     private static Map<String, List<String>> convertPropertyLists(CnaTreeElement dbEntity) {
-
         Map<String, List<String>> propertyMap = new HashMap<>();
         if (dbEntity.getEntity() != null && dbEntity.getEntity().getPropertyLists() != null) {
 
@@ -110,7 +116,6 @@ public final class ElementConverter {
         });
 
         }
-
         return propertyMap;
     }
     

@@ -29,9 +29,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.verinice.persistence.ElementRepository;
 import org.verinice.persistence.PersistenceApplication;
 import org.verinice.persistence.entities.CnaTreeElement;
+import org.verinice.persistence.CnaTreeElementRepository;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -44,7 +46,7 @@ import org.verinice.persistence.entities.CnaTreeElement;
 public class ElementRepositoryTest {
 
     @Autowired
-    private ElementRepository elementRepository;
+    private CnaTreeElementRepository elementRepository;
 
     private CnaTreeElement element;
     private CnaTreeElement element2;
