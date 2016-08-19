@@ -14,7 +14,7 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar jsonData = JSON.parse(responseBody);\ntests[\"Number of objects: \" + jsonData.length + \". Expected number of objects: 10\"] = jsonData.length === 10;"
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar expededNumber = 10;\nvar jsonData = JSON.parse(responseBody);\ntests[\"Number of objects: \" + jsonData.length + \". Expected number of objects: \" + expededNumber] = jsonData.length === expededNumber;"
 					}
 				}
 			],
@@ -43,7 +43,7 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar jsonData = JSON.parse(responseBody);\ntests[\"Number of objects: \" + jsonData.length + \". Expected number of objects: 31\"] = jsonData.length === 31;"
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar expededNumber = 104;\nvar jsonData = JSON.parse(responseBody);\ntests[\"Number of objects: \" + jsonData.length + \". Expected number of objects: \" + expededNumber] = jsonData.length === expededNumber;"
 					}
 				}
 			],
@@ -81,7 +81,7 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar jsonData = JSON.parse(responseBody);\ntests[\"Number of objects: \" + jsonData.length + \". Expected number of objects: 3\"] = jsonData.length === 3;"
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar expededNumber = 4;\nvar jsonData = JSON.parse(responseBody);\ntests[\"Number of objects: \" + jsonData.length + \". Expected number of objects: \" + expededNumber] = jsonData.length === expededNumber;"
 					}
 				}
 			],
@@ -119,7 +119,7 @@
 					"listen": "test",
 					"script": {
 						"type": "text/javascript",
-						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar jsonData = JSON.parse(responseBody);\ntests[\"Number of objects: \" + jsonData.length + \". Expected number of objects: 3\"] = jsonData.length === 3;"
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar expededNumber = 1;\nvar jsonData = JSON.parse(responseBody);\ntests[\"Number of objects: \" + jsonData.length + \". Expected number of objects: \" + expededNumber] = jsonData.length === expededNumber;"
 					}
 				}
 			],
@@ -127,7 +127,7 @@
 				"auth": {
 					"type": "basic",
 					"basic": {
-						"username": "nn",
+						"username": "rr",
 						"password": "geheim",
 						"saveHelperData": true,
 						"showPassword": false
@@ -138,7 +138,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Basic bm46Z2VoZWlt",
+						"value": "Basic cnI6Z2VoZWlt",
 						"description": ""
 					}
 				],
@@ -189,7 +189,7 @@
 			"response": []
 		},
 		{
-			"name": "One element",
+			"name": "One element by UUID",
 			"event": [
 				{
 					"listen": "test",
@@ -208,6 +208,44 @@
 					"formdata": []
 				},
 				"description": "Load one element by UUID"
+			},
+			"response": []
+		},
+		{
+			"name": "One element by source and ext id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "nn",
+						"password": "geheim",
+						"saveHelperData": true,
+						"showPassword": false
+					}
+				},
+				"url": "http://127.0.0.1:8081/elements/source-id/VRC/ext-id/ENTITY_13959583",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic bm46Z2VoZWlt",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Load one element by source and ext id"
 			},
 			"response": []
 		}
