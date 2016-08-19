@@ -42,6 +42,14 @@ public interface CnaTreeElementDao {
     CnaTreeElement findByUuid(String uuid);
 
     /**
+     * @param sourceId A source id
+     * @param extId An external id
+     * @return The CnaTreeElement with the source and the ext id or null if there is no element
+     *  with the source and the ext id
+     */
+    CnaTreeElement findBySourceIdAndExtId(String sourceId, String extId);
+    
+    /**
      * Finds CnaTreeElements by the given search parameters. Result size is 
      * configurable by size and a first returned element.
      * 

@@ -48,7 +48,22 @@ public class ElementServiceImpl implements ElementService {
 
     @Override
     public Velement loadElement(String uuid) {
+        if(uuid==null) {
+            throw new IllegalArgumentException("Uuid must not be null");
+        }
         CnaTreeElement entityElement = dao.findByUuid(uuid);
+        return ElementConverter.elementForEntity(entityElement);
+    }
+    
+    @Override
+    public Velement loadElement(String sourceId, String extId) {
+        if(sourceId==null) {
+            throw new IllegalArgumentException("Source id must not be null");
+        }
+        if(extId==null) {
+            throw new IllegalArgumentException("Ext id must not be null");
+        }
+        CnaTreeElement entityElement = dao.findBySourceIdAndExtId(sourceId, extId);
         return ElementConverter.elementForEntity(entityElement);
     }
 

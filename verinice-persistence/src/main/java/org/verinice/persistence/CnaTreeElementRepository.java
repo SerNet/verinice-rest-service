@@ -31,6 +31,7 @@ import org.verinice.persistence.entities.CnaTreeElement;
  * analysis.
  * 
  * @author Ruth Motza <rm[at]sernet[dot]de>
+ * @author Daniel Murygin <dm[at]sernet[dot]de>
  */
 public interface CnaTreeElementRepository extends CrudRepository<CnaTreeElement, Long> {
 
@@ -40,4 +41,12 @@ public interface CnaTreeElementRepository extends CrudRepository<CnaTreeElement,
      *  with the UUID
      */
     CnaTreeElement findByUuid(@Param("uuid") String uuid);
+    
+    /**
+     * @param sourceId A source id
+     * @param extId An external id
+     * @return The CnaTreeElement with the source and the ext id or null if there is no element
+     *  with the source and the ext id
+     */
+    CnaTreeElement findBySourceIdAndExtId(@Param("sourceId") String sourceId, @Param("extId") String extId);
 }

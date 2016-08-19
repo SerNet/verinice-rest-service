@@ -39,6 +39,14 @@ public interface ElementService {
     public Velement loadElement(String uuid);
     
     /**
+     * @param sourceId A source id
+     * @param extId An external id
+     * @return The element with the source and the ext id or null if there is no element
+     *  with the source and the ext id
+     */
+    public Velement loadElement(String sourceId, String extId);
+    
+    /**
      * 
      * @param key A property key / id from SNCA.xml that need to exist. % can be
      *  used as a placeholder

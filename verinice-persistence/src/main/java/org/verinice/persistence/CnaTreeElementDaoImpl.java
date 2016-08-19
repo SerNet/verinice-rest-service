@@ -64,6 +64,12 @@ public class CnaTreeElementDaoImpl extends Dao implements CnaTreeElementDao {
         enableAccessControlFilters();
         return elementRepository.findByUuid(uuid);
     }
+    
+     @Override
+    public CnaTreeElement findBySourceIdAndExtId(String sourceId, String extId) {
+        enableAccessControlFilters();
+        return elementRepository.findBySourceIdAndExtId(sourceId, extId);
+    }
 
     @Override
     public List<CnaTreeElement> findByScopeKeyValue(Integer scopeId, String key, String value, Integer size, Integer firstResult) {

@@ -19,6 +19,7 @@
  ******************************************************************************/
 package org.verinice.persistence.test;
 
+import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -54,28 +55,48 @@ public class ElementRepositoryTest {
     @Before
     public void init() {
         element = new CnaTreeElement();
+        element.setUuid("abdb719c-e7b7-4c93-977c-55f3fb789e03");
+        element.setType("bsimodel");
+        element.setSourceId("ElementRepositoryTest");
+        element.setExtId("ENTITY_54075212");
+        element = elementRepository.save(element);
+        
         element2 = new CnaTreeElement();
         element2.setUuid("eae74c67-b57b-4541-8de7-35cc43e93396");
         element2.setType("incident_scenario");
-        element.setUuid("abdb719c-e7b7-4c93-977c-55f3fb789e03");
-        element.setType("bsimodel");
-        element = elementRepository.save(element);
-        element = elementRepository.save(element2);
+        element2.setSourceId("ElementRepositoryTest");
+        element2.setExtId("ENTITY_08634056");
+        element2 = elementRepository.save(element2);
+    }
+    
+    @After
+    public void cleanUp() {
+        elementRepository.delete(element);
+        elementRepository.delete(element2);
     }
 
     @Test
     public void testFindOne() {
-
         CnaTreeElement findByUuid = elementRepository.findByUuid(element.getUuid());
         check(findByUuid, element);
         findByUuid = elementRepository.findByUuid(element2.getUuid());
         check(findByUuid, element2);
     }
+    
+    @Test
+    public void testFindBySourceIdAndExtId() {
+        CnaTreeElement foundElement = elementRepository.findBySourceIdAndExtId(element.getSourceId(), element.getExtId());
+        check(foundElement, element);
+        CnaTreeElement foundElement2 = elementRepository.findBySourceIdAndExtId(element2.getSourceId(), element2.getExtId());
+        check(foundElement2, element2);
+    }
 
-    private void check(CnaTreeElement elementResult, CnaTreeElement element2) {
-        assertTrue("element null", elementResult != null);
-        assertEquals("wrong uuid", elementResult.getUuid(), element.getUuid());
-        assertEquals("wrong type", elementResult.getType(), element.getType());
+    private void check(CnaTreeElement expectedElement, CnaTreeElement element) {
+        assertTrue("Element is null", element != null);
+        assertEquals("Element has wrong uuid", expectedElement.getUuid(), element.getUuid());
+        assertEquals("Element has wrong type", expectedElement.getType(), element.getType());
+        assertEquals("Element has wrong source id", expectedElement.getSourceId(), element.getSourceId());
+        assertEquals("Element has wrong ext id", expectedElement.getExtId(), element.getExtId());
 
     }
 
