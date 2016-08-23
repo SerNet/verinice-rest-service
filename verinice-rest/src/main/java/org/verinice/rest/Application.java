@@ -36,7 +36,7 @@ import org.springframework.context.annotation.Configuration;
                 "org.verinice.service"})
 public class Application {
     
-    public Application() {
+    private Application() {
         super();
     }
 

@@ -20,20 +20,6 @@
 
 package org.verinice.persistence;
 
-import org.hibernate.Session;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.verinice.model.Account;
-import org.verinice.persistence.entities.CnaTreeElement;
-import org.verinice.persistence.entities.Entity;
-import org.verinice.persistence.entities.Property;
-import org.verinice.persistence.entities.PropertyList;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +29,16 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.stereotype.Service;
+import org.verinice.persistence.entities.CnaTreeElement;
+import org.verinice.persistence.entities.Entity;
+import org.verinice.persistence.entities.Property;
+import org.verinice.persistence.entities.PropertyList;
 
 /**
  * Data access object (DAO) implementation for entity CnaTreeElement.
