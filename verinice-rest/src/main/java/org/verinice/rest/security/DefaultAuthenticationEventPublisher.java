@@ -3,6 +3,7 @@ package org.verinice.rest.security;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
@@ -48,7 +49,7 @@ public class DefaultAuthenticationEventPublisher implements AuthenticationEventP
     private final Log logger = LogFactory.getLog(getClass());
 
     private ApplicationEventPublisher applicationEventPublisher;
-    private final HashMap<String, Constructor<? extends AbstractAuthenticationEvent>> exceptionMappings = new HashMap<String, Constructor<? extends AbstractAuthenticationEvent>>();
+    private final Map<String, Constructor<? extends AbstractAuthenticationEvent>> exceptionMappings = new HashMap<String, Constructor<? extends AbstractAuthenticationEvent>>();
 
     public DefaultAuthenticationEventPublisher() {
         this(null);
@@ -145,7 +146,7 @@ public class DefaultAuthenticationEventPublisher implements AuthenticationEventP
                         (Class<? extends AbstractAuthenticationFailureEvent>) clazz);
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException("Failed to load authentication event class "
-                        + eventClass);
+                        + eventClass, e);
             }
         }
     }
@@ -158,7 +159,7 @@ public class DefaultAuthenticationEventPublisher implements AuthenticationEventP
             exceptionMappings.put(exceptionClass, constructor);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("Authentication event class "
-                    + eventClass.getName() + " has no suitable constructor");
+                    + eventClass.getName() + " has no suitable constructor", e);
         }
     }
 }

@@ -83,14 +83,13 @@ public class VeriniceAuthenticationProvider extends AbstractUserDetailsAuthentic
         try {
             digest = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
-            throw new IllegalStateException("No MD5 algorithm available!");
+            throw new IllegalStateException("No MD5 algorithm available!", e);
         }
         return new String(Hex.encode(digest.digest(data.getBytes())));
     }
 
     @Override
-    public Authentication authenticate(Authentication authentication)
-            throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication) {
         Assert.isInstanceOf(UsernamePasswordAuthenticationToken.class, authentication,
                 messages.getMessage(
                         "AbstractUserDetailsAuthenticationProvider.onlySupports",
