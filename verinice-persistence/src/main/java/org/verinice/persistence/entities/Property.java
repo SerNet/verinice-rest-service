@@ -115,32 +115,43 @@ public class Property implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Property other = (Property) obj;
-        if (propertiesId != other.propertiesId)
+        if (propertiesId != other.propertiesId) {
             return false;
-        if (propertiesIdx != other.propertiesIdx)
+        }
+        if (propertiesIdx != other.propertiesIdx) {
             return false;
+        }
         if (propertyList == null) {
-            if (other.propertyList != null)
+            if (other.propertyList != null) {
                 return false;
-        } else if (!propertyList.equals(other.propertyList))
+            }
+        } else if (!propertyList.equals(other.propertyList)) {
             return false;
+        }
         if (propertytype == null) {
-            if (other.propertytype != null)
+            if (other.propertytype != null) {
                 return false;
-        } else if (!propertytype.equals(other.propertytype))
+            }
+        } else if (!propertytype.equals(other.propertytype)) {
             return false;
+        }
         if (propertyvalue == null) {
-            if (other.propertyvalue != null)
+            if (other.propertyvalue != null) {
                 return false;
-        } else if (!propertyvalue.equals(other.propertyvalue))
+            }
+        } else if (!propertyvalue.equals(other.propertyvalue)) {
             return false;
+        }
         return true;
     }
 
@@ -201,17 +212,22 @@ public class Property implements Serializable {
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj)
+            if (this == obj) {
                 return true;
-            if (obj == null)
+            }
+            if (obj == null) {
                 return false;
-            if (getClass() != obj.getClass())
+            }
+            if (getClass() != obj.getClass()) {
                 return false;
+            }
             PropertyId other = (PropertyId) obj;
-            if (propertiesId != other.propertiesId)
+            if (propertiesId != other.propertiesId) {
                 return false;
-            if (propertiesIdx != other.propertiesIdx)
+            }
+            if (propertiesIdx != other.propertiesIdx) {
                 return false;
+            }
             return true;
         }
 
