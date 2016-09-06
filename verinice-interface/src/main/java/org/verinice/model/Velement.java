@@ -32,6 +32,8 @@ import java.util.Map;
  */
 public class Velement {
 
+    private long dbId;
+
     private String uuid;
     
     private String type;
@@ -42,7 +44,7 @@ public class Velement {
 
     private String extId;
 
-    private int parentId;
+    private Integer parentId;
 
     private int scopeId;
     
@@ -56,6 +58,21 @@ public class Velement {
         super();
         this.uuid = uuid;
         this.type = type;
+    }
+
+    /**
+     * @return the dbId
+     */
+    public long getDbId() {
+        return dbId;
+    }
+
+    /**
+     * @param dbId
+     *            the dbId to set
+     */
+    public void setDbId(long dbId) {
+        this.dbId = dbId;
     }
 
     public String getUuid() {
@@ -98,11 +115,11 @@ public class Velement {
         this.extId = extId;
     }
 
-    public int getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(int parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 
@@ -165,8 +182,9 @@ public class Velement {
 
     @Override
     public String toString() {
-        return "Velement [type=" + type + ", title=" + title + ", properties=" + properties
-                + ", uuid=" + uuid + "]";
+        return "Velement [dbId=" + dbId + ", uuid=" + uuid + ", type=" + type + ", title=" + title
+                + ", sourceId=" + sourceId + ", extId=" + extId + ", parentId=" + parentId
+                + ", scopeId=" + scopeId + ", properties=" + properties + "]";
     }
    
 }

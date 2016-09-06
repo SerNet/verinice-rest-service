@@ -81,4 +81,58 @@ public class ElementServiceImpl implements ElementService {
                 value, size, firstResult);
         return ElementConverter.elementsForEntitys(dbElements);
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.verinice.interfaces.ElementService#SaveElement(org.verinice.model.
+     * Velement)
+     */
+    @Override
+    public Velement saveElement(Velement velement) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(velement.toString());
+        }
+        if (velement == null) {
+            LOG.warn("Velement is null!");
+            return null;
+        }
+        CnaTreeElement savedElement = dao.save(ElementConverter.entityForElement(velement));
+        return ElementConverter.elementForEntity(savedElement);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.verinice.interfaces.ElementService#updateElement(org.verinice.model.
+     * Velement, boolean)
+     */
+    @Override
+    public Velement updateElement(Velement velement, boolean useUuid) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("useUuid: " + useUuid);
+            LOG.debug(velement.toString());
+        }
+        CnaTreeElement found;
+        if (useUuid) {
+            found = dao.findByUuid(velement.getUuid());
+        } else {
+            found = dao.findBySourceIdAndExtId(velement.getSourceId(), velement.getExtId());
+        }
+        if (found == null) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("No element found --> save element");
+            }
+            return saveElement(velement);
+        }
+        found.setExtId(velement.getExtId());
+        found.setParentId(velement.getParentId());
+        found.setScopeId(velement.getScopeId());
+        found.setSourceId(velement.getSourceId());
+        found.getEntity().setPropertyLists(ElementConverter.convertProperties(velement));
+
+        return ElementConverter.elementForEntity(found);
+    }
 }

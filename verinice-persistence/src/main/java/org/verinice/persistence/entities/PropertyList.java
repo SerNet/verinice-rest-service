@@ -23,6 +23,7 @@ package org.verinice.persistence.entities;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -52,10 +53,10 @@ public class PropertyList implements Serializable {
     @Column(name = "uuid", nullable = false)
     private String uuid;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "propertyList")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "propertyList", cascade = CascadeType.ALL)
     private Set<Property> properties;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "typedlist_id", referencedColumnName = "dbid")
     private Entity entity;
 

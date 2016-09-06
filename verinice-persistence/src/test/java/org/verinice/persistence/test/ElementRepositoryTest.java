@@ -20,6 +20,8 @@
 package org.verinice.persistence.test;
 
 import org.junit.After;
+import org.junit.Assert;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -81,6 +83,20 @@ public class ElementRepositoryTest {
         check(findByUuid, element2);
     }
     
+    @Test
+    public void save() {
+
+        CnaTreeElement cnaTreeElement = new CnaTreeElement();
+        cnaTreeElement.setUuid("eae74c67-b57b-4541-8de7-35cc43e93456");
+        cnaTreeElement.setType("incident_scenario");
+        cnaTreeElement.setSourceId("ElementRepositoryTestSave");
+        cnaTreeElement.setExtId("ENTITY_08834055");
+        cnaTreeElement = elementRepository.save(cnaTreeElement);
+
+        Assert.assertNotEquals(0, cnaTreeElement.getDbid());
+        elementRepository.delete(cnaTreeElement);
+    }
+
     @Test
     public void testFindBySourceIdAndExtId() {
         CnaTreeElement foundElement = elementRepository.findBySourceIdAndExtId(element.getSourceId(), element.getExtId());

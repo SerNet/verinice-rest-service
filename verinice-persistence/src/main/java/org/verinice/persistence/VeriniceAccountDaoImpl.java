@@ -105,6 +105,9 @@ public class VeriniceAccountDaoImpl extends Dao implements VeriniceAccountDao {
     
     private Entity findEntityByLoginName(String loginName) {
         TypedQuery<Entity> propertiesQuery = buildQueryForProperties(loginName);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug(propertiesQuery.toString());
+        }
         Entity entity = null;
         try {
             entity = propertiesQuery.getSingleResult();

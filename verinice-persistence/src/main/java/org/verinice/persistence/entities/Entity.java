@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -51,10 +52,10 @@ public class Entity implements Serializable {
     @Column(name = "uuid", nullable = false)
     private String uuid;
 
-    @Column(name = "entitytype")
+    @Column(name = "entitytype", nullable = false)
     private String entitytype;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "entity")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "entity", cascade = CascadeType.ALL)
     private Set<PropertyList> propertyLists;
 
     public long getDbid() {

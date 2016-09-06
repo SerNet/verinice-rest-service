@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -61,9 +62,11 @@ public final class ElementConverter {
         }
         Velement element = new Velement();
         element.setUuid(dbEntity.getUuid());   
+        element.setDbId(dbEntity.getDbid());
         element.setType(dbEntity.getType());
-        element.setProperties(convertPropertyLists(dbEntity));
-        element.setTitle(getTitle(element, dbEntity));
+        final Map<String, List<String>> convertPropertyLists = convertPropertyLists(dbEntity);
+        element.setProperties(convertPropertyLists);
+        element.setTitle(getTitle(convertPropertyLists, dbEntity.getType()));
         if (dbEntity.getScopeId() != null)
             element.setScopeId(dbEntity.getScopeId());
         element.setExtId(dbEntity.getExtId());
@@ -81,20 +84,24 @@ public final class ElementConverter {
         return velements;
     }
 
-    private static String getTitle(Velement element, CnaTreeElement dbEntity) {
-        if (specialNamePropertyTypes.containsKey(dbEntity.getType())) {
-            return element.getProperties().get(specialNamePropertyTypes.get(dbEntity.getType())).iterator()
-                    .next();
-        }
-        if (element.getProperties() != null && !element.getProperties().isEmpty()) {
-            for (String key : element.getProperties().keySet()) {
-                if (key.toLowerCase().endsWith("name")) {
-                    return element.getProperties().get(key).iterator().next();
+    private static String getTitle(Map<String, List<String>> convertPropertyLists, String type) {
+        String nameProperty = getName(type);
+        if (convertPropertyLists != null && !convertPropertyLists.isEmpty()) {
+            for (String key : convertPropertyLists.keySet()) {
+                if (key.equalsIgnoreCase(nameProperty)) {
+                    return convertPropertyLists.get(key).iterator().next();
                 }
             }
 
         }
         return null;
+    }
+
+    private static String getName(String type) {
+        if (specialNamePropertyTypes.containsKey(type)) {
+            return specialNamePropertyTypes.get(type);
+        }
+        return type + "_name";
     }
 
     private static Map<String, List<String>> convertPropertyLists(CnaTreeElement dbEntity) {
@@ -119,4 +126,46 @@ public final class ElementConverter {
         return propertyMap;
     }
     
+    public static CnaTreeElement entityForElement(Velement velement) {
+        CnaTreeElement cnaElement = new CnaTreeElement();
+        Entity cnaEntity = new Entity();
+        cnaEntity.setEntitytype(velement.getType());
+
+        // maybe move to convertProperties as it is a property?
+        // velement.getProperties().put(getName(velement.getType()),
+        // Arrays.asList(new String[] { velement.getTitle() }));
+
+        cnaElement.setEntity(cnaEntity);
+        cnaElement.setDbid(velement.getDbId());
+        cnaElement.setUuid(velement.getUuid());
+        cnaElement.setType(velement.getType());
+        cnaElement.setScopeId(velement.getScopeId());
+        cnaElement.setParentId(velement.getParentId());
+        cnaElement.setExtId(velement.getExtId());
+        cnaElement.setSourceId(velement.getSourceId());
+        // cnaEntity.setPropertyLists(convertProperties(velement));
+        return cnaElement;
+    }
+
+    public static Set<PropertyList> convertProperties(Velement element) {
+        if (element.getProperties() == null) {
+            return new HashSet<>();
+        }
+        Set<PropertyList> lists = new HashSet<>();
+        for (Entry<String, List<String>> entry : element.getProperties().entrySet()) {
+            PropertyList list = new PropertyList();
+            int i = 0;
+            list.setProperties(new HashSet<>());
+            for (String p : entry.getValue()) {
+                Property property = new Property();
+                property.setPropertytype(entry.getKey());
+                property.setPropertiesIdx(i++);
+                property.setPropertyvalue(p);
+                list.getProperties().add(property);
+            }
+            lists.add(list);
+        }
+        return lists;
+    }
+
 }
