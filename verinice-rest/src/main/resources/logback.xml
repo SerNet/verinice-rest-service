@@ -27,16 +27,14 @@
     </rollingPolicy>
   </appender>
 
-  <logger
-    name="org.verinice.service"
-    level="debug" />
-  <logger
-    name="org.verinice.persistence"
-    level="debug" />
+  <!-- Set na individual log level for packages or classes here -->
+  <!-- <logger name="org.verinice.service" level="debug" /> -->
 
   <root level="warn">
+    <!-- You can activate multiple appenders -->
     <appender-ref ref="FILE" />
-    <appender-ref ref="STDOUT" />
+    <!-- Activate this appender to log to standart out -->
+    <!-- <appender-ref ref="STDOUT" /> -->
   </root>
 
 </configuration>
