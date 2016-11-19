@@ -26,12 +26,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
+import org.verinice.persistence.CnaTreeElementDao;
 import org.verinice.persistence.entities.CnaTreeElement;
 import org.verinice.persistence.entities.ElementConverter;
 
 import java.util.List;
 import java.util.Set;
-import org.verinice.persistence.CnaTreeElementDao;
+
+import static org.verinice.persistence.entities.ElementConverter.entityForElement;
 
 /**
  * Implementation of the element service which uses a {@link CnaTreeElementDao}.
@@ -91,6 +93,9 @@ public class ElementServiceImpl implements ElementService {
      */
     @Override
     public Velement saveElement(Velement velement) {
+        if(dao.findByUuid(velement.getUuid()) != null){
+            throw new IllegalArgumentException("Pleaste use element/update instead");
+        }
         if (LOG.isDebugEnabled()) {
             LOG.debug(velement.toString());
         }
@@ -98,41 +103,58 @@ public class ElementServiceImpl implements ElementService {
             LOG.warn("Velement is null!");
             return null;
         }
-        CnaTreeElement savedElement = dao.save(ElementConverter.entityForElement(velement));
+        return doSaveElement(velement);
+    }
+
+    private Velement doSaveElement(Velement velement) {
+        CnaTreeElement savedElement = dao.save(entityForElement(velement));
         return ElementConverter.elementForEntity(savedElement);
     }
 
+    public ElementServiceImpl() {
+    }
+
     /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.verinice.interfaces.ElementService#updateElement(org.verinice.model.
-     * Velement, boolean)
-     */
+         * (non-Javadoc)
+         *
+         * @see
+         * org.verinice.interfaces.ElementService#updateElement(org.verinice.model.
+         * Velement, boolean)
+         */
     @Override
     public Velement updateElement(Velement velement, boolean useUuid) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("useUuid: " + useUuid);
             LOG.debug(velement.toString());
         }
-        CnaTreeElement found;
+        CnaTreeElement foundCnaTreeElement;
         if (useUuid) {
-            found = dao.findByUuid(velement.getUuid());
+            foundCnaTreeElement = dao.findByUuid(velement.getUuid());
         } else {
-            found = dao.findBySourceIdAndExtId(velement.getSourceId(), velement.getExtId());
+            foundCnaTreeElement = dao.findBySourceIdAndExtId(velement.getSourceId(), velement.getExtId());
         }
-        if (found == null) {
+        if (foundCnaTreeElement == null) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("No element found --> save element");
             }
-            return saveElement(velement);
+        } else{
+            dao.delete(foundCnaTreeElement);
+            CnaTreeElement newElement = entityForElement(velement);
+            newElement.setDbid(foundCnaTreeElement.getDbid());
+            newElement.getEntity().setDbid(foundCnaTreeElement.getEntity().getDbid());
+//            foundCnaTreeElement.setExtId(velement.getExtId());
+//            foundCnaTreeElement.setParentId(velement.getParentId());
+//            foundCnaTreeElement.setScopeId(velement.getScopeId());
+//            foundCnaTreeElement.setSourceId(velement.getSourceId());
+//            Set<PropertyList> updates = ElementConverter.convertProperties(velement, foundCnaTreeElement.getEntity());
+//            Set<PropertyList> newLists = new HashSet<>();
+//            Set<PropertyList> oldPropertyLists = foundCnaTreeElement.getEntity().getPropertyLists();
+//            boolean foundProperty;
+//            for(PropertyList propertyList : updates){
+//                propertyList.setEntity(foundCnaTreeElement.getEntity());
+//            }
+//            foundCnaTreeElement.getEntity().setPropertyLists(updates);
         }
-        found.setExtId(velement.getExtId());
-        found.setParentId(velement.getParentId());
-        found.setScopeId(velement.getScopeId());
-        found.setSourceId(velement.getSourceId());
-        found.getEntity().setPropertyLists(ElementConverter.convertProperties(velement));
-
-        return ElementConverter.elementForEntity(found);
+        return doSaveElement(velement);
     }
 }

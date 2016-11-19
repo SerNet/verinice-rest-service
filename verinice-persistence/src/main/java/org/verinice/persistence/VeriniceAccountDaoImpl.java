@@ -20,33 +20,18 @@
 
 package org.verinice.persistence;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.verinice.model.Account;
 import org.verinice.model.Velement;
-import org.verinice.persistence.entities.CnaTreeElement;
-import org.verinice.persistence.entities.ElementConverter;
-import org.verinice.persistence.entities.Entity;
-import org.verinice.persistence.entities.Property;
-import org.verinice.persistence.entities.PropertyList;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import org.verinice.persistence.entities.*;
 
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Data access object (DAO) implementation for Accounts.
@@ -62,8 +47,6 @@ import javax.persistence.criteria.Root;
 public class VeriniceAccountDaoImpl extends Dao implements VeriniceAccountDao {
 
     private static final Logger LOG = LoggerFactory.getLogger(VeriniceAccountDaoImpl.class);
-
-    private static final String SCOPEID_FOR_ACCOUNT_JPQL = "scopeid-for-account.sql";
 
     @Override
     public Account findByLoginName(String loginName) {
@@ -138,24 +121,27 @@ public class VeriniceAccountDaoImpl extends Dao implements VeriniceAccountDao {
 
     private int getScopeIdForLoginName(String loginName) {
 
-        String fileName = SCOPEID_FOR_ACCOUNT_JPQL;
+        CriteriaBuilder builder = getCriteriaBuilder();
+        CriteriaQuery<Configuration> query = builder.createQuery(Configuration.class);
 
-        String jpql = null;
-        try {
-            jpql = Resources.toString(Resources.getResource(fileName), Charsets.UTF_8);
-        } catch (IOException ex) {
-            LOG.error("Error reading JPQL query from file: " + fileName, ex);
-        }
+        Root<Configuration> rootelement = query.from(Configuration.class);
 
-        Query query = entityManager.createQuery(jpql).setParameter("loginName", loginName);
+        query.select(rootelement);
+        Join<CnaTreeElement, Entity> entityJoin = rootelement.join("entity", JoinType.LEFT);
+        Join<PropertyList, Entity> propertyListJoin = entityJoin.join("propertyLists",
+                JoinType.LEFT);
+        Join<PropertyList, Property> propertyJoin = propertyListJoin.join("properties",
+                JoinType.LEFT);
 
-        int scopeId = -1;
-        try {
-            scopeId = (Integer) query.getSingleResult();
-        } catch (Exception ex) {
-            LOG.error("Could not retrieve scope id for user: '" + loginName + "'", ex);
-        }
+        List<Predicate> conditions = new ArrayList<>();
+            conditions.add(getCriteriaBuilder().like(propertyJoin.get("propertytype"), "configuration_benutzername"));
+            conditions.add(getCriteriaBuilder().like(propertyJoin.get("propertyvalue"), loginName));
+        query.where(conditions.toArray(new Predicate[conditions.size()]));
 
-        return scopeId;
+        query.distinct(true);
+
+        TypedQuery<Configuration> typedQuery = entityManager.createQuery(query);
+        Configuration result = typedQuery.getSingleResult();
+        return result.getCnaTreeElement().getScopeId();
     }
 }

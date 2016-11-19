@@ -74,4 +74,12 @@ public interface CnaTreeElementDao {
      */
     CnaTreeElement save(CnaTreeElement element);
 
+    /**
+     * Deletes {@link CnaTreeElement}
+     *
+     * @param element
+     *            The element to be saved.
+     */
+    void delete(CnaTreeElement element);
+
 }

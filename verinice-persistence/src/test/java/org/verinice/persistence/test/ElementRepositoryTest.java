@@ -19,6 +19,7 @@
  ******************************************************************************/
 package org.verinice.persistence.test;
 
+import com.google.common.collect.ImmutableSet;
 import org.junit.After;
 import org.junit.Assert;
 
@@ -35,6 +36,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.verinice.persistence.PersistenceApplication;
 import org.verinice.persistence.entities.CnaTreeElement;
 import org.verinice.persistence.CnaTreeElementRepository;
+import org.verinice.persistence.entities.Entity;
+import org.verinice.persistence.entities.PropertyList;
+
+import java.util.Collections;
 
 
 /**
@@ -82,7 +87,7 @@ public class ElementRepositoryTest {
         findByUuid = elementRepository.findByUuid(element2.getUuid());
         check(findByUuid, element2);
     }
-    
+
     @Test
     public void save() {
 
@@ -91,10 +96,24 @@ public class ElementRepositoryTest {
         cnaTreeElement.setType("incident_scenario");
         cnaTreeElement.setSourceId("ElementRepositoryTestSave");
         cnaTreeElement.setExtId("ENTITY_08834055");
+        Entity entity = new Entity();
+        entity.setEntitytype(cnaTreeElement.getType())
+                .setUuid(cnaTreeElement.getUuid())
+                .setPropertyLists(ImmutableSet.of(
+                        new PropertyList().setEntity(entity).setUuid(cnaTreeElement.getUuid()).setProperties(Collections.emptySet())
+                        )
+                );
+        cnaTreeElement.setEntity(entity);
         cnaTreeElement = elementRepository.save(cnaTreeElement);
 
         Assert.assertNotEquals(0, cnaTreeElement.getDbid());
         elementRepository.delete(cnaTreeElement);
+
+        CnaTreeElement found = elementRepository.findByUuid(element.getUuid());
+        found.setDbid(0L);
+        found.setUuid("fae74c67-b57b-4541-8de7-35cc43e93396");
+        found = elementRepository.save(found);
+        Assert.assertNotEquals(0, cnaTreeElement.getDbid());
     }
 
     @Test

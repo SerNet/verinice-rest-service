@@ -120,4 +120,9 @@ public class CnaTreeElementDaoImpl extends Dao implements CnaTreeElementDao {
         return elementRepository.save(element);
     }
 
+    @Override
+    public void delete(CnaTreeElement element) {
+        elementRepository.delete(element);
+    }
+
 }

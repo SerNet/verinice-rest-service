@@ -19,24 +19,19 @@
  */
 package org.verinice.persistence.entities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.verinice.model.Velement;
 
 /**
- * This class provides methods to convert an instance of one class to an 
+ * This class provides methods to convert an instance of one class to an
  * instance of a different class.
- * 
+ * <p>
  * Do not instantiate this class use public static methods.
- * 
+ *
  * @author Daniel Murygin
  */
 public final class ElementConverter {
@@ -45,10 +40,10 @@ public final class ElementConverter {
 
     private static Map<String, String> specialNamePropertyTypes = new HashMap<>();
 
-    static{
+    static {
         specialNamePropertyTypes.put("gefaehrdungs-umsetzung", "gefaehrdungsumsetzung_titel");
     }
-    
+
     /**
      * Do not instantiate this class use public static methods.
      */
@@ -57,11 +52,11 @@ public final class ElementConverter {
     }
 
     public static Velement elementForEntity(CnaTreeElement dbEntity) {
-        if(dbEntity==null) {
+        if (dbEntity == null) {
             return null;
         }
         Velement element = new Velement();
-        element.setUuid(dbEntity.getUuid());   
+        element.setUuid(dbEntity.getUuid());
         element.setDbId(dbEntity.getDbid());
         element.setType(dbEntity.getType());
         final Map<String, List<String>> convertPropertyLists = convertPropertyLists(dbEntity);
@@ -108,32 +103,28 @@ public final class ElementConverter {
         Map<String, List<String>> propertyMap = new HashMap<>();
         if (dbEntity.getEntity() != null && dbEntity.getEntity().getPropertyLists() != null) {
 
-        dbEntity.getEntity().getPropertyLists().forEach(propertyList -> {
-            Set<Property> properties = propertyList.getProperties();
-            if (properties != null) {
+            dbEntity.getEntity().getPropertyLists().forEach(propertyList -> {
+                Set<Property> properties = propertyList.getProperties();
+                if (properties != null) {
                     List<String> values = new ArrayList<>();
                     String type = properties.iterator().next().getPropertytype();
                     properties.forEach(property -> values.add(property.getPropertyvalue()));
                     propertyMap.put(type, values);
 
-            } else {
-                LOG.error("properties are null for propertyList : " + propertyList.getUuid());
+                } else {
+                    LOG.error("properties are null for propertyList : " + propertyList.getUuid());
 
-            }
-        });
+                }
+            });
 
         }
         return propertyMap;
     }
-    
+
     public static CnaTreeElement entityForElement(Velement velement) {
         CnaTreeElement cnaElement = new CnaTreeElement();
         Entity cnaEntity = new Entity();
-        cnaEntity.setEntitytype(velement.getType());
-
-        // maybe move to convertProperties as it is a property?
-        // velement.getProperties().put(getName(velement.getType()),
-        // Arrays.asList(new String[] { velement.getTitle() }));
+        cnaEntity.setEntitytype(velement.getType()).setUuid(velement.getUuid());
 
         cnaElement.setEntity(cnaEntity);
         cnaElement.setDbid(velement.getDbId());
@@ -143,24 +134,32 @@ public final class ElementConverter {
         cnaElement.setParentId(velement.getParentId());
         cnaElement.setExtId(velement.getExtId());
         cnaElement.setSourceId(velement.getSourceId());
-        // cnaEntity.setPropertyLists(convertProperties(velement));
+        cnaEntity.setPropertyLists(convertProperties(velement, cnaEntity));
+
         return cnaElement;
     }
 
-    public static Set<PropertyList> convertProperties(Velement element) {
-        if (element.getProperties() == null) {
+    public static Set<PropertyList> convertProperties(Velement velement, Entity cnaEntity) {
+        if (velement.getProperties() == null) {
             return new HashSet<>();
         }
+
+        velement.getProperties().put(getName(velement.getType()),
+                Arrays.asList(new String[]{velement.getTitle()}));
         Set<PropertyList> lists = new HashSet<>();
-        for (Entry<String, List<String>> entry : element.getProperties().entrySet()) {
-            PropertyList list = new PropertyList();
+
+        for (Entry<String, List<String>> entry : velement.getProperties().entrySet()) {
+            PropertyList list = new PropertyList()
+                    .setEntity(cnaEntity)
+                    .setUuid(cnaEntity.getUuid()).setListIdx(entry.getKey());
             int i = 0;
             list.setProperties(new HashSet<>());
             for (String p : entry.getValue()) {
-                Property property = new Property();
-                property.setPropertytype(entry.getKey());
-                property.setPropertiesIdx(i++);
-                property.setPropertyvalue(p);
+                Property property = new Property()
+                        .setPropertytype(entry.getKey())
+                        .setPropertiesIdx(i++)
+                        .setPropertyvalue(p)
+                        .setPropertyList(list);
                 list.getProperties().add(property);
             }
             lists.add(list);

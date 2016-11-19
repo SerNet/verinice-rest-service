@@ -35,7 +35,7 @@ import javax.persistence.Table;
 
 /**
  * Entity class for table entity.
- * 
+ *
  * @author Ruth Motza <rm[at]sernet[dot]de>
  */
 @javax.persistence.Entity
@@ -43,7 +43,7 @@ import javax.persistence.Table;
 public class Entity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "dbid", nullable = false)
@@ -62,32 +62,36 @@ public class Entity implements Serializable {
         return dbid;
     }
 
-    public void setDbid(long dbid) {
+    public Entity setDbid(long dbid) {
         this.dbid = dbid;
+        return this;
     }
 
     public Set<PropertyList> getPropertyLists() {
         return propertyLists;
     }
 
-    public void setPropertyLists(Set<PropertyList> propertyLists) {
+    public Entity setPropertyLists(Set<PropertyList> propertyLists) {
         this.propertyLists = propertyLists;
+        return this;
     }
 
     public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(String uuid) {
+    public Entity setUuid(String uuid) {
         this.uuid = uuid;
+        return this;
     }
 
     public String getEntitytype() {
         return entitytype;
     }
 
-    public void setEntitytype(String entitytype) {
+    public Entity setEntitytype(String entitytype) {
         this.entitytype = entitytype;
+        return this;
     }
 
 

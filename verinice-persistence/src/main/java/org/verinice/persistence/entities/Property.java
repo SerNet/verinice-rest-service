@@ -21,14 +21,9 @@ package org.verinice.persistence.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+
 import org.verinice.persistence.entities.Property.PropertyId;
 
 /**
@@ -43,10 +38,8 @@ public class Property implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "properties_id", nullable = false)
-    private int propertiesId;
     @Id
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "properties_id", referencedColumnName = "dbid", insertable = false, updatable = false)
     private PropertyList propertyList;
 
@@ -60,52 +53,49 @@ public class Property implements Serializable {
     @Column(name = "propertyvalue", nullable = false)
     private String propertyvalue;
 
-
-
-    public int getPropertiesId() {
-        return propertiesId;
-    }
-
-    public void setPropertiesId(int propertiesId) {
-        this.propertiesId = propertiesId;
-    }
-
-    public String getPropertytype() {
-        return propertytype;
-    }
-
-    public void setPropertytype(String propertytype) {
-        this.propertytype = propertytype;
-    }
-
-    public String getPropertyvalue() {
-        return propertyvalue;
-    }
-
-    public void setPropertyvalue(String propertyvalue) {
-        this.propertyvalue = propertyvalue;
-    }
-
     public PropertyList getPropertyList() {
         return propertyList;
     }
 
-    public void setPropertyList(PropertyList propertyList) {
+    public Property setPropertyList(PropertyList propertyList) {
         this.propertyList = propertyList;
+        return this;
     }
 
     public int getPropertiesIdx() {
         return propertiesIdx;
     }
 
-    public void setPropertiesIdx(int propertiesIdx) {
+    public Property setPropertiesIdx(int propertiesIdx) {
         this.propertiesIdx = propertiesIdx;
+        return this;
+    }
+
+    public String getPropertytype() {
+        return propertytype;
+    }
+
+    public Property setPropertytype(String propertytype) {
+        this.propertytype = propertytype;
+        return this;
+    }
+
+    public String getPropertyvalue() {
+        return propertyvalue;
+    }
+
+    public Property setPropertyvalue(String propertyvalue) {
+        this.propertyvalue = propertyvalue;
+        return this;
     }
 
     @Override
     public String toString() {
-        return "Property [propertiesId=" + propertiesId + ", propertiesIdx=" + propertiesIdx
-                + ", propertytype=" + propertytype + ", propertyvalue=" + propertyvalue
+        return "Property ["
+//                + "propertiesId=" + propertiesId
+                + ", propertiesIdx=" + propertiesIdx
+                + ", propertytype=" + propertytype
+                + ", propertyvalue=" + propertyvalue
                 + "]";
     }
 
@@ -113,7 +103,6 @@ public class Property implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + propertiesId;
         result = prime * result + propertiesIdx;
         result = prime * result + ((propertytype == null) ? 0 : propertytype.hashCode());
         result = prime * result + ((propertyvalue == null) ? 0 : propertyvalue.hashCode());
@@ -129,8 +118,6 @@ public class Property implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         Property other = (Property) obj;
-        if (propertiesId != other.propertiesId)
-            return false;
         if (propertiesIdx != other.propertiesIdx)
             return false;
         if (propertytype == null) {
@@ -175,16 +162,18 @@ public class Property implements Serializable {
             return propertyList;
         }
 
-        public void setPropertyList(PropertyList propertyList) {
+        public PropertyId setPropertyList(PropertyList propertyList) {
             this.propertyList = propertyList;
+            return this;
         }
 
         public int getPropertiesIdx() {
             return propertiesIdx;
         }
 
-        public void setPropertiesIdx(int propertiesIdx) {
+        public PropertyId setPropertiesIdx(int propertiesIdx) {
             this.propertiesIdx = propertiesIdx;
+            return this;
         }
 
         @Override
@@ -215,7 +204,13 @@ public class Property implements Serializable {
             return true;
         }
 
-
+        @Override
+        public String toString() {
+            return "PropertyId{" +
+                    "propertyList=" + propertyList +
+                    ", propertiesIdx=" + propertiesIdx +
+                    '}';
+        }
     }
 
 }
