@@ -7,13 +7,54 @@ article means _CnATreeElement_.
 
 #### URL
 
-* ``/element/{uuid}``
+* ``/element/{uuid:[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}}``
 * Example: ``/element/f35b982c-8ad4-4515-96ee-df5fdd4247b9``
+* Notes: The regular expression matches a string of
+	* a block of 8 HEX chars followed by
+	* 3 blocks of 4 HEX chars followed by
+	* a block of 12 HEX chars.
+
+	This is the normalized UUID representation.
 
 #### URL Params
 Required:
 * ``uuid=[string]``
 * Example: ``uuid=f35b982c-8ad4-4515-96ee-df5fdd4247b9``
+
+#### Success Response
+* Code: 200
+* Content (If an element with the given UUID exists):
+```json
+{
+  "uuid": "f35b982c-8ad4-4515-96ee-df5fdd4247b9",
+  "type": "asset",
+  "title": "Asset (Kopie 4)  (Kopie 2) ",
+  "sourceId": null,
+  "extId": null,
+  "parentId": 405,
+  "scopeId": 373,
+  "properties": {
+    "asset_value_confidentiality": [
+      "0"
+    ],
+    "asset_value_method_confidentiality": [
+      "1"
+    ]
+  }
+}
+```
+
+### Load element by database ID
+
+#### URL
+
+* ``/element/{dbid:\d+}``
+* Example: ``/element/700``
+
+#### URL Params
+Required:
+* ``uuid=[long]``
+* Example: ``dbid=700``
 
 #### Success Response
 * Code: 200
