@@ -42,6 +42,11 @@ public interface CnaTreeElementDao {
     CnaTreeElement findByUuid(String uuid);
 
     /**
+    * @return The CnaTreeElement with the dbid or null if there is no element
+    */
+    CnaTreeElement findByDbid(Long dbid);
+
+    /**
      * @param sourceId A source id
      * @param extId An external id
      * @return The CnaTreeElement with the source and the ext id or null if there is no element

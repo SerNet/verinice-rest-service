@@ -33,6 +33,7 @@ import org.verinice.model.Velement;
  * REST implementation of {@link ElementService}.
  *
  * @author Daniel Murygin <dm{a}sernet{dot}de>
+ * @author Alexander Ben Nasrallah <an{a}sernet{dot}de>
  */
 @RestController
 public class RestElementService implements ElementService {
@@ -44,10 +45,20 @@ public class RestElementService implements ElementService {
      * @see org.verinice.interfaces.ElementService#loadElement(
      *  java.lang.String)
      */
-    @RequestMapping("/element/{uuid}")
+    @RequestMapping("/element/{uuid:[a-fA-F\\d]{8}(?:-[a-fA-F\\d]{4}){3}-[a-fA-F\\d]{12}}")
     @Override
     public Velement loadElement(@PathVariable("uuid")  String uuid) {
         return elementService.loadElement(uuid);     
+    }
+
+    /**
+     * @see org.verinice.interfaces.ElementService#loadElement(
+     *  java.lang.Integer)
+     */
+    @RequestMapping("/element/{dbid:\\d+}")
+    @Override
+    public Velement loadElement(@PathVariable("dbid") Long dbid) {
+        return elementService.loadElement(dbid);
     }
     
     /**

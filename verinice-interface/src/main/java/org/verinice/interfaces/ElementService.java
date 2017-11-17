@@ -37,7 +37,13 @@ public interface ElementService {
      * @return The element with the given UUID or null if UUID is no found
      */
     public Velement loadElement(String uuid);
-    
+
+    /**
+     * @param dbid The dbid of an element
+     * @return The element with the given dbid or null if dbid is no found
+     */
+    public Velement loadElement(Long dbid);
+
     /**
      * @param sourceId A source id
      * @param extId An external id
@@ -45,7 +51,7 @@ public interface ElementService {
      *  with the source and the ext id
      */
     public Velement loadElement(String sourceId, String extId);
-    
+
     /**
      * 
      * @param key A property key / id from SNCA.xml that need to exist. % can be
