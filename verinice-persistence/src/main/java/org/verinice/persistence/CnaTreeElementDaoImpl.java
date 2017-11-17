@@ -108,4 +108,21 @@ public class CnaTreeElementDaoImpl extends Dao implements CnaTreeElementDao {
         return entityManager.createQuery(query);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.verinice.persistence.CnaTreeElementDao#save(org.verinice.persistence.
+     * entities.CnaTreeElement)
+     */
+    @Override
+    public CnaTreeElement save(CnaTreeElement element) {
+        return elementRepository.save(element);
+    }
+
+    @Override
+    public void delete(CnaTreeElement element) {
+        elementRepository.delete(element);
+    }
+
 }

@@ -23,8 +23,11 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
@@ -90,5 +93,37 @@ public class RestElementService implements ElementService {
             @RequestParam(required = false) Integer size, 
             @RequestParam(required = false) Integer firstResult) {
         return elementService.loadElementsOfScope(scopeId, key, value, size, firstResult);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.verinice.interfaces.ElementService#SaveElement(org.verinice.model.
+     * Velement)
+     */
+    @Override
+    @RequestMapping(path = "/element", method = RequestMethod.POST)
+    @ResponseBody
+    public Velement saveElement(@RequestBody Velement velement) {
+        return elementService.saveElement(velement);
+    }
+
+    @RequestMapping(path = "/element/update", method = RequestMethod.POST)
+    @ResponseBody
+    public Velement updateElement(@RequestBody UpdateElementCollection collection) {
+        return elementService.updateElement(collection.getVelement(), collection.isUseUuid());
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.verinice.interfaces.ElementService#updateElement(org.verinice.model.
+     * Velement, boolean)
+     */
+    @Override
+    public Velement updateElement(Velement element, boolean useUuid) {
+        return elementService.updateElement(element, useUuid);
     }
 }

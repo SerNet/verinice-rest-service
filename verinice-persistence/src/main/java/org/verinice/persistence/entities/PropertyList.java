@@ -23,6 +23,7 @@ package org.verinice.persistence.entities;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -52,15 +53,22 @@ public class PropertyList implements Serializable {
     @Column(name = "uuid", nullable = false)
     private String uuid;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "propertyList")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "propertyList", cascade = CascadeType.ALL)
     private Set<Property> properties;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "typedlist_id", referencedColumnName = "dbid")
     private Entity entity;
 
-    @Column(name = "typedlist_id", insertable=false, updatable=false)
-    private long typedlistId;
+
+    public String getListIdx() {
+        return listIdx;
+    }
+
+    public PropertyList setListIdx(String listIdx) {
+        this.listIdx = listIdx;
+        return this;
+    }
 
     @Column(name = "list_idx", insertable=false, updatable=false)
     private String listIdx;
@@ -69,32 +77,36 @@ public class PropertyList implements Serializable {
         return dbid;
     }
 
-    public void setDbid(long dbid) {
+    public PropertyList setDbid(long dbid) {
         this.dbid = dbid;
+        return this;
     }
 
     public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(String uuid) {
+    public PropertyList setUuid(String uuid) {
         this.uuid = uuid;
+        return this;
     }
 
     public Set<Property> getProperties() {
         return properties;
     }
 
-    public void setProperties(Set<Property> properties) {
+    public PropertyList setProperties(Set<Property> properties) {
         this.properties = properties;
+        return this;
     }
 
     public Entity getEntity() {
         return entity;
     }
 
-    public void setEntity(Entity entity) {
+    public PropertyList setEntity(Entity entity) {
         this.entity = entity;
+        return this;
     }
 
     @Override
@@ -142,10 +154,9 @@ public class PropertyList implements Serializable {
     @Override
     public String toString() {
         return "[" + dbid
-                // + ", uuid=" + uuid
+                + ", uuid=" + uuid
+                + ", " + "listIdx=" + listIdx
                 + ", " + "properties=" + properties
-                // properties.size()
-                // + getProperties()
                 + "]";
     }
 

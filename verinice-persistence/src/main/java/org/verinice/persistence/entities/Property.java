@@ -21,14 +21,8 @@ package org.verinice.persistence.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 import org.verinice.persistence.entities.Property.PropertyId;
 
@@ -45,8 +39,9 @@ public class Property implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "properties_id", nullable = false)
-    private long propertiesId;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "properties_id", referencedColumnName = "dbid", insertable = false, updatable = false)
+    private PropertyList propertyList;
 
     @Id
     @Column(name = "propertiesIdx", nullable = false)
@@ -58,55 +53,56 @@ public class Property implements Serializable {
     @Column(name = "propertyvalue", nullable = false)
     private String propertyvalue;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "properties_id", referencedColumnName = "dbid", insertable = false, updatable = false)
-    private PropertyList propertyList;
-
-    public long getPropertiesId() {
-        return propertiesId;
-    }
-
-    public void setPropertiesId(long propertiesId) {
-        this.propertiesId = propertiesId;
-    }
-
-    public String getPropertytype() {
-        return propertytype;
-    }
-
-    public void setPropertytype(String propertytype) {
-        this.propertytype = propertytype;
-    }
-
-    public String getPropertyvalue() {
-        return propertyvalue;
-    }
-
-    public void setPropertyvalue(String propertyvalue) {
-        this.propertyvalue = propertyvalue;
-    }
-
     public PropertyList getPropertyList() {
         return propertyList;
     }
 
-    public void setPropertyList(PropertyList propertyList) {
+    public Property setPropertyList(PropertyList propertyList) {
         this.propertyList = propertyList;
+        return this;
     }
 
     public int getPropertiesIdx() {
         return propertiesIdx;
     }
 
-    public void setPropertiesIdx(int propertiesIdx) {
+    public Property setPropertiesIdx(int propertiesIdx) {
         this.propertiesIdx = propertiesIdx;
+        return this;
+    }
+
+    public String getPropertytype() {
+        return propertytype;
+    }
+
+    public Property setPropertytype(String propertytype) {
+        this.propertytype = propertytype;
+        return this;
+    }
+
+    public String getPropertyvalue() {
+        return propertyvalue;
+    }
+
+    public Property setPropertyvalue(String propertyvalue) {
+        this.propertyvalue = propertyvalue;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Property ["
+//                + "propertiesId=" + propertiesId
+                + ", propertiesIdx=" + propertiesIdx
+                + ", propertytype=" + propertytype
+                + ", propertyvalue=" + propertyvalue
+                + "]";
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (int) (propertiesId ^ (propertiesId >>> 32));
         result = prime * result + propertiesIdx;
         result = prime * result + ((propertytype == null) ? 0 : propertytype.hashCode());
         result = prime * result + ((propertyvalue == null) ? 0 : propertyvalue.hashCode());
@@ -115,52 +111,28 @@ public class Property implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (this == obj)
             return true;
-        }
-        if (obj == null) {
+        if (obj == null)
             return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass())
             return false;
-        }
         Property other = (Property) obj;
-        if (propertiesId != other.propertiesId) {
+        if (propertiesIdx != other.propertiesIdx)
             return false;
-        }
-        if (propertiesIdx != other.propertiesIdx) {
-            return false;
-        }
-        if (propertyList == null) {
-            if (other.propertyList != null) {
-                return false;
-            }
-        } else if (!propertyList.equals(other.propertyList)) {
-            return false;
-        }
         if (propertytype == null) {
-            if (other.propertytype != null) {
+            if (other.propertytype != null)
                 return false;
-            }
-        } else if (!propertytype.equals(other.propertytype)) {
+        } else if (!propertytype.equals(other.propertytype))
             return false;
-        }
         if (propertyvalue == null) {
-            if (other.propertyvalue != null) {
+            if (other.propertyvalue != null)
                 return false;
-            }
-        } else if (!propertyvalue.equals(other.propertyvalue)) {
+        } else if (!propertyvalue.equals(other.propertyvalue))
             return false;
-        }
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "Property [propertiesId=" + propertiesId + ", propertytype=" + propertytype + ", propertyvalue="
-                + propertyvalue + ", propertiesIdx="
-                + propertiesIdx + "]";
-    }
 
     /**
      * Needed to support multiple primary keys
@@ -169,9 +141,10 @@ public class Property implements Serializable {
      */
     public static class PropertyId implements Serializable {
 
+
         private static final long serialVersionUID = 1L;
 
-        long propertiesId;
+        PropertyList propertyList;
 
         int propertiesIdx;
 
@@ -179,58 +152,65 @@ public class Property implements Serializable {
             // Empty constructor for JPA
         }
 
-        public PropertyId(long propertiesId, int propertiesIdx) {
+        public PropertyId(PropertyList propertyList, int propertiesIdx) {
             super();
-            this.propertiesId = propertiesId;
+            this.propertyList = propertyList;
             this.propertiesIdx = propertiesIdx;
         }
 
-        public long getPropertiesId() {
-            return propertiesId;
+        public PropertyList getPropertyList() {
+            return propertyList;
         }
 
-        public void setPropertiesId(long propertiesId) {
-            this.propertiesId = propertiesId;
+        public PropertyId setPropertyList(PropertyList propertyList) {
+            this.propertyList = propertyList;
+            return this;
         }
 
         public int getPropertiesIdx() {
             return propertiesIdx;
         }
 
-        public void setPropertiesIdx(int propertiesIdx) {
+        public PropertyId setPropertiesIdx(int propertiesIdx) {
             this.propertiesIdx = propertiesIdx;
+            return this;
         }
 
         @Override
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result + (int) (propertiesId ^ (propertiesId >>> 32));
             result = prime * result + propertiesIdx;
+            result = prime * result + ((propertyList == null) ? 0 : propertyList.hashCode());
             return result;
         }
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj) {
+            if (this == obj)
                 return true;
-            }
-            if (obj == null) {
+            if (obj == null)
                 return false;
-            }
-            if (getClass() != obj.getClass()) {
+            if (getClass() != obj.getClass())
                 return false;
-            }
             PropertyId other = (PropertyId) obj;
-            if (propertiesId != other.propertiesId) {
+            if (propertiesIdx != other.propertiesIdx)
                 return false;
-            }
-            if (propertiesIdx != other.propertiesIdx) {
+            if (propertyList == null) {
+                if (other.propertyList != null)
+                    return false;
+            } else if (!propertyList.equals(other.propertyList))
                 return false;
-            }
             return true;
         }
 
+        @Override
+        public String toString() {
+            return "PropertyId{" +
+                    "propertyList=" + propertyList +
+                    ", propertiesIdx=" + propertiesIdx +
+                    '}';
+        }
     }
 
 }

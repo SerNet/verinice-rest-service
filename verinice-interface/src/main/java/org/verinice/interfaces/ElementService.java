@@ -73,4 +73,9 @@ public interface ElementService {
      * @return All elements in database based on the restricting parameters
      */
     public Set<Velement> loadElementsOfScope(Integer scopeId, String key, String value, Integer size, Integer firstResult);
+
+    // TODO rmotza doku
+    public Velement saveElement(Velement velement);
+
+    public Velement updateElement(Velement velement, boolean useUuid);
 }

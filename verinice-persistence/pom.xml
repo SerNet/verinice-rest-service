@@ -38,11 +38,11 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>
-    <dependency>
-      <groupId>com.oracle.jdbc</groupId>
-      <artifactId>ojdbc7</artifactId>
-      <version>${oracle.jdbc.version}</version>
-    </dependency>
+<!--     <dependency> -->
+<!--       <groupId>com.oracle.jdbc</groupId> -->
+<!--       <artifactId>ojdbc7</artifactId> -->
+<!--       <version>${oracle.jdbc.version}</version> -->
+<!--     </dependency> -->
     <dependency>
       <groupId>javax.el</groupId>
       <artifactId>javax.el-api</artifactId>
@@ -124,30 +124,30 @@
     </dependency>
   </dependencies>
 
-  <repositories>
-    <repository>
-      <id>maven.oracle.com</id>
-      <name>oracle-maven-repo</name>
-      <url>https://maven.oracle.com</url>
-      <layout>default</layout>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-      </releases>
-    </repository>
-  </repositories>
+<!--   <repositories> -->
+<!--     <repository> -->
+<!--       <id>maven.oracle.com</id> -->
+<!--       <name>oracle-maven-repo</name> -->
+<!--       <url>https://maven.oracle.com</url> -->
+<!--       <layout>default</layout> -->
+<!--       <releases> -->
+<!--         <enabled>true</enabled> -->
+<!--         <updatePolicy>always</updatePolicy> -->
+<!--       </releases> -->
+<!--     </repository> -->
+<!--   </repositories> -->
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>maven.oracle.com</id>
-      <name>oracle-maven-repo</name>
-      <url>https://maven.oracle.com</url>
-      <layout>default</layout>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-      </releases>
-    </pluginRepository>
-  </pluginRepositories>
+<!--   <pluginRepositories> -->
+<!--     <pluginRepository> -->
+<!--       <id>maven.oracle.com</id> -->
+<!--       <name>oracle-maven-repo</name> -->
+<!--       <url>https://maven.oracle.com</url> -->
+<!--       <layout>default</layout> -->
+<!--       <releases> -->
+<!--         <enabled>true</enabled> -->
+<!--         <updatePolicy>always</updatePolicy> -->
+<!--       </releases> -->
+<!--     </pluginRepository> -->
+<!--   </pluginRepositories> -->
 
 </project>

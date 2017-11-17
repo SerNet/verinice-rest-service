@@ -26,6 +26,7 @@ import org.hibernate.annotations.FilterDefs;
 import org.hibernate.annotations.Filters;
 import org.hibernate.annotations.ParamDef;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -86,7 +87,7 @@ public class CnaTreeElement {
     @Column(name = "scope_id", nullable = true)
     private Integer scopeId;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "entity_id", referencedColumnName = "dbid")
     private Entity entity;
 
@@ -134,7 +135,7 @@ public class CnaTreeElement {
         return parentId;
     }
 
-    public void setParentId(int parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 

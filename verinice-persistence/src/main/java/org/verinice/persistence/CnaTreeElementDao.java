@@ -66,4 +66,20 @@ public interface CnaTreeElementDao {
      */
     List<CnaTreeElement> findByScopeKeyValue(Integer scopeId, String key, String value, Integer size, Integer firstResult);
 
+    /**
+     * Saves {@link CnaTreeElement} and returns the saved object
+     * 
+     * @param element
+     *            The element to be saved.
+     */
+    CnaTreeElement save(CnaTreeElement element);
+
+    /**
+     * Deletes {@link CnaTreeElement}
+     *
+     * @param element
+     *            The element to be saved.
+     */
+    void delete(CnaTreeElement element);
+
 }
