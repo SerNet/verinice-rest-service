@@ -42,8 +42,16 @@ public class RestElementService implements ElementService {
     ElementService elementService;
 
     /**
+     * This mapping matches requests by uuid, i.e. string of
+     * <ul>
+     *   <li>a block of 8 HEX chars followed by</li>
+     *   <li>3 blocks of 4 HEX chars followed by
+     *   <li>a block of 12 HEX chars.
+     * </ul>
+     * This is the normalized UUID representation.
+     * 
      * @see org.verinice.interfaces.ElementService#loadElement(
-     *  java.lang.String)
+     *      java.lang.String)
      */
     @RequestMapping("/element/{uuid:[a-fA-F\\d]{8}(?:-[a-fA-F\\d]{4}){3}-[a-fA-F\\d]{12}}")
     @Override
