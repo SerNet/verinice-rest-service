@@ -43,23 +43,23 @@ class ElementTest(RestTest):
         self.assertEqual(len(response.json()), 1)
         self.assertEqual(response.json()[0]['properties']['nachname'][0], 'M. Müller')
 
-    def test_get_scope_element(self):
-        self.url = self.url + '/scope/63301/elements'
+    def test_get_scope_elements(self):
+        self.url = self.url + '/scope/63249/elements'
         response = requests.get(self.url, headers=self.headers)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 11)
 
     def test_get_by_uuid(self):
-        self.url = self.url + '/element/4bc1055f-01e0-420d-94de-73bb7739013e'
+        self.url = self.url + '/element/dbd36b1d-ced1-4421-9cc7-fa2708dc0581'
         response = requests.get(self.url, headers=self.headers)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json()['uuid'], '4bc1055f-01e0-420d-94de-73bb7739013e')
+        self.assertEqual(response.json()['uuid'], 'dbd36b1d-ced1-4421-9cc7-fa2708dc0581')
 
     def test_get_by_dbid(self):
-        self.url = self.url + '/element/63371'
+        self.url = self.url + '/element/63291'
         response = requests.get(self.url, headers=self.headers)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json()['uuid'], '4bc1055f-01e0-420d-94de-73bb7739013e')
+        self.assertEqual(response.json()['uuid'], 'dbd36b1d-ced1-4421-9cc7-fa2708dc0581')
 
     def test_get_by_source_and_ext_id(self):
         self.url = self.url + '/elements/source-id/VRC/ext-id/ENTITY_13959583'
