@@ -46,6 +46,8 @@ public class Velement {
 
     private int scopeId;
     
+    private long dbid;
+    
     private Map<String, List<String>> properties;
 
     public Velement() {
@@ -125,6 +127,14 @@ public class Velement {
         this.properties = properties;
     }
     
+    public long getDbid() {
+        return dbid;
+    }
+
+    public void setDbid(long dbid) {
+        this.dbid = dbid;
+    }
+
     public void addProperty(String key, List<String> value) {
         getProperties().put(key, value);
     }

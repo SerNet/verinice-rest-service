@@ -70,6 +70,7 @@ public final class ElementConverter {
         if (dbEntity.getParentId() != null)
             element.setParentId(dbEntity.getParentId());
         element.setSourceId(dbEntity.getSourceId());
+        element.setDbid(dbEntity.getDbid());
 
         return element;
     }

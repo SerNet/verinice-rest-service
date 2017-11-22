@@ -54,12 +54,14 @@ class ElementTest(RestTest):
         response = requests.get(self.url, headers=self.headers)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()['uuid'], 'dbd36b1d-ced1-4421-9cc7-fa2708dc0581')
+        self.assertEqual(response.json()['dbid'], 63291)
 
     def test_get_by_dbid(self):
         self.url = self.url + '/element/63291'
         response = requests.get(self.url, headers=self.headers)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()['uuid'], 'dbd36b1d-ced1-4421-9cc7-fa2708dc0581')
+        self.assertEqual(response.json()['dbid'], 63291)
 
     def test_get_by_source_and_ext_id(self):
         self.url = self.url + '/elements/source-id/VRC/ext-id/ENTITY_13959583'

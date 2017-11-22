@@ -27,6 +27,7 @@ Required:
 ```json
 {
   "uuid": "f35b982c-8ad4-4515-96ee-df5fdd4247b9",
+  "dbid": 123,
   "type": "asset",
   "title": "Asset (Kopie 4)  (Kopie 2) ",
   "sourceId": null,
@@ -62,6 +63,7 @@ Required:
 ```json
 {
   "uuid": "f35b982c-8ad4-4515-96ee-df5fdd4247b9",
+  "dbid": 123,
   "type": "asset",
   "title": "Asset (Kopie 4)  (Kopie 2) ",
   "sourceId": null,
@@ -100,17 +102,18 @@ Required:
 * Content (If an element with the given source-id and ext-id exists):
 ```json
 {
- "uuid": "f35b982c-8ad4-4515-96ee-df5fdd4247b9",
- "type": "asset",
- "title": "Kundenverwaltungssoftware",
- "srcId": "SerNet-verinice.PRO-4",
- "extId": "entity-34523",
- "parentId": "35675",
- "scopeId": "23567",
- "properties": {
-   "asset_value_method_availability": ["1"],
-   "asset_name": ["Kundenverwaltungssoftware"],
- }
+  "uuid": "f35b982c-8ad4-4515-96ee-df5fdd4247b9",
+  "dbid": 123,
+  "type": "asset",
+  "title": "Kundenverwaltungssoftware",
+  "srcId": "SerNet-verinice.PRO-4",
+  "extId": "entity-34523",
+  "parentId": "35675",
+  "scopeId": "23567",
+  "properties": {
+    "asset_value_method_availability": ["1"],
+    "asset_name": ["Kundenverwaltungssoftware"],
+  }
 }
 ```
 
@@ -156,6 +159,7 @@ Optional:
 ```json
 [{
   "uuid": "bbca9b32-2fa7-4939-87fc-a3c046bcb510",
+  "dbid": 123,
   "type": "response_group",
   "title": "Reaktionen",
   "sourceId": null,
@@ -169,6 +173,7 @@ Optional:
 },
 {
   "uuid": "f59f1d6c-45ca-435e-a666-b8668969f0e0",
+  "dbid": 123,
   "type": "asset",
   "title": "Asset (Kopie 1)  (Kopie 3)  (Kopie 2) ",
   "sourceId": null,
