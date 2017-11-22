@@ -98,3 +98,9 @@ password. Encrypt the password via `mvn -emp`.
 Substitute `oracle-account-username` with the user name of your Oracle account
 and `oracle-account-password` with an encrypted version of your Oracle account
 password. Use `mvn -ep` to encrypt it.
+
+### Test
+Integration tests are written in python using [Requests][]
+and standard python [unittest](https://docs.python.org/3/library/unittest.html).
+
+[Requesets]: http://docs.python-requests.org/en/latest/ "Requests: HTTP for Humans"

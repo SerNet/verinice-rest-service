@@ -1,0 +1,36 @@
+#!/bin/sh
+
+BASEDIR=$(dirname "$0")
+
+VERINICEDB=${VERINICEDB:-verinicedb_test}
+VERINICEUSER=${VERINICEUSER:-verinice}
+VERINICEUSER=${VERINICEUSER:-verinice}
+VERINICEDUMP=${VERINICEDUMP:-$BASEDIR/verinice-rest/src/test/resources/test-dump.sql}
+SPRINGDELAY=${SPRINGDELAY:-10}
+
+# refresh the verinice database
+if ! (psql -qd postgres -c "DROP DATABASE IF EXISTS $VERINICEDB" \
+	&& createdb -O $VERINICEUSER $VERINICEDB \
+	&& psql -qd $VERINICEDB -f $VERINICEDUMP > /dev/null)
+then
+	echo "Unable to clean up database $VERINICEDB."
+	exit 1
+fi
+
+# change the database connection string for spring
+mv $BASEDIR/verinice-rest/src/main/resources/application.properties $BASEDIR/verinice-rest/target/classes/application.properties.old
+sed "/^spring\.datasource\.url.*$/s/[^/]*$/$VERINICEDB/;\
+	/^spring\.datasource\.username.*$/s/[^/]*$/$VERINICEUSER/;\
+	/^spring\.datasource\.password.*$/s/[^/]*$/$VERINICEPASSWORD/;" \
+	$BASEDIR/verinice-rest/target/classes/application.properties.old \
+	> $BASEDIR/verinice-rest/src/main/resources/application.properties
+
+mvn -f $BASEDIR/verinice-rest spring-boot:run &
+spring_pid=$!
+
+sleep $SPRINGDELAY
+python $BASEDIR/verinice-rest/src/test/python/api_test.py
+
+## clean up
+kill $spring_pid
+mv $BASEDIR/verinice-rest/target/classes/application.properties.old $BASEDIR/verinice-rest/src/main/resources/application.properties
