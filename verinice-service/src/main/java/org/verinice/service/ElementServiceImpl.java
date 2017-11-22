@@ -54,7 +54,16 @@ public class ElementServiceImpl implements ElementService {
         CnaTreeElement entityElement = dao.findByUuid(uuid);
         return ElementConverter.elementForEntity(entityElement);
     }
-    
+
+    @Override
+    public Velement loadElement(Long dbid) {
+        if (dbid == null) {
+            throw new IllegalArgumentException("dbid must not be null");
+        }
+        CnaTreeElement entityElement = dao.findByDbid(dbid);
+        return ElementConverter.elementForEntity(entityElement);
+    }
+
     @Override
     public Velement loadElement(String sourceId, String extId) {
         if(sourceId==null) {
