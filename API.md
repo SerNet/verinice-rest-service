@@ -49,8 +49,8 @@ Required:
 
 #### URL
 
-* ``/element/{dbid:\d+}``
-* Example: ``/element/700``
+* `/element/{dbid:\d+}`
+* Example: `/element/700`
 
 #### URL Params
 Required:
@@ -81,6 +81,42 @@ Required:
 }
 ```
 
+### Load children of element
+
+Load all (up to paging maximum) children of an element.
+
+#### URL
+* `/element/{dbid:\d+}/children`
+
+#### Method
+`GET`
+
+#### URL Params
+Required:
+* `dbid=[integer]`
+
+Optional:
+* `key=[string]`
+* Example: `key=asset_value_method_availability`
+* Hint: %25 (URL Encoding for %) is a place holder for any string (e.g. `key=%25asset%25`)
+
+
+* `value=[string]`
+* Example: `value=1`
+* Hint: %25 (URL Encoding for %) is a place holder for any string (e.g. `value=%25asset%25`)
+
+
+* `size=[integer]`
+* Default: 500, adaptable through property
+
+
+* `firstResult=[integer]`
+* Default: 0, adaptable through property
+
+#### Success Response
+* Code: `200`
+* Content: See chapter _Load elements of scope_
+
 ### Load element by source-id and ext-id
 
 #### URL
@@ -89,6 +125,7 @@ Required:
 * Example: ``/elements/source-id/SerNet-verinice.PRO-4/ext-id/entity-34523``
 
 #### URL Params
+
 Required:
 * source-id/[string]
 * Example: source-id/SerNet-verinice.PRO-4
@@ -229,7 +266,7 @@ Optional:
 
 #### Success Response:
 * Code: ``200``
-* Content: See capter _Load elements of scope_
+* Content: See chapter _Load elements of scope_
 
 #### Error Response:
 * Code: ``401 UNAUTHORIZED``
