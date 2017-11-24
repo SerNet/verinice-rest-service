@@ -101,6 +101,29 @@ password. Use `mvn -ep` to encrypt it.
 
 ### Test
 Integration tests are written in python using [Requests][]
-and standard python [unittest](https://docs.python.org/3/library/unittest.html).
+and standard python [unittest][py-unittest].
 
-[Requesets]: http://docs.python-requests.org/en/latest/ "Requests: HTTP for Humans"
+Since no maven plugin has been found wich could start spring-boot and run the
+test against a custom database a shell script has been written to batch several
+steps. To run the integration tests execute
+
+```sh
+./integration-test
+```
+
+The script uses the following variables
+
+- `VERINICEDB` The database name to connect to at localhost.
+- `VERINICEUSER` The user which spring should use for the database. Has to exists.
+- `VERINICEPASSWORD` The password for the database `$VERINICEUSER`.
+- `VERINICEDUMP` The location to a database dumb which shall be used to recreate the `$VERINICEDB`.
+- `SPRINGDELAY`  Time to sleep before running the tests to give spring time to boot.
+
+i.e. to run the test against a custom database with a special user run
+
+```sh
+VERINICEDB=databasename VERINICEUSER=user VERINICEPASSWORD=password ./integration-test
+```
+
+[Requests]: http://docs.python-requests.org/en/latest/ "Requests: HTTP for Humans"
+[py-unittest]: https://docs.python.org/3/library/unittest.html "unittest in python"
