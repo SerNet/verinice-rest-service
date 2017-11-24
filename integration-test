@@ -4,7 +4,7 @@ BASEDIR=$(dirname "$0")
 
 VERINICEDB=${VERINICEDB:-verinicedb_test}
 VERINICEUSER=${VERINICEUSER:-verinice}
-VERINICEUSER=${VERINICEUSER:-verinice}
+VERINICEPASSWORD=${VERINICEPASSWORD:-verinice}
 VERINICEDUMP=${VERINICEDUMP:-$BASEDIR/verinice-rest/src/test/resources/test-dump.sql}
 SPRINGDELAY=${SPRINGDELAY:-10}
 
