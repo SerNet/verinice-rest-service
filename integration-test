@@ -20,8 +20,8 @@ fi
 # change the database connection string for spring
 mv $BASEDIR/verinice-rest/src/main/resources/application.properties $BASEDIR/verinice-rest/target/classes/application.properties.old
 sed "/^spring\.datasource\.url.*$/s/[^/]*$/$VERINICEDB/;\
-	/^spring\.datasource\.username.*$/s/[^/]*$/$VERINICEUSER/;\
-	/^spring\.datasource\.password.*$/s/[^/]*$/$VERINICEPASSWORD/;" \
+	/^spring\.datasource\.username.*$/s/[^=]*$/$VERINICEUSER/;\
+	/^spring\.datasource\.password.*$/s/[^=]*$/$VERINICEPASSWORD/;" \
 	$BASEDIR/verinice-rest/target/classes/application.properties.old \
 	> $BASEDIR/verinice-rest/src/main/resources/application.properties
 
@@ -29,7 +29,7 @@ mvn -f $BASEDIR/verinice-rest spring-boot:run &
 spring_pid=$!
 
 sleep $SPRINGDELAY
-python $BASEDIR/verinice-rest/src/test/python/api_test.py
+python3 $BASEDIR/verinice-rest/src/test/python/api_test.py
 
 ## clean up
 kill $spring_pid

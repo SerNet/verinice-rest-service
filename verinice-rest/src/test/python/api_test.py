@@ -1,3 +1,5 @@
+# coding=UTF8
+
 import unittest
 import requests
 
