@@ -110,4 +110,15 @@ public class RestElementService implements ElementService {
             @RequestParam(required = false) Integer firstResult) {
         return elementService.loadElementsOfScope(scopeId, key, value, size, firstResult);
     }
+
+    @Override
+    @RequestMapping(value = "/element/{parentId:\\d+}/children")
+    public Set<Velement> loadChildren(
+            @PathVariable(value = "parentId") Long parentId,
+            @RequestParam(required = false) String key,
+            @RequestParam(required = false) String value,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) Integer firstResult) {
+        return elementService.loadChildren(parentId, key, value, size, firstResult);
+    }
 }

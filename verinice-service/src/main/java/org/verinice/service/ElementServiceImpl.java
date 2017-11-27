@@ -19,6 +19,8 @@
  */
 package org.verinice.service;
 
+import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,12 +28,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
+import org.verinice.persistence.CnaTreeElementDao;
 import org.verinice.persistence.entities.CnaTreeElement;
 import org.verinice.persistence.entities.ElementConverter;
-
-import java.util.List;
-import java.util.Set;
-import org.verinice.persistence.CnaTreeElementDao;
 
 /**
  * Implementation of the element service which uses a {@link CnaTreeElementDao}.
@@ -48,7 +47,7 @@ public class ElementServiceImpl implements ElementService {
 
     @Override
     public Velement loadElement(String uuid) {
-        if(uuid==null) {
+        if (uuid == null) {
             throw new IllegalArgumentException("Uuid must not be null");
         }
         CnaTreeElement entityElement = dao.findByUuid(uuid);
@@ -66,10 +65,10 @@ public class ElementServiceImpl implements ElementService {
 
     @Override
     public Velement loadElement(String sourceId, String extId) {
-        if(sourceId==null) {
+        if (sourceId == null) {
             throw new IllegalArgumentException("Source id must not be null");
         }
-        if(extId==null) {
+        if (extId == null) {
             throw new IllegalArgumentException("Ext id must not be null");
         }
         CnaTreeElement entityElement = dao.findBySourceIdAndExtId(sourceId, extId);
@@ -79,15 +78,28 @@ public class ElementServiceImpl implements ElementService {
     @Override
     public Set<Velement> loadElements(String key, String value, Integer size, Integer firstResult) {
         LOG.debug("Key: %s, value %s, size %d, first result %d", key, value, size, firstResult);
-        List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(null, key, value, size, firstResult);
+        List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(null, key, value, size,
+                firstResult);
         return ElementConverter.elementsForEntitys(dbElements);
     }
 
     @Override
-    public Set<Velement> loadElementsOfScope(Integer scopeId, String key, String value, Integer size, Integer firstResult) {
-        LOG.debug("Scope id: %d, Key: %s, value %s, size %d, first result %d", key, value, size , firstResult);
-        List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(scopeId, key, 
+    public Set<Velement> loadElementsOfScope(Integer scopeId, String key, String value,
+            Integer size, Integer firstResult) {
+        LOG.debug("Scope id: %d, Key: %s, value %s, size %d, first result %d", key, value, size,
+                firstResult);
+        List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(scopeId, key, value, size,
+                firstResult);
+        return ElementConverter.elementsForEntitys(dbElements);
+    }
+
+    @Override
+    public Set<Velement> loadChildren(Long parentId, String key, String value, Integer size,
+            Integer firstResult) {
+        LOG.debug("Parent dbid: %d, Key: %s, value %s, size %d, first result %d", parentId, key,
                 value, size, firstResult);
+        List<CnaTreeElement> dbElements = dao.findByParentId(parentId, key, value, size,
+                firstResult);
         return ElementConverter.elementsForEntitys(dbElements);
     }
 }

@@ -67,6 +67,20 @@ public interface ElementService {
     public Set<Velement> loadElements(String key, String value, Integer size, Integer firstResult);
 
     /**
+     * @param parentId the database ID of the parent.
+     * @param key A property key / id from SNCA.xml that need to exist. % can be
+     *  used as a placeholder
+     * @param value A propertyValue that need to exist. % can be used as a
+     *  placeholder.
+     * @param size The number of objects to be retrieved from database. If null
+     *  or < 1 a default limit is used.
+     * @param firstResult The index of the first result to be retrieved if null
+     * or < 0 firstResult is 0
+     * @return All elements in database based on the restricting parameters
+     */
+    public Set<Velement> loadChildren(Long parentId, String key, String value, Integer size, Integer firstResult);
+
+    /**
      * @param scopeId The database id of a scope. May be null.
      * @param key A property key / id from SNCA.xml that need to exist. % can be
      *  used as a placeholder

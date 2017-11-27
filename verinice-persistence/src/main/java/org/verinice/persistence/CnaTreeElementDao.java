@@ -71,4 +71,22 @@ public interface CnaTreeElementDao {
      */
     List<CnaTreeElement> findByScopeKeyValue(Integer scopeId, String key, String value, Integer size, Integer firstResult);
 
+    /**
+     * Finds CnaTreeElements by the given search parameters. Result size is
+     * configurable by size and a first returned element.
+     *
+     * @param parentId The database id of the parent.
+     * @param key The key / id of a property as defined in SNCA.xml. May be null.
+     * @param value The value of a property. % can be used as a placeholder. May
+     *  be null.
+     * @param size The maximum number of elements which are returned from the
+     *  result. May be null.
+     * @param firstResult The index of the first element which is returned from
+     *  the result. May be null.
+     * @return A list of CnaTreeElements. If no element is found an empty list
+     *  is returned (never null).
+     */
+    List<CnaTreeElement> findByParentId(Long parentId, String key, String value, Integer size,
+            Integer firstResult);
+
 }
