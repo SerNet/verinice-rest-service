@@ -78,14 +78,14 @@ public class ElementServiceImpl implements ElementService {
 
     @Override
     public Set<Velement> loadElements(String key, String value, Integer size, Integer firstResult) {
-        LOG.debug("Key: " + key + ", value: " + value + ", size: " + size + ", first result: " + firstResult);
+        LOG.debug("Key: %s, value %s, size %d, first result %d", key, value, size, firstResult);
         List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(null, key, value, size, firstResult);
         return ElementConverter.elementsForEntitys(dbElements);
     }
 
     @Override
     public Set<Velement> loadElementsOfScope(Integer scopeId, String key, String value, Integer size, Integer firstResult) {
-        LOG.debug("Scope id: " + scopeId + "Key: " + key + ", value: " + value + ", size: " + size + ", first result: " + firstResult);
+        LOG.debug("Scope id: %d, Key: %s, value %s, size %d, first result %d", key, value, size , firstResult);
         List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(scopeId, key, 
                 value, size, firstResult);
         return ElementConverter.elementsForEntitys(dbElements);

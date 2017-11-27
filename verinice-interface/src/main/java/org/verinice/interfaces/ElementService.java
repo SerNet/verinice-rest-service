@@ -53,10 +53,10 @@ public interface ElementService {
     public Velement loadElement(String sourceId, String extId);
 
     /**
-     * 
+     *
      * @param key A property key / id from SNCA.xml that need to exist. % can be
      *  used as a placeholder
-     * @param value A propertyValue that need to exist. % can be used as a 
+     * @param value A propertyValue that need to exist. % can be used as a
      *  placeholder.
      * @param size The number of objects to be retrieved from database. If null
      *  or < 1 a default limit is used.
