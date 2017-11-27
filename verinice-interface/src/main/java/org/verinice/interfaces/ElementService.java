@@ -60,7 +60,7 @@ public interface ElementService {
      *  placeholder.
      * @param size The number of objects to be retrieved from database. If null
      *  or < 1 a default limit is used.
-     * @param firstResult The index of the first result to be retrieved if null 
+     * @param firstResult The index of the first result to be retrieved if null
      * or < 0 firstResult is 0
      * @return All elements in database based on the restricting parameters
      */
@@ -70,11 +70,11 @@ public interface ElementService {
      * @param scopeId The database id of a scope. May be null.
      * @param key A property key / id from SNCA.xml that need to exist. % can be
      *  used as a placeholder
-     * @param value A propertyValue that need to exist. % can be used as a 
+     * @param value A propertyValue that need to exist. % can be used as a
      *  placeholder.
      * @param size The number of objects to be retrieved from database. If null
      *  or < 1 a default limit is used.
-     * @param firstResult The index of the first result to be retrieved if null 
+     * @param firstResult The index of the first result to be retrieved if null
      * or < 0 firstResult is 0
      * @return All elements in database based on the restricting parameters
      */
