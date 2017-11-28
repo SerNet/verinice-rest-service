@@ -30,8 +30,6 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Service;
@@ -50,8 +48,6 @@ import org.verinice.persistence.entities.PropertyList;
 @Service
 @EnableWebSecurity
 public class CnaTreeElementDaoImpl extends Dao implements CnaTreeElementDao {
-
-    private static final Logger logger = LoggerFactory.getLogger(CnaTreeElementDaoImpl.class);
 
     @Autowired
     CnaTreeElementRepository elementRepository;
@@ -82,7 +78,6 @@ public class CnaTreeElementDaoImpl extends Dao implements CnaTreeElementDao {
         configureResultSize(query, size, firstResult);
 
         List<CnaTreeElement> dbElements = query.getResultList();
-        logger.debug("Result size: " + dbElements.size());
         return dbElements;
     }
 
