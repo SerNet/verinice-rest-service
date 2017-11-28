@@ -102,4 +102,10 @@ public class ElementServiceImpl implements ElementService {
                 firstResult);
         return ElementConverter.elementsForEntitys(dbElements);
     }
+
+    @Override
+    public long insertOrUpdateElement(Velement element) {
+        CnaTreeElement el = ElementConverter.toEntity(element);
+        return dao.insertOrUpdate(el).getDbid();
+    }
 }

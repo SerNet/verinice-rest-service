@@ -119,5 +119,8 @@ public final class ElementConverter {
         }
         return propertyMap;
     }
-    
+
+    public static CnaTreeElement toEntity(Velement element) {
+        return null;
+    }
 }

@@ -39,11 +39,11 @@ import org.verinice.persistence.entities.Property;
 import org.verinice.persistence.entities.PropertyList;
 
 /**
- * Data access object (DAO) implementation for entity CnaTreeElement.
- * This DAO uses JPA API to interact with the database.
+ * Data access object (DAO) implementation for entity CnaTreeElement. This DAO
+ * uses JPA API to interact with the database.
  *
  * @author Ruth Motza {@literal <rm[at]sernet[dot]de>}
- * @author Alexander Ben Nasrallah <an@sernet.de>
+ * @author Alexander Ben Nasrallah {@literal <an@sernet.de>}
  */
 @Service
 @EnableWebSecurity
@@ -120,6 +120,11 @@ public class CnaTreeElementDaoImpl extends Dao implements CnaTreeElementDao {
 
         query.distinct(true);
         return entityManager.createQuery(query);
+    }
+
+    @Override
+    public CnaTreeElement insertOrUpdate(CnaTreeElement el) {
+        return elementRepository.save(el);
     }
 
     public class Criteria {
