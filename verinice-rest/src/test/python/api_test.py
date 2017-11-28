@@ -70,5 +70,13 @@ class ElementTest(RestTest):
         response = requests.get(self.url, headers=self.headers)
         self.assertEqual(response.status_code, 200)
 
+    def test_get_children(self):
+        self.url = self.url + '/element/465/children'
+        response = requests.get(self.url, headers=self.headers)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()[0]['parentId'], 465)
+        self.assertEqual(response.json()[0]['properties']['person-iso_surname'][0], 'Musterfrau')
+        self.assertEqual(response.json()[0]['properties']['person-iso_name'][0], 'Maria')
+
 if __name__ == '__main__':
     unittest.main()
