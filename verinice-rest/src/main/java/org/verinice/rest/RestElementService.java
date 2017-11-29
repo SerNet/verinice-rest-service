@@ -49,18 +49,13 @@ public class RestElementService {
 
     /**
      * This mapping matches requests by UUID, i.e. string of
-     * <ul>
-     *   <li>a block of 8 HEX chars followed by</li>
-     *   <li>3 blocks of 4 HEX chars followed by
-     *   <li>a block of 12 HEX chars.
-     * </ul>
+     * - a block of 8 HEX chars followed by
+     * - 3 blocks of 4 HEX chars followed by
+     * - a block of 12 HEX chars.
      * This is the normalized UUID representation.
-     * <p>
+     *
      * This is the only API which uses the UUID of an element. Every other API
      * requires the database id which can be obtained by this API.
-     *
-     * @see org.verinice.interfaces.ElementService#loadElement(
-     *      java.lang.String)
      */
     @RequestMapping("/element/{uuid:[a-fA-F\\d]{8}(?:-[a-fA-F\\d]{4}){3}-[a-fA-F\\d]{12}}")
     public Velement loadElement(@PathVariable("uuid")  String uuid) {
