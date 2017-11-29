@@ -24,6 +24,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -121,7 +122,7 @@ public class RestElementService {
     }
 
     @RequestMapping(value = "/elements", method = RequestMethod.POST)
-    public void insertOrUpdateElement(@RequestBody Velement element, HttpServletRequest request,
+    public void insertOrUpdateElement(@Valid @RequestBody Velement element, HttpServletRequest request,
             HttpServletResponse response) {
         String requestedHostAddress = request.getRequestURL().toString()
                 .replace(request.getRequestURI(), "");
