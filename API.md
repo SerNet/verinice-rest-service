@@ -9,12 +9,15 @@ article means _CnATreeElement_.
 
 * ``/element/{uuid:[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}}``
 * Example: ``/element/f35b982c-8ad4-4515-96ee-df5fdd4247b9``
-* Notes: The regular expression matches a string of
+* The regular expression matches a string of
 	* a block of 8 HEX chars followed by
 	* 3 blocks of 4 HEX chars followed by
 	* a block of 12 HEX chars.
 
 	This is the normalized UUID representation.
+
+	This is the only API which uses the UUID of an element. Every other API
+	requires the database id which can be obtained by this API.
 
 #### URL Params
 Required:
@@ -271,3 +274,32 @@ Optional:
 #### Error Response:
 * Code: ``401 UNAUTHORIZED``
 * Content: ``{ error : "Log in" }``
+
+### Upload an element
+Upload an element. The elements will be inserted or updated depending on the given
+`.dbid`. If the `dbid` is `0` the element will be added updated otherwise.
+
+**Note** that the `uuid` is updated as well.
+
+#### URL
+* `/elements`
+
+#### Method:
+`POST`
+
+#### Request body
+* Content: See chapter _Load elements of scope_
+
+#### Success Response:
+* Code: `200`
+* Content: `NONE`
+* Header
+	* Location: A URL of the uploaded element.
+
+#### Error Response:
+* Missing/Wrong credentials
+	* Code: `401 UNAUTHORIZED`
+	* Content: `{ error : "Log in" }`
+* Invalid UUID
+	* Code: `400 BAD REQUEST`
+	* Content: Not yet specified
