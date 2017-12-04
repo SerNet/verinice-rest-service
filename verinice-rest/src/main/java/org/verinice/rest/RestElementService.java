@@ -131,7 +131,7 @@ public class RestElementService {
             response.setStatus(HttpServletResponse.SC_CREATED);
         }
 
-        String savedElementLocation = String.format("%s/element/%d", requestedHostAddress, element.getDbid());
+        String savedElementLocation = String.format("%s/element/%d", requestedHostAddress, savedDbid);
         response.setHeader("Location", savedElementLocation);
     }
 }

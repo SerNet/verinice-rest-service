@@ -23,15 +23,7 @@ package org.verinice.persistence.entities;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Entity class for table propertylist.
@@ -52,7 +44,8 @@ public class PropertyList implements Serializable {
     @Column(name = "uuid", nullable = false)
     private String uuid;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "propertyList")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "propertyList", orphanRemoval = true, cascade = CascadeType.ALL)
+    @MapKey(name="propertiesIdx")
     private Set<Property> properties;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -62,7 +55,7 @@ public class PropertyList implements Serializable {
     @Column(name = "typedlist_id", insertable=false, updatable=false)
     private long typedlistId;
 
-    @Column(name = "list_idx", insertable=false, updatable=false)
+    @Column(name = "list_idx")
     private String listIdx;
 
     public long getDbid() {
@@ -95,6 +88,22 @@ public class PropertyList implements Serializable {
 
     public void setEntity(Entity entity) {
         this.entity = entity;
+    }
+
+    public long getTypedlistId() {
+        return typedlistId;
+    }
+
+    public void setTypedlistId(long typedlistId) {
+        this.typedlistId = typedlistId;
+    }
+
+    public String getListIdx() {
+        return listIdx;
+    }
+
+    public void setListIdx(String listIdx) {
+        this.listIdx = listIdx;
     }
 
     @Override

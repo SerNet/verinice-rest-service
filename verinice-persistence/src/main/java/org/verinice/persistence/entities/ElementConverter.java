@@ -19,12 +19,7 @@
  */
 package org.verinice.persistence.entities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,9 +72,9 @@ public final class ElementConverter {
 
     public static Set<Velement> elementsForEntitys(Iterable<CnaTreeElement> dbEntities) {
 
-        HashSet<Velement> velements = new HashSet<>();
-        dbEntities.forEach(dbentity -> velements.add(elementForEntity(dbentity)));
-        return velements;
+        HashSet<Velement> elements = new HashSet<>();
+        dbEntities.forEach(dbEntity -> elements.add(elementForEntity(dbEntity)));
+        return elements;
     }
 
     private static String getTitle(Velement element, CnaTreeElement dbEntity) {
@@ -93,7 +88,6 @@ public final class ElementConverter {
                     return element.getProperties().get(key).iterator().next();
                 }
             }
-
         }
         return null;
     }
@@ -102,7 +96,7 @@ public final class ElementConverter {
         Map<String, List<String>> propertyMap = new HashMap<>();
         if (dbEntity.getEntity() != null && dbEntity.getEntity().getPropertyLists() != null) {
 
-        dbEntity.getEntity().getPropertyLists().forEach(propertyList -> {
+        dbEntity.getEntity().getPropertyLists().forEach((listIdx, propertyList) -> {
             Set<Property> properties = propertyList.getProperties();
             if (properties != null) {
                     List<String> values = new ArrayList<>();
@@ -112,7 +106,6 @@ public final class ElementConverter {
 
             } else {
                 LOG.error("properties are null for propertyList : " + propertyList.getUuid());
-
             }
         });
 
@@ -121,6 +114,51 @@ public final class ElementConverter {
     }
 
     public static CnaTreeElement toEntity(Velement element) {
-        return null;
+        if (element == null) {
+            return null;
+        }
+        CnaTreeElement entity = new CnaTreeElement();
+        entity.setDbid(element.getDbid());
+        entity.setEntity(convertPropertyLists(element));
+        entity.setExtId(element.getExtId());
+        entity.setParentId(element.getParentId());
+        entity.setScopeId(element.getScopeId());
+        entity.setSourceId(element.getSourceId());
+        entity.setType(element.getType());
+        entity.setUuid(element.getUuid());
+
+        return entity;
+    }
+
+    private static Entity convertPropertyLists(Velement element) {
+        Entity entity = new Entity();
+        entity.setUuid(UUID.randomUUID().toString());
+        entity.setEntitytype(element.getType());
+        entity.setPropertyLists(new HashMap<>(element.getProperties().size()));
+
+        for (Map.Entry<String, List<String>> entry : element.getProperties().entrySet()) {
+            PropertyList propertyList = newPropertyList(entry.getValue(), entry.getKey());
+            propertyList.setListIdx(entry.getKey());
+            propertyList.setUuid(UUID.randomUUID().toString());
+            propertyList.setEntity(entity);
+            entity.getPropertyLists().put(UUID.randomUUID().toString(), propertyList);
+        }
+        return entity;
+    }
+
+    private static PropertyList newPropertyList(List<String> propertyValues, String propertyType) {
+        PropertyList list = new PropertyList();
+        list.setProperties(new HashSet<>(propertyValues.size()));
+
+        int index = 0;
+        for (String value : propertyValues) {
+            Property property = new Property();
+            property.setPropertyvalue(value);
+            property.setPropertiesIdx(index++);
+            property.setPropertytype(propertyType);
+            property.setPropertyList(list);
+            list.getProperties().add(property);
+        }
+        return list;
     }
 }
