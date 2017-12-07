@@ -48,7 +48,7 @@ public class Entity implements Serializable {
     @Column(name = "entitytype")
     private String entitytype;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "entity", cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "entity", cascade = {CascadeType.ALL}, orphanRemoval = true)
     @MapKey(name="listIdx")
     private Map<String, PropertyList> propertyLists;
 

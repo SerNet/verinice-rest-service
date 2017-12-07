@@ -44,8 +44,7 @@ public class PropertyList implements Serializable {
     @Column(name = "uuid", nullable = false)
     private String uuid;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "propertyList", orphanRemoval = true, cascade = CascadeType.ALL)
-    @MapKey(name="propertiesIdx")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "propertyList", cascade = CascadeType.ALL)
     private Set<Property> properties;
 
     @ManyToOne(fetch = FetchType.EAGER)
