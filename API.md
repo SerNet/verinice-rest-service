@@ -291,8 +291,12 @@ Upload an element. The elements will be inserted or updated depending on the giv
 * Content: See chapter _Load elements of scope_
 
 #### Success Response:
-* Code: `200`
-* Content: `NONE`
+* Code: `200` if the element was successfully updated
+	`201` if the element was successfully created
+* Content: The created element. Basicly the same as the request content
+	but with dbid set.
+
+	See chapter _Load elements of scope_
 * Header
 	* Location: A URL of the uploaded element.
 
