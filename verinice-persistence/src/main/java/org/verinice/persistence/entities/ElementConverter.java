@@ -37,10 +37,9 @@ import java.util.*;
 public final class ElementConverter {
 
     private static final Logger LOG = LoggerFactory.getLogger(ElementConverter.class);
-
     private static Map<String, String> specialNamePropertyTypes = new HashMap<>();
 
-    static{
+    static {
         specialNamePropertyTypes.put("gefaehrdungs-umsetzung", "gefaehrdungsumsetzung_titel");
     }
     
