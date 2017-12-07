@@ -84,7 +84,7 @@ public class ElementServiceImpl implements ElementService {
         LOG.debug("Key: %s, value %s, size %d, first result %d", key, value, size, firstResult);
         List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(null, key, value, size,
                 firstResult);
-        return ElementConverter.elementsForEntitys(dbElements);
+        return ElementConverter.elementsForEntities(dbElements);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ElementServiceImpl implements ElementService {
                 firstResult);
         List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(scopeId, key, value, size,
                 firstResult);
-        return ElementConverter.elementsForEntitys(dbElements);
+        return ElementConverter.elementsForEntities(dbElements);
     }
 
     @Override
@@ -104,7 +104,7 @@ public class ElementServiceImpl implements ElementService {
                 value, size, firstResult);
         List<CnaTreeElement> dbElements = dao.findByParentId(parentId, key, value, size,
                 firstResult);
-        return ElementConverter.elementsForEntitys(dbElements);
+        return ElementConverter.elementsForEntities(dbElements);
     }
 
     @Override

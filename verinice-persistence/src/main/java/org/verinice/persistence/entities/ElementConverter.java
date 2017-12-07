@@ -70,7 +70,7 @@ public final class ElementConverter {
         return element;
     }
 
-    public static Set<Velement> elementsForEntitys(Iterable<CnaTreeElement> dbEntities) {
+    public static Set<Velement> elementsForEntities(Iterable<CnaTreeElement> dbEntities) {
 
         HashSet<Velement> elements = new HashSet<>();
         dbEntities.forEach(dbEntity -> elements.add(elementForEntity(dbEntity)));
