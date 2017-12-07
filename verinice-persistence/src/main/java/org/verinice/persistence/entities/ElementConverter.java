@@ -16,14 +16,15 @@
  * 
  * Contributors:
  *  Daniel Murygin - initial API and implementation
+ *  Alexander Ben Nasrallah - contributor
  */
 package org.verinice.persistence.entities;
-
-import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.verinice.model.Velement;
+
+import java.util.*;
 
 /**
  * This class provides methods to convert an instance of one class to an 
@@ -113,28 +114,45 @@ public final class ElementConverter {
         return propertyMap;
     }
 
-    public static CnaTreeElement toEntity(Velement element) {
-        if (element == null) {
-            return null;
-        }
-        CnaTreeElement entity = new CnaTreeElement();
-        entity.setDbid(element.getDbid());
-        entity.setEntity(convertPropertyLists(element));
-        entity.setExtId(element.getExtId());
-        entity.setParentId(element.getParentId());
-        entity.setScopeId(element.getScopeId());
-        entity.setSourceId(element.getSourceId());
-        entity.setType(element.getType());
-        entity.setUuid(element.getUuid());
-
-        return entity;
+    /**
+     * Calls {@link #elementToEntity(Velement, Entity)} with {@link Entity} = null.
+     */
+    public static CnaTreeElement elementToEntity(Velement element) {
+        return elementToEntity(element, null);
     }
 
-    private static Entity convertPropertyLists(Velement element) {
-        Entity entity = new Entity();
+    /**
+     * @param velement The data source for the new {@link CnaTreeElement}
+     * @param entityEntity The given {@link Entity} is updated with values from velement
+     *                     and attached to the {@link CnaTreeElement}.
+     *                     A new {@link Entity} is initialized if null is passed.
+     * @return A {@link CnaTreeElement} with values from {@link Velement}.
+     */
+    public static CnaTreeElement elementToEntity(Velement velement, Entity entityEntity) {
+        if (velement == null) {
+            return null;
+        }
+        CnaTreeElement element = new CnaTreeElement();
+        element.setDbid(velement.getDbid());
+        element.setEntity(entityToEntity(velement, entityEntity));
+        element.setExtId(velement.getExtId());
+        element.setParentId(velement.getParentId());
+        element.setScopeId(velement.getScopeId());
+        element.setSourceId(velement.getSourceId());
+        element.setType(velement.getType());
+        element.setUuid(velement.getUuid());
+        return element;
+    }
+
+    private static Entity entityToEntity(Velement element, Entity entity) {
+        if (entity == null) {
+            entity = new Entity();
+            entity.setPropertyLists(new HashMap<>(element.getProperties().size()));
+        } else {
+            entity.getPropertyLists().clear();
+        }
         entity.setUuid(UUID.randomUUID().toString());
         entity.setEntitytype(element.getType());
-        entity.setPropertyLists(new HashMap<>(element.getProperties().size()));
 
         for (Map.Entry<String, List<String>> entry : element.getProperties().entrySet()) {
             PropertyList propertyList = newPropertyList(entry.getValue(), entry.getKey());
@@ -150,6 +168,7 @@ public final class ElementConverter {
         PropertyList list = new PropertyList();
         list.setProperties(new HashSet<>(propertyValues.size()));
 
+        // The index is required due to classic verinice storing properties as List.
         int index = 0;
         for (String value : propertyValues) {
             Property property = new Property();

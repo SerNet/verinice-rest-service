@@ -29,8 +29,10 @@ import org.springframework.stereotype.Service;
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
 import org.verinice.persistence.CnaTreeElementDao;
+import org.verinice.persistence.EntityDao;
 import org.verinice.persistence.entities.CnaTreeElement;
 import org.verinice.persistence.entities.ElementConverter;
+import org.verinice.persistence.entities.Entity;
 
 /**
  * Implementation of the element service which uses a {@link CnaTreeElementDao}.
@@ -43,7 +45,9 @@ public class ElementServiceImpl implements ElementService {
     private static final Logger LOG = LoggerFactory.getLogger(ElementServiceImpl.class);
 
     @Autowired
-    CnaTreeElementDao dao;
+    private CnaTreeElementDao dao;
+    @Autowired
+    private EntityDao entityDao;
 
     @Override
     public Velement loadElement(String uuid) {
@@ -105,7 +109,14 @@ public class ElementServiceImpl implements ElementService {
 
     @Override
     public long insertOrUpdateElement(Velement element) {
-        CnaTreeElement el = ElementConverter.toEntity(element);
-        return dao.insertOrUpdate(el).getDbid();
+        CnaTreeElement el;
+        if (element.getDbid() == 0) {
+            el = ElementConverter.elementToEntity(element);
+        } else {
+            Entity existingEntity = entityDao.findByElementId(element.getDbid());
+            el = ElementConverter.elementToEntity(element, existingEntity);
+        }
+        CnaTreeElement persistedElement = dao.insertOrUpdate(el);
+        return persistedElement.getDbid();
     }
 }
