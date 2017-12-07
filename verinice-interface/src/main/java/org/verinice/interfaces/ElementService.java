@@ -104,5 +104,5 @@ public interface ElementService {
      *            The element to insert or update.
      * @return The database id of the inserted or updated element.
      */
-    long insertOrUpdateElement(Velement element);
+    Velement insertOrUpdateElement(Velement element);
 }

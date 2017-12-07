@@ -20,33 +20,27 @@
  ******************************************************************************/
 package org.verinice.rest;
 
-import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.verinice.interfaces.ElementService;
+import org.verinice.model.Velement;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.verinice.interfaces.ElementService;
-import org.verinice.model.Velement;
+import java.util.Set;
 
 /**
  * REST implementation of {@link ElementService}.
  *
  * @author Daniel Murygin <dm{a}sernet{dot}de>
- * @author Alexander Ben Nasrallah <an{a}sernet{dot}de>
+ * @author Alexander Ben Nasrallah <an@sernet.de>
  */
 @RestController
 public class RestElementService {
 
     @Autowired
-    ElementService elementService;
+    private ElementService elementService;
 
     /**
      * This mapping matches requests by UUID, i.e. string of
@@ -122,16 +116,17 @@ public class RestElementService {
     }
 
     @RequestMapping(value = "/elements", method = RequestMethod.POST)
-    public void insertOrUpdateElement(@Valid @RequestBody Velement element, HttpServletRequest request,
+    public Velement insertOrUpdateElement(@Valid @RequestBody Velement element, HttpServletRequest request,
             HttpServletResponse response) {
-        String requestedHostAddress = request.getRequestURL().toString()
-                .replace(request.getRequestURI(), "");
-        long savedDbid = elementService.insertOrUpdateElement(element);
-        if (element.getDbid() != savedDbid) {
+        Velement persistedElement = elementService.insertOrUpdateElement(element);
+        long savedDbId = persistedElement.getDbid();
+        if (element.getDbid() != savedDbId) {
             response.setStatus(HttpServletResponse.SC_CREATED);
         }
 
-        String savedElementLocation = String.format("%s/element/%d", requestedHostAddress, savedDbid);
+        String hostAddress = request.getRequestURL().toString().replace(request.getRequestURI(), "");
+        String savedElementLocation = String.format("%s/element/%d", hostAddress, savedDbId);
         response.setHeader("Location", savedElementLocation);
+        return persistedElement;
     }
 }

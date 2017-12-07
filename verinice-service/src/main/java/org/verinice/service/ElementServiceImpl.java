@@ -108,7 +108,7 @@ public class ElementServiceImpl implements ElementService {
     }
 
     @Override
-    public long insertOrUpdateElement(Velement element) {
+    public Velement insertOrUpdateElement(Velement element) {
         CnaTreeElement el;
         if (element.getDbid() == 0) {
             el = ElementConverter.elementToEntity(element);
@@ -117,6 +117,6 @@ public class ElementServiceImpl implements ElementService {
             el = ElementConverter.elementToEntity(element, existingEntity);
         }
         CnaTreeElement persistedElement = dao.insertOrUpdate(el);
-        return persistedElement.getDbid();
+        return ElementConverter.elementForEntity(persistedElement);
     }
 }
