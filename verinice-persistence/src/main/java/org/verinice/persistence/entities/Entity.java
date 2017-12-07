@@ -49,7 +49,7 @@ public class Entity implements Serializable {
     private String entitytype;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "entity", cascade = {CascadeType.ALL}, orphanRemoval = true)
-    @MapKey(name="listIdx")
+    @MapKey(name="propertyType")
     private Map<String, PropertyList> propertyLists;
 
     public long getDbid() {

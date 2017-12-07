@@ -55,7 +55,7 @@ public class PropertyList implements Serializable {
     private long typedlistId;
 
     @Column(name = "list_idx")
-    private String listIdx;
+    private String propertyType;
 
     public long getDbid() {
         return dbid;
@@ -97,12 +97,12 @@ public class PropertyList implements Serializable {
         this.typedlistId = typedlistId;
     }
 
-    public String getListIdx() {
-        return listIdx;
+    public String getPropertyType() {
+        return propertyType;
     }
 
-    public void setListIdx(String listIdx) {
-        this.listIdx = listIdx;
+    public void setPropertyType(String propertyType) {
+        this.propertyType = propertyType;
     }
 
     @Override

@@ -153,9 +153,9 @@ public final class ElementConverter {
         entity.setUuid(UUID.randomUUID().toString());
         entity.setEntitytype(element.getType());
 
-        for (Map.Entry<String, List<String>> entry : element.getProperties().entrySet()) {
-            PropertyList propertyList = newPropertyList(entry.getValue(), entry.getKey());
-            propertyList.setListIdx(entry.getKey());
+        for (Map.Entry<String, List<String>> keyToValuesMap : element.getProperties().entrySet()) {
+            PropertyList propertyList = newPropertyList(keyToValuesMap.getValue(), keyToValuesMap.getKey());
+            propertyList.setPropertyType(keyToValuesMap.getKey());
             propertyList.setUuid(UUID.randomUUID().toString());
             propertyList.setEntity(entity);
             entity.getPropertyLists().put(UUID.randomUUID().toString(), propertyList);
