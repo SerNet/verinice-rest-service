@@ -116,17 +116,29 @@ public class RestElementService {
     }
 
     @RequestMapping(value = "/elements", method = RequestMethod.POST)
-    public Velement insertOrUpdateElement(@Valid @RequestBody Velement element, HttpServletRequest request,
+    public Velement insertElement(@Valid @RequestBody Velement element, HttpServletRequest request,
             HttpServletResponse response) {
+        // Make sure the element is treated as new
+        element.setDbid(0);
         Velement persistedElement = elementService.insertOrUpdateElement(element);
-        long savedDbId = persistedElement.getDbid();
-        if (element.getDbid() != savedDbId) {
-            response.setStatus(HttpServletResponse.SC_CREATED);
-        }
 
+        response.setStatus(HttpServletResponse.SC_CREATED);
         String hostAddress = request.getRequestURL().toString().replace(request.getRequestURI(), "");
-        String savedElementLocation = String.format("%s/element/%d", hostAddress, savedDbId);
+        String savedElementLocation = String.format("%s/element/%d", hostAddress, persistedElement.getDbid());
         response.setHeader("Location", savedElementLocation);
         return persistedElement;
+    }
+
+    @RequestMapping(value = "/element/{dbid:\\d+}", method = RequestMethod.PUT)
+    public void updateElement(
+            @PathVariable(value = "dbid") Long dbid,
+            @Valid @RequestBody Velement element,
+            HttpServletResponse response) {
+        if (dbid == 0) {
+            throw new IllegalArgumentException("The dbid of an existing element cannot be 0.");
+        }
+        element.setDbid(dbid);
+        Velement persistedElement = elementService.insertOrUpdateElement(element);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 }

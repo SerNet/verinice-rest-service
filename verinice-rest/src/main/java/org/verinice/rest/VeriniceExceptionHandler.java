@@ -13,9 +13,15 @@ import javax.persistence.NoResultException;
 
 @ControllerAdvice
 public class VeriniceExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler({ DataIntegrityViolationException.class, NoResultException.class })
-    protected ResponseEntity<Object> handleException(RuntimeException ex, WebRequest request) {
+    @ExceptionHandler({ DataIntegrityViolationException.class, IllegalArgumentException.class })
+    protected ResponseEntity<Object> handleBadRegquestException(RuntimeException ex, WebRequest request) {
         String bodyOfResponse = "This should be application specific";
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler({ NoResultException.class })
+    protected ResponseEntity<Object> handleNotFoundException(RuntimeException ex, WebRequest request) {
+        String bodyOfResponse = "This should be application specific";
+        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 }

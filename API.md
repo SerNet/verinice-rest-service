@@ -275,11 +275,10 @@ Optional:
 * Code: ``401 UNAUTHORIZED``
 * Content: ``{ error : "Log in" }``
 
-### Upload an element
-Upload an element. The elements will be inserted or updated depending on the given
-`.dbid`. If the `dbid` is `0` the element will be added updated otherwise.
+### Create an element
+Create an element.
 
-**Note** that the `uuid` is updated as well.
+**Note** that the `uuid` has to be valid.
 
 #### URL
 * `/elements`
@@ -290,15 +289,47 @@ Upload an element. The elements will be inserted or updated depending on the giv
 #### Request body
 * Content: See chapter _Load elements of scope_
 
+	The dbid is ignored.
+
 #### Success Response:
-* Code: `200` if the element was successfully updated
-	`201` if the element was successfully created
-* Content: The created element. Basicly the same as the request content
+* Code: `201` if the element was successfully created
+* Content: The created element. Basically the same as the request content
 	but with dbid set.
 
 	See chapter _Load elements of scope_
 * Header
 	* Location: A URL of the uploaded element.
+
+#### Error Response:
+* Missing/Wrong credentials
+	* Code: `401 UNAUTHORIZED`
+	* Content: `{ error : "Log in" }`
+* Invalid UUID
+	* Code: `400 BAD REQUEST`
+	* Content: Not yet specified
+
+### Update an element
+Updated the element with the dbid specified in the URL. The dbid in the content of the
+request is ignored.
+
+**Note** that the `uuid` is updated as well.
+
+#### URL
+* `/element/{dbid:\d+}`
+
+	The dbid has to be true positive.
+
+#### Method:
+`PUT`
+
+#### Request body
+* Content: See chapter _Load elements of scope_
+
+	The dbid is ignored.
+
+#### Success Response:
+* Code: `204` if the element was successfully updated
+* Content: `NONE`
 
 #### Error Response:
 * Missing/Wrong credentials

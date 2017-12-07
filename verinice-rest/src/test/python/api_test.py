@@ -96,33 +96,38 @@ class ElementTest(RestTest):
             self.assertEqual(response.status_code, 400, response.text)
 
     def test_update_element(self):
-        self.url = self.url + '/elements'
+        self.url = self.url + '/element/63432'
         with open('updated-element.json') as file:
             data = json.load(file)
-            response = requests.post(self.url, auth=self.auth, json=data)
-            self.assertEqual(response.status_code, 200, response.text)
-            self.assertTrue('Location' in response.headers, 'The location header has to be set.')
-            self.assertEqual(response.json()['dbid'], data['dbid'], 'The response should contain the updated element with dbid set.')
+            response = requests.put(self.url, auth=self.auth, json=data)
+            self.assertEqual(response.status_code, 204, response.text)
 
     def test_update_element_with_existing_uuid(self):
-        self.url = self.url + '/elements'
+        self.url = self.url + '/element/63432'
         with open('updated-element-with-existing-uuid.json') as file:
             data = json.load(file)
-            response = requests.post(self.url, auth=self.auth, json=data)
+            response = requests.put(self.url, auth=self.auth, json=data)
             self.assertEqual(response.status_code, 400, response.text)
 
     def test_update_element_with_invalid_uuid(self):
-        self.url = self.url + '/elements'
+        self.url = self.url + '/element/63432'
         with open('updated-element-with-invalid-uuid.json') as file:
             data = json.load(file)
-            response = requests.post(self.url, auth=self.auth, json=data)
+            response = requests.put(self.url, auth=self.auth, json=data)
             self.assertEqual(response.status_code, 400, response.text)
 
     def test_update_missing_element(self):
-        self.url = self.url + '/elements'
+        self.url = self.url + '/element/33'
         with open('updated-element-with-wrong-dbid.json') as file:
             data = json.load(file)
-            response = requests.post(self.url, auth=self.auth, json=data)
+            response = requests.put(self.url, auth=self.auth, json=data)
+            self.assertEqual(response.status_code, 404, response.text)
+
+    def test_update_invalid_dbid(self):
+        self.url = self.url + '/element/0'
+        with open('updated-element-with-wrong-dbid.json') as file:
+            data = json.load(file)
+            response = requests.put(self.url, auth=self.auth, json=data)
             self.assertEqual(response.status_code, 400, response.text)
 
 if __name__ == '__main__':
