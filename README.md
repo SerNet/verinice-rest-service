@@ -99,7 +99,7 @@ Substitute `oracle-account-username` with the user name of your Oracle account
 and `oracle-account-password` with an encrypted version of your Oracle account
 password. Use `mvn -ep` to encrypt it.
 
-### Test
+## Testing
 Integration tests are written in python using [Requests][]
 and standard python [unittest][py-unittest].
 
@@ -127,3 +127,60 @@ VERINICEDB=databasename VERINICEUSER=user VERINICEPASSWORD=password ./integratio
 
 [Requests]: http://docs.python-requests.org/en/latest/ "Requests: HTTP for Humans"
 [py-unittest]: https://docs.python.org/3/library/unittest.html "unittest in python"
+
+## Releasing
+To release a new version (here 0.1 is assumed) of the project, you should
+
+1. Initially checkout the `develop` branch.
+2. Create a new branch `release/0.1`
+
+		git checkout -b release/0.1
+
+3. Until QA gives green light:
+	1. Update project version using maven.
+
+			mvn versions:set -DnewVersion=0.1-beta1
+
+	2. Commit, tag and push the release branch with updated version.
+
+			git commit -a
+			git push origin release/0.1
+			git tag -s 0.1-beta1
+			git push origin 0.1-beta1
+
+	3. Checkout the beta tag.
+
+			git checkout 0.1-beta1
+
+	4. Do a deployment build.
+
+			mvn clean package
+
+	5. Put deployment to QA.
+	6. If QA fails, fix bugs onto branch `feature/0.1` and jump back to 3.1.
+4. Update the project version.
+
+		mvn versions:set -DnewVersion=0.1
+		git commit -a
+		git push origin release/0.1
+
+5. Merge the release branch to master and tag.
+
+		git checkout master
+		git merge --no-ff release/0.1
+		git tag -s 0.1
+
+6. Checkout the tag.
+
+		git checkout 0.1
+
+7. Do a deployment build.
+
+		mvn clean package
+
+8. Release deployment.
+9. Merge the release branch to develop to get bugfixes.
+
+		git co develop
+		git merge --no-ff release/0.1
+		git push origin develop
