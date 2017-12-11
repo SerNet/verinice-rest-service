@@ -184,3 +184,8 @@ To release a new version (here 0.1 is assumed) of the project, you should
 		git co develop
 		git merge --no-ff release/0.1
 		git push origin develop
+
+## Misc
+To run the create jar with customizations run
+
+	java -jar verinice-rest-0.1.0.jar --spring.datasource.url=jdbc:postgresql://127.0.0.1:5432/verinicedb --server.port=8888¶
