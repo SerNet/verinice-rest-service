@@ -138,7 +138,7 @@ public class RestElementService {
             throw new IllegalArgumentException("The dbid of an existing element cannot be 0.");
         }
         element.setDbid(dbid);
-        Velement persistedElement = elementService.insertOrUpdateElement(element);
+        elementService.insertOrUpdateElement(element);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 }
