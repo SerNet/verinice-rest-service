@@ -36,13 +36,13 @@ public interface ElementService {
      * @param uuid The UUID of an element
      * @return The element with the given UUID or null if UUID is no found
      */
-    public Velement loadElement(String uuid);
+    Velement loadElement(String uuid);
 
     /**
      * @param dbid The dbid of an element
      * @return The element with the given dbid or null if dbid is no found
      */
-    public Velement loadElement(Long dbid);
+    Velement loadElement(Long dbid);
 
     /**
      * @param sourceId A source id
@@ -50,7 +50,7 @@ public interface ElementService {
      * @return The element with the source and the ext id or null if there is no element
      *  with the source and the ext id
      */
-    public Velement loadElement(String sourceId, String extId);
+    Velement loadElement(String sourceId, String extId);
 
     /**
      *
@@ -64,7 +64,7 @@ public interface ElementService {
      * or < 0 firstResult is 0
      * @return All elements in database based on the restricting parameters
      */
-    public Set<Velement> loadElements(String key, String value, Integer size, Integer firstResult);
+    Set<Velement> loadElements(String key, String value, Integer size, Integer firstResult);
 
     /**
      * @param parentId the database ID of the parent.
@@ -78,7 +78,8 @@ public interface ElementService {
      * or < 0 firstResult is 0
      * @return All elements in database based on the restricting parameters
      */
-    public Set<Velement> loadChildren(Long parentId, String key, String value, Integer size, Integer firstResult);
+    Set<Velement> loadChildren(Long parentId, String key, String value, Integer size,
+            Integer firstResult);
 
     /**
      * @param scopeId The database id of a scope. May be null.
@@ -92,5 +93,16 @@ public interface ElementService {
      * or < 0 firstResult is 0
      * @return All elements in database based on the restricting parameters
      */
-    public Set<Velement> loadElementsOfScope(Integer scopeId, String key, String value, Integer size, Integer firstResult);
+    Set<Velement> loadElementsOfScope(Integer scopeId, String key, String value, Integer size,
+            Integer firstResult);
+
+    /**
+     * Inserts the given element to the database if Velemtent.dbid is {@code 0}
+     * updates otherwise.
+     *
+     * @param element
+     *            The element to insert or update.
+     * @return The database id of the inserted or updated element.
+     */
+    Velement insertOrUpdateElement(Velement element);
 }

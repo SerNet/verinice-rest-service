@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.constraints.Pattern;
+
 /**
  * Represent a element/object in the dynamic object model of verinice.
  * Based an the attribute type instances can be every object type in verinice.
@@ -32,8 +34,10 @@ import java.util.Map;
  */
 public class Velement {
 
+    @Pattern(regexp = "[a-fA-F\\d]{8}(-[a-fA-F\\d]{4}){3}-[a-fA-F\\d]{12}",
+            message = "String has to be a valid UUID.")
     private String uuid;
-    
+
     private String type;
 
     private String title;
@@ -45,9 +49,9 @@ public class Velement {
     private int parentId;
 
     private int scopeId;
-    
+
     private long dbid;
-    
+
     private Map<String, List<String>> properties;
 
     public Velement() {

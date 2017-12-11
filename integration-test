@@ -29,7 +29,11 @@ mvn -f $BASEDIR/verinice-rest spring-boot:run &
 spring_pid=$!
 
 sleep $SPRINGDELAY
-python3 $BASEDIR/verinice-rest/src/test/python/api_test.py
+
+CURDIR=$PWD
+cd $BASEDIR/verinice-rest/src/test/python
+python3 api_test.py
+cd $CURDIR
 
 ## clean up
 kill $spring_pid

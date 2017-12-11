@@ -20,8 +20,7 @@
 
 package org.verinice.persistence;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
@@ -30,31 +29,27 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.verinice.persistence.entities.CnaTreeElement;
-import org.verinice.persistence.entities.Entity;
-import org.verinice.persistence.entities.Property;
-import org.verinice.persistence.entities.PropertyList;
+import org.verinice.model.Account;
+import org.verinice.persistence.entities.*;
 
 /**
- * Data access object (DAO) implementation for entity CnaTreeElement.
- * This DAO uses JPA API to interact with the database.
+ * Data access object (DAO) implementation for entity CnaTreeElement. This DAO
+ * uses JPA API to interact with the database.
  *
  * @author Ruth Motza {@literal <rm[at]sernet[dot]de>}
- * @author Alexander Ben Nasrallah <an@sernet.de>
+ * @author Alexander Ben Nasrallah {@literal <an@sernet.de>}
  */
 @Service
 @EnableWebSecurity
 public class CnaTreeElementDaoImpl extends Dao implements CnaTreeElementDao {
 
-    private static final Logger logger = LoggerFactory.getLogger(CnaTreeElementDaoImpl.class);
-
     @Autowired
-    CnaTreeElementRepository elementRepository;
+    private CnaTreeElementRepository elementRepository;
 
     @Override
     public CnaTreeElement findByUuid(String uuid) {
@@ -82,7 +77,6 @@ public class CnaTreeElementDaoImpl extends Dao implements CnaTreeElementDao {
         configureResultSize(query, size, firstResult);
 
         List<CnaTreeElement> dbElements = query.getResultList();
-        logger.debug("Result size: " + dbElements.size());
         return dbElements;
     }
 
@@ -125,6 +119,22 @@ public class CnaTreeElementDaoImpl extends Dao implements CnaTreeElementDao {
 
         query.distinct(true);
         return entityManager.createQuery(query);
+    }
+
+    @Override
+    public CnaTreeElement insertOrUpdate(CnaTreeElement element) {
+        if (element.getDbid() == 0) {
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            Account account = (Account) securityContext.getAuthentication().getPrincipal();
+
+            Permission defaultPermission = new Permission();
+            defaultPermission.setElement(element);
+            defaultPermission.setWrite(true);
+            defaultPermission.setRead(true);
+            defaultPermission.setRole(account.getLogin());
+            element.setPermissions(Collections.singleton(defaultPermission));
+        }
+        return elementRepository.save(element);
     }
 
     public class Criteria {

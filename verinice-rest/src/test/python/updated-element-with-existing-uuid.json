@@ -1,0 +1,63 @@
+{
+    "uuid": "9b0b19ef-7dc5-494e-bb57-6a052002b66d",
+    "type": "person-iso",
+    "title": "Peterson",
+    "sourceId": null,
+    "extId": null,
+    "parentId": 465,
+    "scopeId": 419,
+    "dbid": 63432,
+    "properties": {
+        "person-iso_document": [
+            ""
+        ],
+        "person_abbr": [
+            "PP"
+        ],
+        "schrift_bestell_document": [
+            ""
+        ],
+        "schrift_bestell": [
+            "0"
+        ],
+        "person-iso_telefon": [
+            ""
+        ],
+        "person-iso_email": [
+            ""
+        ],
+        "person-iso_surname": [
+            "Peterson"
+        ],
+        "person_info_dsb": [
+            ""
+        ],
+        "person-iso_erlaeuterung": [
+            ""
+        ],
+        "person-iso_tag": [
+            ""
+        ],
+        "fachkunde": [
+            "0"
+        ],
+        "person-iso_anrede": [
+            ""
+        ],
+        "person-iso_orgeinheit": [
+            ""
+        ],
+        "Kontaktdaten_DSB": [
+            ""
+        ],
+        "person-iso_name": [
+            "Peter"
+        ],
+        "Datum_bestell": [
+            "1511793317251"
+        ],
+        "ausbild_sonstiges": [
+            ""
+        ]
+    }
+}

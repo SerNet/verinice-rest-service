@@ -16,45 +16,43 @@
  *
  * Contributors:
  *     Daniel Murygin <dm{a}sernet{dot}de> - initial API and implementation
+ *     Alexander Ben Nasrallah <an@sernet.de> - contributor
  ******************************************************************************/
 package org.verinice.rest;
 
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.Set;
 
 /**
  * REST implementation of {@link ElementService}.
  *
  * @author Daniel Murygin <dm{a}sernet{dot}de>
- * @author Alexander Ben Nasrallah <an{a}sernet{dot}de>
+ * @author Alexander Ben Nasrallah <an@sernet.de>
  */
 @RestController
-public class RestElementService implements ElementService {
+public class RestElementService {
 
     @Autowired
-    ElementService elementService;
+    private ElementService elementService;
 
     /**
-     * This mapping matches requests by uuid, i.e. string of
-     * <ul>
-     *   <li>a block of 8 HEX chars followed by</li>
-     *   <li>3 blocks of 4 HEX chars followed by
-     *   <li>a block of 12 HEX chars.
-     * </ul>
+     * This mapping matches requests by UUID, i.e. string of
+     * - a block of 8 HEX chars followed by
+     * - 3 blocks of 4 HEX chars followed by
+     * - a block of 12 HEX chars.
      * This is the normalized UUID representation.
      *
-     * @see org.verinice.interfaces.ElementService#loadElement(
-     *      java.lang.String)
+     * This is the only API which uses the UUID of an element. Every other API
+     * requires the database id which can be obtained by this API.
      */
     @RequestMapping("/element/{uuid:[a-fA-F\\d]{8}(?:-[a-fA-F\\d]{4}){3}-[a-fA-F\\d]{12}}")
-    @Override
     public Velement loadElement(@PathVariable("uuid")  String uuid) {
         return elementService.loadElement(uuid);
     }
@@ -64,7 +62,6 @@ public class RestElementService implements ElementService {
      *  java.lang.Integer)
      */
     @RequestMapping("/element/{dbid:\\d+}")
-    @Override
     public Velement loadElement(@PathVariable("dbid") Long dbid) {
         return elementService.loadElement(dbid);
     }
@@ -74,7 +71,6 @@ public class RestElementService implements ElementService {
      *  java.lang.String, java.lang.String)
      */
     @RequestMapping(value = "/elements/source-id/{sourceId}/ext-id/{extId}")
-    @Override
     public Velement loadElement(@PathVariable("sourceId") String sourceId,
             @PathVariable("extId") String extId) {
         return elementService.loadElement(sourceId, extId);
@@ -85,7 +81,6 @@ public class RestElementService implements ElementService {
      *  java.lang.Integer, java.lang.Integer, java.lang.String,
      *  java.lang.String)
      */
-    @Override
     @RequestMapping(value = "/elements")
     public Set<Velement> loadElements(
             @RequestParam(required = false) String key,
@@ -100,7 +95,6 @@ public class RestElementService implements ElementService {
      *  java.lang.Integer, java.lang.Integer, java.lang.Integer,
      *  java.lang.String, java.lang.String)
      */
-    @Override
     @RequestMapping(value = "/scope/{scopeId}/elements")
     public Set<Velement> loadElementsOfScope(
             @PathVariable(value = "scopeId") Integer scopeId,
@@ -111,7 +105,6 @@ public class RestElementService implements ElementService {
         return elementService.loadElementsOfScope(scopeId, key, value, size, firstResult);
     }
 
-    @Override
     @RequestMapping(value = "/element/{parentId:\\d+}/children")
     public Set<Velement> loadChildren(
             @PathVariable(value = "parentId") Long parentId,
@@ -120,5 +113,32 @@ public class RestElementService implements ElementService {
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) Integer firstResult) {
         return elementService.loadChildren(parentId, key, value, size, firstResult);
+    }
+
+    @RequestMapping(value = "/elements", method = RequestMethod.POST)
+    public Velement insertElement(@Valid @RequestBody Velement element, HttpServletRequest request,
+            HttpServletResponse response) {
+        // Make sure the element is treated as new
+        element.setDbid(0);
+        Velement persistedElement = elementService.insertOrUpdateElement(element);
+
+        response.setStatus(HttpServletResponse.SC_CREATED);
+        String hostAddress = request.getRequestURL().toString().replace(request.getRequestURI(), "");
+        String savedElementLocation = String.format("%s/element/%d", hostAddress, persistedElement.getDbid());
+        response.setHeader("Location", savedElementLocation);
+        return persistedElement;
+    }
+
+    @RequestMapping(value = "/element/{dbid:\\d+}", method = RequestMethod.PUT)
+    public void updateElement(
+            @PathVariable(value = "dbid") Long dbid,
+            @Valid @RequestBody Velement element,
+            HttpServletResponse response) {
+        if (dbid == 0) {
+            throw new IllegalArgumentException("The dbid of an existing element cannot be 0.");
+        }
+        element.setDbid(dbid);
+        elementService.insertOrUpdateElement(element);
+        response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }
 }

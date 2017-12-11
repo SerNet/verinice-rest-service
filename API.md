@@ -9,12 +9,15 @@ article means _CnATreeElement_.
 
 * ``/element/{uuid:[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}}``
 * Example: ``/element/f35b982c-8ad4-4515-96ee-df5fdd4247b9``
-* Notes: The regular expression matches a string of
+* The regular expression matches a string of
 	* a block of 8 HEX chars followed by
 	* 3 blocks of 4 HEX chars followed by
 	* a block of 12 HEX chars.
 
 	This is the normalized UUID representation.
+
+	This is the only API which uses the UUID of an element. Every other API
+	requires the database id which can be obtained by this API.
 
 #### URL Params
 Required:
@@ -271,3 +274,67 @@ Optional:
 #### Error Response:
 * Code: ``401 UNAUTHORIZED``
 * Content: ``{ error : "Log in" }``
+
+### Create an element
+Create an element.
+
+**Note** that the `uuid` has to be valid.
+
+#### URL
+* `/elements`
+
+#### Method:
+`POST`
+
+#### Request body
+* Content: See chapter _Load elements of scope_
+
+	The dbid is ignored.
+
+#### Success Response:
+* Code: `201` if the element was successfully created
+* Content: The created element. Basically the same as the request content
+	but with dbid set.
+
+	See chapter _Load elements of scope_
+* Header
+	* Location: A URL of the uploaded element.
+
+#### Error Response:
+* Missing/Wrong credentials
+	* Code: `401 UNAUTHORIZED`
+	* Content: `{ error : "Log in" }`
+* Invalid UUID
+	* Code: `400 BAD REQUEST`
+	* Content: Not yet specified
+
+### Update an element
+Updated the element with the dbid specified in the URL. The dbid in the content of the
+request is ignored.
+
+**Note** that the `uuid` is updated as well.
+
+#### URL
+* `/element/{dbid:\d+}`
+
+	The dbid has to be true positive.
+
+#### Method:
+`PUT`
+
+#### Request body
+* Content: See chapter _Load elements of scope_
+
+	The dbid is ignored.
+
+#### Success Response:
+* Code: `204` if the element was successfully updated
+* Content: `NONE`
+
+#### Error Response:
+* Missing/Wrong credentials
+	* Code: `401 UNAUTHORIZED`
+	* Content: `{ error : "Log in" }`
+* Invalid UUID
+	* Code: `400 BAD REQUEST`
+	* Content: Not yet specified

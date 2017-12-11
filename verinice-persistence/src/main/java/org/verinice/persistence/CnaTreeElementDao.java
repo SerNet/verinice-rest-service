@@ -20,9 +20,9 @@
  ******************************************************************************/
 package org.verinice.persistence;
 
-import org.verinice.persistence.entities.CnaTreeElement;
-
 import java.util.List;
+
+import org.verinice.persistence.entities.CnaTreeElement;
 
 /**
  * Data access object (DAO) for database entity {@link CnaTreeElement}
@@ -89,4 +89,13 @@ public interface CnaTreeElementDao {
     List<CnaTreeElement> findByParentId(Long parentId, String key, String value, Integer size,
             Integer firstResult);
 
+    /**
+     * Inserts the given element to the database if Velemtent.dbid is {@code 0}
+     * updates otherwise.
+     *
+     * @param element
+     *            The element to insert or update.
+     * @return The the saved version of element.
+     */
+    CnaTreeElement insertOrUpdate(CnaTreeElement element);
 }

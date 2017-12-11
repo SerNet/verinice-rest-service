@@ -20,20 +20,12 @@
 
 package org.verinice.persistence.entities;
 
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.FilterDefs;
-import org.hibernate.annotations.Filters;
-import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.*;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Table;
+import java.util.Set;
 
 /**
  * Entity class for table cnatreeelement.
@@ -86,9 +78,12 @@ public class CnaTreeElement {
     @Column(name = "scope_id", nullable = true)
     private Integer scopeId;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "entity_id", referencedColumnName = "dbid")
     private Entity entity;
+
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "element")
+    private Set<Permission> permissions;
 
     public long getDbid() {
         return dbid;
@@ -152,6 +147,10 @@ public class CnaTreeElement {
 
     public void setEntity(Entity entity) {
         this.entity = entity;
+    }
+
+    public void setPermissions(Set<Permission> permissions) {
+        this.permissions = permissions;
     }
 
     @Override

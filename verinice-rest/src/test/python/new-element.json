@@ -1,0 +1,63 @@
+{
+    "uuid": "c755fdd5-44d7-46b0-a014-19a57e098ccb",
+    "type": "person-iso",
+    "title": "Musterfrau",
+    "sourceId": null,
+    "extId": null,
+    "parentId": 465,
+    "scopeId": 419,
+    "dbid": 0,
+    "properties": {
+        "person-iso_document": [
+            ""
+        ],
+        "person_abbr": [
+            "MM"
+        ],
+        "schrift_bestell_document": [
+            ""
+        ],
+        "schrift_bestell": [
+            "0"
+        ],
+        "person-iso_telefon": [
+            ""
+        ],
+        "person-iso_email": [
+            ""
+        ],
+        "person-iso_surname": [
+            "Musterfrau"
+        ],
+        "person_info_dsb": [
+            ""
+        ],
+        "person-iso_erlaeuterung": [
+            ""
+        ],
+        "person-iso_tag": [
+            ""
+        ],
+        "fachkunde": [
+            "0"
+        ],
+        "person-iso_anrede": [
+            ""
+        ],
+        "person-iso_orgeinheit": [
+            ""
+        ],
+        "Kontaktdaten_DSB": [
+            ""
+        ],
+        "person-iso_name": [
+            "Maria"
+        ],
+        "Datum_bestell": [
+            "1511793317251"
+        ],
+        "ausbild_sonstiges": [
+            ""
+        ]
+    }
+}

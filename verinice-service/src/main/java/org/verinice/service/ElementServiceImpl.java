@@ -29,8 +29,10 @@ import org.springframework.stereotype.Service;
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
 import org.verinice.persistence.CnaTreeElementDao;
+import org.verinice.persistence.EntityDao;
 import org.verinice.persistence.entities.CnaTreeElement;
 import org.verinice.persistence.entities.ElementConverter;
+import org.verinice.persistence.entities.Entity;
 
 /**
  * Implementation of the element service which uses a {@link CnaTreeElementDao}.
@@ -43,7 +45,9 @@ public class ElementServiceImpl implements ElementService {
     private static final Logger LOG = LoggerFactory.getLogger(ElementServiceImpl.class);
 
     @Autowired
-    CnaTreeElementDao dao;
+    private CnaTreeElementDao dao;
+    @Autowired
+    private EntityDao entityDao;
 
     @Override
     public Velement loadElement(String uuid) {
@@ -80,7 +84,7 @@ public class ElementServiceImpl implements ElementService {
         LOG.debug("Key: %s, value %s, size %d, first result %d", key, value, size, firstResult);
         List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(null, key, value, size,
                 firstResult);
-        return ElementConverter.elementsForEntitys(dbElements);
+        return ElementConverter.elementsForEntities(dbElements);
     }
 
     @Override
@@ -90,7 +94,7 @@ public class ElementServiceImpl implements ElementService {
                 firstResult);
         List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(scopeId, key, value, size,
                 firstResult);
-        return ElementConverter.elementsForEntitys(dbElements);
+        return ElementConverter.elementsForEntities(dbElements);
     }
 
     @Override
@@ -100,6 +104,19 @@ public class ElementServiceImpl implements ElementService {
                 value, size, firstResult);
         List<CnaTreeElement> dbElements = dao.findByParentId(parentId, key, value, size,
                 firstResult);
-        return ElementConverter.elementsForEntitys(dbElements);
+        return ElementConverter.elementsForEntities(dbElements);
+    }
+
+    @Override
+    public Velement insertOrUpdateElement(Velement element) {
+        CnaTreeElement el;
+        if (element.getDbid() == 0) {
+            el = ElementConverter.elementToEntity(element);
+        } else {
+            Entity existingEntity = entityDao.findByElementId(element.getDbid());
+            el = ElementConverter.elementToEntity(element, existingEntity);
+        }
+        CnaTreeElement persistedElement = dao.insertOrUpdate(el);
+        return ElementConverter.elementForEntity(persistedElement);
     }
 }
