@@ -32,7 +32,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
@@ -45,7 +45,7 @@ import org.verinice.persistence.CnaTreeElementDao;
  * @author Daniel Murygin
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(ServiceApplicationTest.class)
+@SpringBootTest(classes = ServiceApplicationTest.class)
 public class ElementServiceTest {
     
     @Mock 
