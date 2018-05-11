@@ -40,6 +40,7 @@ import org.verinice.persistence.entities.CnaTreeElement;
 import org.verinice.persistence.entities.MockBuilder;
 import org.verinice.service.ElementServiceImpl;
 import org.verinice.persistence.CnaTreeElementDao;
+import org.verinice.persistence.entities.Entity;
 /**
  *
  * @author Daniel Murygin
@@ -76,6 +77,7 @@ public class ElementServiceTest {
     public void loadElement() {  
         String uuid = "123";
         CnaTreeElement dbEntity = MockBuilder.createAsset(uuid);
+        dbEntity.setEntity(new Entity());
         when(dao.findByUuid(dbEntity.getUuid())).thenReturn(dbEntity);
        
         Velement element = elementService.loadElement(uuid);

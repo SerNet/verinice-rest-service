@@ -55,8 +55,8 @@ public final class ElementConverter {
             return null;
         }
         Velement element = new Velement();
-        element.setUuid(dbEntity.getUuid());   
-        element.setType(dbEntity.getType());
+        element.setUuid(dbEntity.getUuid());
+        element.setType(dbEntity.getEntity().getEntitytype());
         element.setProperties(convertPropertyLists(dbEntity));
         element.setTitle(getTitle(element, dbEntity));
         if (dbEntity.getScopeId() != null)
@@ -133,17 +133,17 @@ public final class ElementConverter {
         }
         CnaTreeElement element = new CnaTreeElement();
         element.setDbid(velement.getDbid());
-        element.setEntity(entityToEntity(velement, entityEntity));
+        element.setEntity(updateOrCreateEntity(velement, entityEntity));
         element.setExtId(velement.getExtId());
         element.setParentId(velement.getParentId());
         element.setScopeId(velement.getScopeId());
         element.setSourceId(velement.getSourceId());
-        element.setType(velement.getType());
+        element.setType(getElementType(velement.getType()));
         element.setUuid(velement.getUuid());
         return element;
     }
 
-    private static Entity entityToEntity(Velement element, Entity entity) {
+    private static Entity updateOrCreateEntity(Velement element, Entity entity) {
         if (entity == null) {
             entity = new Entity();
             entity.setPropertyLists(new HashMap<>(element.getProperties().size()));
@@ -161,6 +161,37 @@ public final class ElementConverter {
             entity.getPropertyLists().put(UUID.randomUUID().toString(), propertyList);
         }
         return entity;
+    }
+
+    // Is this mapping really useful? Why do we have to write the wrong types
+    // back to the database?
+    public static String getElementType(String elementType) {
+        Map<String, String> entityTypeToElementType = new HashMap<>();
+        entityTypeToElementType.put("itverbund","it-verbund");
+        entityTypeToElementType.put("serverkategorie", "server-kategorie");
+        entityTypeToElementType.put("gebaeudekategorie", "gebaeude-kategorie");
+        entityTypeToElementType.put("sonstitkategorie", "sonstige-it-kategorie");
+        entityTypeToElementType.put("anwendungenkategorie", "anwendungen-kategorie");
+        entityTypeToElementType.put("clientskategorie", "clients-kategorie");
+        entityTypeToElementType.put("netzkategorie", "nk-kategorie");
+        entityTypeToElementType.put("personkategorie", "personen-kategorie");
+        entityTypeToElementType.put("raeumekategorie", "raeume-kategorie");
+        entityTypeToElementType.put("tkkategorie", "tk-kategorie");
+        entityTypeToElementType.put("sonstit", "sonst-it");
+        entityTypeToElementType.put("tkkomponente", "telefon-komponente");
+        entityTypeToElementType.put("gefaehrdungsumsetzung", "gefaehrdungs-umsetzung");
+        entityTypeToElementType.put("netzkomponente", "netz-komponente");
+        entityTypeToElementType.put("mnums", "massnahmen-umsetzung");
+        entityTypeToElementType.put("bstumsetzung", "baustein-umsetzung");
+        entityTypeToElementType.put("riskanalysis", "finished-risk-analysis");
+        entityTypeToElementType.put("incident_group", "incidentgroup");
+
+        String hibernateType = entityTypeToElementType.get(elementType);
+        if (hibernateType != null) {
+            return  hibernateType;
+        }
+        // Other types are the same
+        return elementType;
     }
 
     private static PropertyList newPropertyList(List<String> propertyValues, String propertyType) {
