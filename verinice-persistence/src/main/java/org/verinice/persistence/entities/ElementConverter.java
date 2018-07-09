@@ -79,13 +79,21 @@ public final class ElementConverter {
 
     private static String getTitle(Velement element, CnaTreeElement dbEntity) {
         if (specialNamePropertyTypes.containsKey(dbEntity.getType())) {
-            return element.getProperties().get(specialNamePropertyTypes.get(dbEntity.getType())).iterator()
-                    .next();
+            Iterator<String> propIter = element.getProperties()
+                    .get(specialNamePropertyTypes.get(dbEntity.getType())).iterator();
+            if (propIter.hasNext()) {
+                return propIter.next();
+            }
+            return null;
         }
         if (element.getProperties() != null && !element.getProperties().isEmpty()) {
             for (String key : element.getProperties().keySet()) {
-                if (key.toLowerCase().endsWith("name")) {
-                    return element.getProperties().get(key).iterator().next();
+                if (key != null && key.toLowerCase().endsWith("name")) {
+                    Iterator<String> propIter = element.getProperties().get(key).iterator();
+                    if (propIter.hasNext()) {
+                        return propIter.next();
+                    }
+                    return null;
                 }
             }
         }
@@ -98,14 +106,14 @@ public final class ElementConverter {
 
         dbEntity.getEntity().getPropertyLists().forEach((listIdx, propertyList) -> {
             Set<Property> properties = propertyList.getProperties();
-            if (properties != null) {
+            if (properties != null || !properties.isEmpty()) {
                     List<String> values = new ArrayList<>();
                     String type = properties.iterator().next().getPropertytype();
                     properties.forEach(property -> values.add(property.getPropertyvalue()));
                     propertyMap.put(type, values);
 
             } else {
-                LOG.error("properties are null for propertyList : " + propertyList.getUuid());
+                LOG.error("properties are null or empty for propertyList : " + propertyList.getUuid());
             }
         });
 
