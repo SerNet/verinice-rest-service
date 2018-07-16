@@ -56,7 +56,11 @@ public final class ElementConverter {
         }
         Velement element = new Velement();
         element.setUuid(dbEntity.getUuid());
-        element.setType(dbEntity.getEntity().getEntitytype());
+        if (dbEntity.getEntity() == null) {
+            element.setType(dbEntity.getType());
+        } else {
+            element.setType(dbEntity.getEntity().getEntitytype());
+        }
         element.setProperties(convertPropertyLists(dbEntity));
         element.setTitle(getTitle(element, dbEntity));
         if (dbEntity.getScopeId() != null)
@@ -101,9 +105,11 @@ public final class ElementConverter {
     }
 
     private static Map<String, List<String>> convertPropertyLists(CnaTreeElement dbEntity) {
-        Map<String, List<String>> propertyMap = new HashMap<>();
-        if (dbEntity.getEntity() != null && dbEntity.getEntity().getPropertyLists() != null) {
+        if (dbEntity.getEntity() == null || dbEntity.getEntity().getPropertyLists() == null) {
+            return new HashMap<>();
+        }
 
+        Map<String, List<String>> propertyMap = new HashMap<>();
         dbEntity.getEntity().getPropertyLists().forEach((listIdx, propertyList) -> {
             Set<Property> properties = propertyList.getProperties();
             if (properties != null || !properties.isEmpty()) {
@@ -116,8 +122,6 @@ public final class ElementConverter {
                 LOG.error("properties are null or empty for propertyList : " + propertyList.getUuid());
             }
         });
-
-        }
         return propertyMap;
     }
 
