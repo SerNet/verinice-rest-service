@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.verinice.model.Velement;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class provides methods to convert an instance of one class to an 
@@ -112,14 +113,16 @@ public final class ElementConverter {
         Map<String, List<String>> propertyMap = new HashMap<>();
         dbEntity.getEntity().getPropertyLists().forEach((listIdx, propertyList) -> {
             Set<Property> properties = propertyList.getProperties();
-            if (properties != null || !properties.isEmpty()) {
-                    List<String> values = new ArrayList<>();
-                    String type = properties.iterator().next().getPropertytype();
-                    properties.forEach(property -> values.add(property.getPropertyvalue()));
-                    propertyMap.put(type, values);
-
+            if (properties != null && !properties.isEmpty()) {
+                // We assume all properties have the save type. So the type of the list is
+                // is the type of the first element.
+                String type = properties.iterator().next().getPropertytype();
+                List<String> values = properties.stream().map(Property::getPropertyvalue)
+                        .collect(Collectors.toList());
+                propertyMap.put(type, values);
             } else {
-                LOG.error("properties are null or empty for propertyList : " + propertyList.getUuid());
+                LOG.error("properties are null or empty for propertyList : " + propertyList
+                        .getUuid());
             }
         });
         return propertyMap;
