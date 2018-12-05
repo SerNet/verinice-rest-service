@@ -19,6 +19,8 @@
  ******************************************************************************/
 package org.verinice.persistence;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Service;
@@ -28,14 +30,21 @@ import org.verinice.persistence.entities.Entity;
 @EnableWebSecurity
 public class EntityDaoImp extends Dao implements EntityDao {
 
+    private Logger logger = LoggerFactory.getLogger(EntityDaoImp.class);
+
     @Autowired
     private EntityRepository elementRepository;
 
     @Override
     public Entity findByElementId(long dbid) {
         enableAccessControlFilters();
-        long entityId = selectEntityIdWithElement(dbid);
-        return findByDbid(entityId);
+        try {
+            long entityId = selectEntityIdWithElement(dbid);
+            return findByDbid(entityId);
+        } catch (NullPointerException e) {
+            logger.info("No entity for CnaTreeElement with id {} found", dbid);
+            return null;
+        }
     }
 
     @Override

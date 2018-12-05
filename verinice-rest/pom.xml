@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.verinice</groupId>
     <artifactId>verinice-rest-service</artifactId>
-    <version>0.1.0</version>
+    <version>0.2-beta5</version>
   </parent>
   
   

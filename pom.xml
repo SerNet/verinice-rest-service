@@ -15,7 +15,7 @@
   <groupId>org.verinice</groupId>
   <artifactId>verinice-rest-service</artifactId>
   <packaging>pom</packaging>
-  <version>0.1.0</version>
+  <version>0.2-beta5</version>
 
   <organization>
     <name>SerNet Service Network GmbH</name>
