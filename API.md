@@ -338,3 +338,58 @@ request is ignored.
 * Invalid UUID
 	* Code: `400 BAD REQUEST`
 	* Content: Not yet specified
+
+### Load links
+
+Search links.
+
+#### URL
+* `/links?{key}={value}`
+* Example: `/links?dependantId=28710`
+
+#### Method
+``GET``
+
+#### Query Params:
+Query parameters can be arbitrary key-value pairs of string, integer or long property of links.
+
+#### Success Response:
+* Code: 200
+* Content:
+```json
+[
+  {
+    "dependantId": 28710,
+    "dependencyId": 15861,
+    "typeId": "rel_bp_requirement_bp_threat",
+    "linkType": 1,
+    "comment": null,
+    "riskconfidentiality": null,
+    "riskintegrity": null,
+    "riskavailability": null,
+    "riskcwithcontrols": null,
+    "riskiwithcontrols": null,
+    "riskawithcontrols": null,
+    "risktreatmentvalue": null
+  },
+  {
+    "dependantId": 28710,
+    "dependencyId": 15690,
+    "typeId": "rel_bp_requirement_bp_threat",
+    "linkType": 1,
+    "comment": null,
+    "riskconfidentiality": null,
+    "riskintegrity": null,
+    "riskavailability": null,
+    "riskcwithcontrols": null,
+    "riskiwithcontrols": null,
+    "riskawithcontrols": null,
+    "risktreatmentvalue": null
+  }
+]
+
+```
+#### Error Response:
+* Code: ``401 UNAUTHORIZED``
+* Content: ``{ error : "Log in" }``
+
