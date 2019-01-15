@@ -17,24 +17,20 @@
 
 package org.verinice.persistence;
 
-import oracle.security.crypto.util.VectorOverArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Service;
 import org.verinice.model.Vlink;
 import org.verinice.persistence.entities.CnaLink;
-import org.verinice.persistence.entities.CnaTreeElement;
 
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.HashMap;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
-import java.lang.reflect.Field;
 
 /**
  * Data access object (DAO) implementation for entity CnaLink. This DAO

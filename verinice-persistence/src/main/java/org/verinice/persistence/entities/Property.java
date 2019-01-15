@@ -19,7 +19,7 @@
  ******************************************************************************/
 package org.verinice.persistence.entities;
 
-import java.io.Serializable;
+import org.verinice.persistence.entities.Property.PropertyId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,8 +29,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.verinice.persistence.entities.Property.PropertyId;
+import java.io.Serializable;
 
 /**
  * Entity class for table properties.

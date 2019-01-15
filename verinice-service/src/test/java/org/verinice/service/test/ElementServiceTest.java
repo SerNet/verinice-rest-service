@@ -19,8 +19,6 @@
  */
 package org.verinice.service.test;
 
-import static org.mockito.Mockito.when;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -36,11 +34,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
+import org.verinice.persistence.CnaTreeElementDao;
 import org.verinice.persistence.entities.CnaTreeElement;
+import org.verinice.persistence.entities.Entity;
 import org.verinice.persistence.entities.MockBuilder;
 import org.verinice.service.ElementServiceImpl;
-import org.verinice.persistence.CnaTreeElementDao;
-import org.verinice.persistence.entities.Entity;
+
+import static org.mockito.Mockito.when;
 /**
  *
  * @author Daniel Murygin

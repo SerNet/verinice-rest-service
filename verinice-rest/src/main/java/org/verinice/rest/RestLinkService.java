@@ -22,9 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.verinice.interfaces.LinkService;
 import org.verinice.model.Vlink;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
+import java.util.Map;
 import java.util.Set;
 
 /**

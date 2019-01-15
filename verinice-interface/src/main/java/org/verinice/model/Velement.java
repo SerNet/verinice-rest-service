@@ -19,11 +19,10 @@
  ******************************************************************************/
 package org.verinice.model;
 
+import javax.validation.constraints.Pattern;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.validation.constraints.Pattern;
 
 /**
  * Represent a element/object in the dynamic object model of verinice.
