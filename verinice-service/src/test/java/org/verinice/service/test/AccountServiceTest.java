@@ -1,7 +1,5 @@
 package org.verinice.service.test;
 
-import static org.mockito.Mockito.when;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +14,8 @@ import org.verinice.interfaces.AccountService;
 import org.verinice.model.Account;
 import org.verinice.persistence.VeriniceAccountDao;
 import org.verinice.persistence.entities.MockBuilder;
+
+import static org.mockito.Mockito.when;
 
 
 /**

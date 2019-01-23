@@ -19,9 +19,6 @@
  */
 package org.verinice.service;
 
-import java.util.List;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +30,9 @@ import org.verinice.persistence.EntityDao;
 import org.verinice.persistence.entities.CnaTreeElement;
 import org.verinice.persistence.entities.ElementConverter;
 import org.verinice.persistence.entities.Entity;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * Implementation of the element service which uses a {@link CnaTreeElementDao}.

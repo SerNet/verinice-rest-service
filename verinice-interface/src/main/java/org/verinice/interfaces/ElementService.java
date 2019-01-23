@@ -19,9 +19,9 @@
  ******************************************************************************/
 package org.verinice.interfaces;
 
-import java.util.Set;
-
 import org.verinice.model.Velement;
+
+import java.util.Set;
 
 /**
  * This service provides methods to manage verinice elements.

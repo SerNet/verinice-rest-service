@@ -22,7 +22,6 @@ package org.verinice.persistence;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -34,10 +33,6 @@ import org.verinice.persistence.entities.Entity;
 import org.verinice.persistence.entities.Property;
 import org.verinice.persistence.entities.PropertyList;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -47,6 +42,9 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Data access object (DAO) implementation for Accounts.

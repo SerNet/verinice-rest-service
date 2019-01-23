@@ -20,9 +20,9 @@
  ******************************************************************************/
 package org.verinice.persistence;
 
-import java.util.List;
-
 import org.verinice.persistence.entities.CnaTreeElement;
+
+import java.util.List;
 
 /**
  * Data access object (DAO) for database entity {@link CnaTreeElement}
