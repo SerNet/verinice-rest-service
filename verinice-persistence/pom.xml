@@ -9,7 +9,7 @@
   <parent>
     <groupId>org.verinice</groupId>
     <artifactId>verinice-rest-service</artifactId>
-    <version>0.2-beta5</version>
+    <version>0.3-beta1</version>
   </parent>
 
   <artifactId>verinice-persistence</artifactId>
