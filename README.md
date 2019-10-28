@@ -10,7 +10,7 @@ Boot](http://projects.spring.io/spring-boot/) application build with
 
 call e.g.
 
-	mvn spring-boot:run -Drun.arguments="--server.port=8081"
+	mvn spring-boot:run -Dlogging.level.org.springframework=TRACE -Drun.arguments="--server.port=8081"
 
 ## Modules
 
@@ -188,6 +188,18 @@ To release a new version (here 0.1 is assumed) of the project, you should
 		git co develop
 		git merge --no-ff release/0.1
 		git push origin develop
+
+## Logging
+Logging can be change and start time by setting the environment variable family
+`logging.level.*`
+
+### Received Requests
+
+	-Dlogging.level.org.springframework.web.servlet=DEBUG
+
+### verinice specific logging
+
+	-Dlogging.level.org.verinice=TRACE
 
 ## Misc
 To run the create jar with customizations run
