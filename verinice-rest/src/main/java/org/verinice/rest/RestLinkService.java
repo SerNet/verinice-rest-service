@@ -17,12 +17,14 @@
 package org.verinice.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.verinice.exceptions.LinkValidationException;
 import org.verinice.interfaces.LinkService;
 import org.verinice.model.Vlink;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.Map;
 import java.util.Set;
 
@@ -44,5 +46,19 @@ public class RestLinkService {
     @RequestMapping(value = "/links")
     public Set<Vlink> loadLinks(@RequestParam(required = false) Map<String, String> queryParams) {
         return linkService.loadLinks(queryParams);
+    }
+
+    /**
+     * Inserts a new link.
+     *
+     * The link has to be valid, source and target have to exist and
+     * the link type has to be defined in the hitro config, aka. SNCA.xml.
+     */
+    @RequestMapping(value = "/links", method = RequestMethod.POST)
+    public Vlink insertLink(@Valid @RequestBody Vlink link, HttpServletRequest request,
+                             HttpServletResponse response) throws LinkValidationException {
+        Vlink persistedLink = linkService.insertLinks(link);
+        response.setStatus(HttpServletResponse.SC_CREATED);
+        return persistedLink;
     }
 }

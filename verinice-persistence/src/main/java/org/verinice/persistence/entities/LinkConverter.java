@@ -16,6 +16,7 @@
  */
 package org.verinice.persistence.entities;
 
+import org.modelmapper.ModelMapper;
 import org.verinice.model.Vlink;
 
 import java.util.HashSet;
@@ -30,7 +31,6 @@ import java.util.Set;
 public final class LinkConverter {
 
     private LinkConverter() {
-        super();
     }
 
     public static Vlink toVlink(CnaLink link) {
@@ -42,7 +42,6 @@ public final class LinkConverter {
         vlink.setDependencyId(link.getDependencyId());
         vlink.setTypeId(link.getTypeId());
         vlink.setComment(link.getComment());
-        vlink.setLinkType(link.getLinkType());
         vlink.setRiskavailability(link.getRiskavailability());
         vlink.setRiskconfidentiality(link.getRiskconfidentiality());
         vlink.setRiskintegrity(link.getRiskintegrity());
@@ -57,5 +56,13 @@ public final class LinkConverter {
         HashSet<Vlink> elements = new HashSet<>();
         links.forEach(link -> elements.add(toVlink(link)));
         return elements;
+    }
+
+    public static CnaLink  toCnaLink(Vlink link) {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.createTypeMap(Vlink.class, CnaLink.class).addMappings(mapper -> {
+            mapper.map(ignore -> 1, CnaLink::setLinkType);
+        });
+        return modelMapper.map(link, CnaLink.class);
     }
 }

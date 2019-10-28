@@ -21,6 +21,7 @@ fi
 export spring_datasource_url="jdbc:postgresql://$VERINICEDBSERVER/$VERINICEDB"
 export spring_datasource_username="$VERINICEUSER"
 export spring_datasource_password="$VERINICEPASSWORD"
+export veriniceserver_url_hitroconfig="file://$PWD/verinice-service/src/test/resources/SNCA.xml"
 
 mvn -B -pl verinice-rest spring-boot:run &
 spring_pid=$!
@@ -34,3 +35,5 @@ cd $CURDIR
 
 ## clean up
 kill $spring_pid
+
+echo "tested with opts $OPTS"

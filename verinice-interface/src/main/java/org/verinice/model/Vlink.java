@@ -29,7 +29,6 @@ public class Vlink {
     private long dependantId;
     private long dependencyId;
     private String typeId;
-    private Integer linkType;
     private String comment;
     private Integer riskconfidentiality;
     private Integer riskintegrity;
@@ -41,7 +40,7 @@ public class Vlink {
 
     @Override public String toString() {
         return "Vlink [dependantId=" + dependantId + ", dependencyId=" + dependencyId
-                + ", typeId=" + typeId + ",\n link_type=" + linkType + "]";
+                + ", typeId=" + typeId + "]";
     }
 
     @Override public boolean equals(Object o) {
@@ -51,8 +50,7 @@ public class Vlink {
             return false;
         Vlink vlink = (Vlink) o;
         return dependantId == vlink.dependantId && dependencyId == vlink.dependencyId && Objects
-                .equals(typeId, vlink.typeId) && Objects.equals(linkType, vlink.linkType) && Objects
-                .equals(comment, vlink.comment) && Objects
+                .equals(typeId, vlink.typeId) && Objects.equals(comment, vlink.comment) && Objects
                 .equals(riskconfidentiality, vlink.riskconfidentiality) && Objects
                 .equals(riskintegrity, vlink.riskintegrity) && Objects
                 .equals(riskavailability, vlink.riskavailability) && Objects
@@ -64,7 +62,7 @@ public class Vlink {
 
     @Override public int hashCode() {
         return Objects
-                .hash(dependantId, dependencyId, typeId, linkType, comment, riskconfidentiality,
+                .hash(dependantId, dependencyId, typeId, comment, riskconfidentiality,
                         riskintegrity, riskavailability, riskcwithcontrols, riskiwithcontrols,
                         riskawithcontrols, risktreatmentvalue);
     }
@@ -91,14 +89,6 @@ public class Vlink {
 
     public void setTypeId(String typeId) {
         this.typeId = typeId;
-    }
-
-    public Integer getLinkType() {
-        return linkType;
-    }
-
-    public void setLinkType(Integer linkType) {
-        this.linkType = linkType;
     }
 
     public String getComment() {

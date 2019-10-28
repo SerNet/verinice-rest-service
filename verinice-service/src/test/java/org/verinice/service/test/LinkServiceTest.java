@@ -57,7 +57,7 @@ public class LinkServiceTest {
 
     @InjectMocks
     @Autowired
-    LinkService linkService = new LinkServiceImpl();
+    LinkService linkService = new LinkServiceImpl("");
 
     @BeforeClass
     public static void setUpClass() {
