@@ -16,6 +16,11 @@
  ******************************************************************************/
 package org.verinice.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.verinice.exceptions.LinkValidationException;
@@ -43,8 +48,9 @@ public class RestLinkService {
      * @param queryParams arbitraty String, Integer or Long properties of Vlink. Returns all if
      *                    the map is null or empty
      */
-    @RequestMapping(value = "/links")
-    public Set<Vlink> loadLinks(@RequestParam(required = false) Map<String, String> queryParams) {
+    @GetMapping("/links")
+    @Operation(description = "Load links by query")
+    public Set<Vlink> loadLinks(@Parameter(description = "key-value-pairs of properties to filter links", name = "{key}={value}") @RequestParam(required = false) Map<String, String> queryParams) {
         return linkService.loadLinks(queryParams);
     }
 
@@ -54,7 +60,9 @@ public class RestLinkService {
      * The link has to be valid, source and target have to exist and
      * the link type has to be defined in the hitro config, aka. SNCA.xml.
      */
-    @RequestMapping(value = "/links", method = RequestMethod.POST)
+    @PostMapping("/links")
+    @Operation(description = "create links.")
+    @ApiResponses(@ApiResponse(responseCode = "201", description = "return the created link"))
     public Vlink insertLink(@Valid @RequestBody Vlink link, HttpServletRequest request,
                              HttpServletResponse response) throws LinkValidationException {
         Vlink persistedLink = linkService.insertLinks(link);

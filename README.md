@@ -132,6 +132,11 @@ VERINICEDB=databasename VERINICEUSER=user VERINICEPASSWORD=password ./integratio
 [Requests]: http://docs.python-requests.org/en/latest/ "Requests: HTTP for Humans"
 [py-unittest]: https://docs.python.org/3/library/unittest.html "unittest in python"
 
+## Documentation
+The Rest-API is documented using the spring-swagger-framework. To view the
+documentation run the application and visit
+[localhost:8081/swagger-ui.html](localhost:8081/swagger-ui.html).
+
 ## Releasing
 To release a new version (here 0.1 is assumed) of the project, you should
 
