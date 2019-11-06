@@ -6,7 +6,7 @@ for a verinice database. The verinice REST service is a [Spring
 Boot](http://projects.spring.io/spring-boot/) application build with
 [Maven](https://maven.apache.org/).
 
-# Run
+## Run
 
 call e.g.
 
@@ -183,6 +183,7 @@ To release a new version (here 0.1 is assumed) of the project, you should
 		mvn clean package
 
 8. Release deployment.
+
 9. Merge the release branch to develop to get bugfixes.
 
 		git co develop
