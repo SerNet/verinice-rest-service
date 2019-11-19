@@ -14,6 +14,7 @@ import org.verinice.interfaces.AccountService;
 import org.verinice.model.Account;
 import org.verinice.persistence.VeriniceAccountDao;
 import org.verinice.persistence.entities.MockBuilder;
+import org.verinice.service.AccountServiceImpl;
 
 import static org.mockito.Mockito.when;
 
@@ -30,8 +31,7 @@ public class AccountServiceTest {
     VeriniceAccountDao dao;
 
     @InjectMocks
-    @Autowired
-    AccountService accountService;
+    AccountService accountService = new AccountServiceImpl();
 
     @Before
     public void setUp() {

@@ -50,7 +50,7 @@ public class EntityDaoImp extends Dao implements EntityDao {
     @Override
     public Entity findByDbid(long dbid) {
         enableAccessControlFilters();
-        return elementRepository.findOne(dbid);
+        return elementRepository.findById(dbid).get();
     }
 
     private long selectEntityIdWithElement(long elementDbid) {

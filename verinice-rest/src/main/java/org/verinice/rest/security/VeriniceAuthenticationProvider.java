@@ -23,7 +23,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
-import org.springframework.security.authentication.dao.SaltSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -57,15 +56,6 @@ public class VeriniceAuthenticationProvider extends AbstractUserDetailsAuthentic
     }
 
     private Environment environement;
-
-    /**
-     * The password used to perform
-     * {@link PasswordEncoder#isPasswordValid(String, String, Object)} on when
-     * the user is not found to avoid SEC-2056. This is necessary, because some
-     * {@link PasswordEncoder} implementations will short circuit if the
-     * password is not in a valid format.
-     */
-    private SaltSource saltSource;
 
     private UserDetailsService userDetailsService;
 
@@ -207,28 +197,6 @@ public class VeriniceAuthenticationProvider extends AbstractUserDetailsAuthentic
                     "UserDetailsService returned null, which is an interface contract violation");
         }
         return loadedUser;
-    }
-
-    /**
-     * The source of salts to use when decoding passwords. <code>null</code> is
-     * a valid value, meaning the <code>DaoAuthenticationProvider</code> will
-     * present <code>null</code> to the relevant <code>PasswordEncoder</code>.
-     * <p>
-     * Instead, it is recommended that you use an encoder which uses a random
-     * salt and combines it with the password field. This is the default
-     * approach taken in the
-     * {@code org.springframework.security.crypto.password} package.
-     *
-     * @param saltSource
-     *            to use when attempting to decode passwords via the
-     *            <code>PasswordEncoder</code>
-     */
-    public void setSaltSource(SaltSource saltSource) {
-        this.saltSource = saltSource;
-    }
-
-    protected SaltSource getSaltSource() {
-        return saltSource;
     }
 
     public void setUserDetailsService(UserDetailsService userDetailsService) {

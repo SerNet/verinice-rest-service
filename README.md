@@ -6,7 +6,11 @@ for a verinice database. The verinice REST service is a [Spring
 Boot](http://projects.spring.io/spring-boot/) application build with
 [Maven](https://maven.apache.org/).
 
+# Run
 
+call e.g.
+
+	mvn spring-boot:run -Drun.arguments="--server.port=8081"
 
 ## Modules
 

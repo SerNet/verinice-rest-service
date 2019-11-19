@@ -65,7 +65,7 @@ public class CnaTreeElementDaoImpl extends Dao implements CnaTreeElementDao {
     @Override
     public CnaTreeElement findByDbid(Long dbid) {
         enableAccessControlFilters();
-        return elementRepository.findOne(dbid);
+        return elementRepository.findById(dbid).get();
     }
 
      @Override
