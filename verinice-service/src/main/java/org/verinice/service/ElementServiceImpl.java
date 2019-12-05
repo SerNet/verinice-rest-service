@@ -81,7 +81,7 @@ public class ElementServiceImpl implements ElementService {
 
     @Override
     public Set<Velement> loadElements(String key, String value, Integer size, Integer firstResult) {
-        LOG.debug("Key: %s, value %s, size %d, first result %d", key, value, size, firstResult);
+        LOG.debug("Key: {}, value {}, size {}, first result {}", key, value, size, firstResult);
         List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(null, key, value, size,
                 firstResult);
         return ElementConverter.elementsForEntities(dbElements);
@@ -90,7 +90,7 @@ public class ElementServiceImpl implements ElementService {
     @Override
     public Set<Velement> loadElementsOfScope(Integer scopeId, String key, String value,
             Integer size, Integer firstResult) {
-        LOG.debug("Scope id: %d, Key: %s, value %s, size %d, first result %d", key, value, size,
+        LOG.debug("Scope id: {}, Key: {}, value {}, size {}, first result {}", key, value, size,
                 firstResult);
         List<CnaTreeElement> dbElements = dao.findByScopeKeyValue(scopeId, key, value, size,
                 firstResult);
@@ -100,7 +100,7 @@ public class ElementServiceImpl implements ElementService {
     @Override
     public Set<Velement> loadChildren(Long parentId, String key, String value, Integer size,
             Integer firstResult) {
-        LOG.debug("Parent dbid: %d, Key: %s, value %s, size %d, first result %d", parentId, key,
+        LOG.debug("Parent dbid: {}, Key: {}, value {}, size {}, first result {}", parentId, key,
                 value, size, firstResult);
         List<CnaTreeElement> dbElements = dao.findByParentId(parentId, key, value, size,
                 firstResult);
