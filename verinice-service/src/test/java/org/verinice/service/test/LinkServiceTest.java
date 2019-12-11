@@ -19,6 +19,11 @@
  */
 package org.verinice.service.test;
 
+import static org.mockito.Mockito.when;
+
+import java.util.Collections;
+import java.util.Set;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -33,20 +38,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.verinice.interfaces.LinkService;
-import org.verinice.model.Velement;
 import org.verinice.model.Vlink;
 import org.verinice.persistence.CnaLinkDao;
-import org.verinice.persistence.CnaTreeElementDao;
 import org.verinice.persistence.entities.CnaLink;
-import org.verinice.persistence.entities.CnaTreeElement;
-import org.verinice.persistence.entities.Entity;
 import org.verinice.persistence.entities.MockBuilder;
 import org.verinice.service.LinkServiceImpl;
-
-import java.util.Collections;
-import java.util.Set;
-
-import static org.mockito.Mockito.when;
 
 /**
  *
