@@ -18,11 +18,11 @@ then
 	exit 1
 fi
 
-OPTS="$OPTS -Dspring.datasource.url=jdbc:postgresql://$VERINICEDBSERVER/$VERINICEDB"
-OPTS="$OPTS -Dspring.datasource.username=$VERINICEUSER"
-OPTS="$OPTS -Dspring.datasource.password=$VERINICEPASSWORD"
+export spring_datasource_url="jdbc:postgresql://$VERINICEDBSERVER/$VERINICEDB"
+export spring_datasource_username="$VERINICEUSER"
+export spring_datasource_password="$VERINICEPASSWORD"
 
-mvn -pl verinice-rest spring-boot:run $OPTS &
+mvn -B -pl verinice-rest spring-boot:run &
 spring_pid=$!
 
 sleep $SPRINGDELAY
