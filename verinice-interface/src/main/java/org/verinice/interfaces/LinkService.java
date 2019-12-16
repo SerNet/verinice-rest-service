@@ -39,7 +39,7 @@ public interface LinkService {
      * Insert a new link.
      *
      * The link has to be valid, i.e. source and target have to exist and
-     * the link type has to be denfined in the hitro config.
+     * the link type has to be defined in the hitro config.
      */
     Vlink insertLinks(Vlink link) throws LinkValidationException;
 }

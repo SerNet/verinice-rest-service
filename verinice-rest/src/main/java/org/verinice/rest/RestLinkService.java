@@ -45,7 +45,7 @@ public class RestLinkService {
     /**
      * Load links by query.
      *
-     * @param queryParams arbitraty String, Integer or Long properties of Vlink. Returns all if
+     * @param queryParams arbitrary String, Integer or Long properties of Vlink. Returns all if
      *                    the map is null or empty
      */
     @GetMapping("/links")
