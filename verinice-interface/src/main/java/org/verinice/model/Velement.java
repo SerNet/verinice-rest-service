@@ -19,10 +19,13 @@
  ******************************************************************************/
 package org.verinice.model;
 
-import javax.validation.constraints.Pattern;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.validation.constraints.Pattern;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Represent a element/object in the dynamic object model of verinice.
@@ -35,10 +38,13 @@ public class Velement {
 
     @Pattern(regexp = "[a-fA-F\\d]{8}(-[a-fA-F\\d]{4}){3}-[a-fA-F\\d]{12}",
             message = "String has to be a valid UUID.")
+    @Schema(description = "UUID of the element", example = "c755fdd5-44d7-46b0-a014-19a57e098ccb")
     private String uuid;
 
+    @Schema(example = "person-iso")
     private String type;
 
+    @Schema(example = "Musterfrau")
     private String title;
 
     private String sourceId;
@@ -50,7 +56,59 @@ public class Velement {
     private int scopeId;
 
     private long dbid;
-
+    @Schema(example = "{\n" +
+            "        \"person-iso_document\": [\n" +
+            "            \"\"\n" +
+            "        ],\n" +
+            "        \"person_abbr\": [\n" +
+            "            \"MM\"\n" +
+            "        ],\n" +
+            "        \"schrift_bestell_document\": [\n" +
+            "            \"\"\n" +
+            "        ],\n" +
+            "        \"schrift_bestell\": [\n" +
+            "            \"0\"\n" +
+            "        ],\n" +
+            "        \"person-iso_telefon\": [\n" +
+            "            \"\"\n" +
+            "        ],\n" +
+            "        \"person-iso_email\": [\n" +
+            "            \"\"\n" +
+            "        ],\n" +
+            "        \"person-iso_surname\": [\n" +
+            "            \"Musterfrau\"\n" +
+            "        ],\n" +
+            "        \"person_info_dsb\": [\n" +
+            "            \"\"\n" +
+            "        ],\n" +
+            "        \"person-iso_erlaeuterung\": [\n" +
+            "            \"\"\n" +
+            "        ],\n" +
+            "        \"person-iso_tag\": [\n" +
+            "            \"\"\n" +
+            "        ],\n" +
+            "        \"fachkunde\": [\n" +
+            "            \"0\"\n" +
+            "        ],\n" +
+            "        \"person-iso_anrede\": [\n" +
+            "            \"\"\n" +
+            "        ],\n" +
+            "        \"person-iso_orgeinheit\": [\n" +
+            "            \"\"\n" +
+            "        ],\n" +
+            "        \"Kontaktdaten_DSB\": [\n" +
+            "            \"\"\n" +
+            "        ],\n" +
+            "        \"person-iso_name\": [\n" +
+            "            \"Maria\"\n" +
+            "        ],\n" +
+            "        \"Datum_bestell\": [\n" +
+            "            \"1511793317251\"\n" +
+            "        ],\n" +
+            "        \"ausbild_sonstiges\": [\n" +
+            "            \"\"\n" +
+            "        ]\n" +
+            "    }")
     private Map<String, List<String>> properties;
 
     public Velement() {

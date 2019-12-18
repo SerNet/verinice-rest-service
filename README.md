@@ -6,11 +6,11 @@ for a verinice database. The verinice REST service is a [Spring
 Boot](http://projects.spring.io/spring-boot/) application build with
 [Maven](https://maven.apache.org/).
 
-# Run
+## Run
 
 call e.g.
 
-	mvn spring-boot:run -Drun.arguments="--server.port=8081"
+	mvn spring-boot:run -Dlogging.level.org.springframework=TRACE -Drun.arguments="--server.port=8081"
 
 ## Modules
 
@@ -132,6 +132,11 @@ VERINICEDB=databasename VERINICEUSER=user VERINICEPASSWORD=password ./integratio
 [Requests]: http://docs.python-requests.org/en/latest/ "Requests: HTTP for Humans"
 [py-unittest]: https://docs.python.org/3/library/unittest.html "unittest in python"
 
+## Documentation
+The Rest-API is documented using the spring-swagger-framework. To view the
+documentation run the application and visit
+[localhost:8081/swagger-ui.html](localhost:8081/swagger-ui.html).
+
 ## Releasing
 To release a new version (here 0.1 is assumed) of the project, you should
 
@@ -183,11 +188,24 @@ To release a new version (here 0.1 is assumed) of the project, you should
 		mvn clean package
 
 8. Release deployment.
+
 9. Merge the release branch to develop to get bugfixes.
 
 		git co develop
 		git merge --no-ff release/0.1
 		git push origin develop
+
+## Logging
+Logging can be change and start time by setting the environment variable family
+`logging.level.*`
+
+### Received Requests
+
+	-Dlogging.level.org.springframework.web.servlet=DEBUG
+
+### verinice specific logging
+
+	-Dlogging.level.org.verinice=TRACE
 
 ## Misc
 To run the create jar with customizations run

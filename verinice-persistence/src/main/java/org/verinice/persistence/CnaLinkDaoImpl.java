@@ -19,6 +19,7 @@ package org.verinice.persistence;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Service;
 import org.verinice.model.Vlink;
@@ -41,6 +42,9 @@ import java.util.Map;
 public class CnaLinkDaoImpl extends Dao implements CnaLinkDao {
 
     private static final Logger log = LoggerFactory.getLogger(CnaLinkDaoImpl.class);
+
+    @Autowired
+    private CnaLinkRepository linkRepository;
 
     @Override
     public List<CnaLink> find(Map<String, String> queryParams) {
@@ -87,5 +91,11 @@ public class CnaLinkDaoImpl extends Dao implements CnaLinkDao {
             }
         }
         return conditions;
+    }
+
+    @Override
+    public CnaLink insert(CnaLink link) {
+        log.debug("inserting link {}", link);
+        return this.linkRepository.save(link);
     }
 }

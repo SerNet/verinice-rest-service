@@ -2,30 +2,28 @@
 
 BASEDIR=$(dirname "$0")
 
+VERINICEDBSERVER=${VERINICEDBSERVER:-127.0.0.1:5432}
 VERINICEDB=${VERINICEDB:-verinicedb_test}
 VERINICEUSER=${VERINICEUSER:-verinice}
 VERINICEPASSWORD=${VERINICEPASSWORD:-verinice}
 VERINICEDUMP=${VERINICEDUMP:-$BASEDIR/verinice-rest/src/test/resources/test-dump.sql}
-SPRINGDELAY=${SPRINGDELAY:-10}
+SPRINGDELAY=${SPRINGDELAY:-15}
 
 # refresh the verinice database
 if ! (psql -qd postgres -c "DROP DATABASE IF EXISTS $VERINICEDB" \
 	&& createdb -O $VERINICEUSER $VERINICEDB \
-	&& psql -qd $VERINICEDB -f $VERINICEDUMP > /dev/null)
+	&& psql -q -U $VERINICEUSER -d $VERINICEDB -f $VERINICEDUMP > /dev/null)
 then
 	echo "Unable to clean up database $VERINICEDB."
 	exit 1
 fi
 
-# change the database connection string for spring
-mv $BASEDIR/verinice-rest/src/main/resources/application.properties $BASEDIR/verinice-rest/target/classes/application.properties.old
-sed "/^spring\.datasource\.url.*$/s/[^/]*$/$VERINICEDB/;\
-	/^spring\.datasource\.username.*$/s/[^=]*$/$VERINICEUSER/;\
-	/^spring\.datasource\.password.*$/s/[^=]*$/$VERINICEPASSWORD/;" \
-	$BASEDIR/verinice-rest/target/classes/application.properties.old \
-	> $BASEDIR/verinice-rest/src/main/resources/application.properties
+export spring_datasource_url="jdbc:postgresql://$VERINICEDBSERVER/$VERINICEDB"
+export spring_datasource_username="$VERINICEUSER"
+export spring_datasource_password="$VERINICEPASSWORD"
+export veriniceserver_url_hitroconfig="file://$PWD/verinice-service/src/test/resources/SNCA.xml"
 
-mvn -f $BASEDIR/verinice-rest spring-boot:run &
+mvn -B -pl verinice-rest spring-boot:run &
 spring_pid=$!
 
 sleep $SPRINGDELAY
@@ -37,4 +35,5 @@ cd $CURDIR
 
 ## clean up
 kill $spring_pid
-mv $BASEDIR/verinice-rest/target/classes/application.properties.old $BASEDIR/verinice-rest/src/main/resources/application.properties
+
+echo "tested with opts $OPTS"

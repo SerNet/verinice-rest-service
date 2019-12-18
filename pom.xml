@@ -1,42 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-  xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.1.9.RELEASE</version>
+    <version>2.2.0.RELEASE</version>
   </parent>
-
   <groupId>org.verinice</groupId>
   <artifactId>verinice-rest-service</artifactId>
   <packaging>pom</packaging>
   <version>0.3-beta1</version>
-
   <organization>
     <name>SerNet Service Network GmbH</name>
     <url>https://www.sernet.de/en</url>
   </organization>
-
   <scm>
     <connection>scm:git:ssh://git@git.verinice.org:7999/isms/verinice-rest-service.git</connection>
   </scm>
-
   <modules>
     <module>verinice-interface</module>
     <module>verinice-persistence</module>
     <module>verinice-rest</module>
     <module>verinice-service</module>
   </modules>
-
   <properties>
     <maven.compiler.release>11</maven.compiler.release>
   </properties>
-
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -54,14 +43,12 @@
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-web</artifactId>
     </dependency>
-
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
-
   <dependencyManagement>
     <dependencies>
       <!--Project -->
@@ -85,18 +72,7 @@
         <artifactId>verinice-service</artifactId>
         <version>${project.version}</version>
       </dependency>
-
       <!-- Misc. -->
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>2.9.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.datatype</groupId>
-        <artifactId>jackson-datatype-jsr310</artifactId>
-        <version>2.10.0</version>
-      </dependency>
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
@@ -118,11 +94,30 @@
         <version>1.7.27</version>
       </dependency>
       <dependency>
-          <groupId>javax.validation</groupId>
-          <artifactId>validation-api</artifactId>
-          <version>2.0.1.Final</version>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>2.0.1.Final</version>
       </dependency>
-
+      <dependency>
+        <groupId>org.glassfish.jaxb</groupId>
+        <artifactId>jaxb-runtime</artifactId>
+        <version>2.3.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.modelmapper</groupId>
+        <artifactId>modelmapper</artifactId>
+        <version>2.3.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-ui</artifactId>
+        <version>1.2.17</version>
+      </dependency>
+      <dependency>
+        <groupId>io.swagger.core.v3</groupId>
+        <artifactId>swagger-annotations</artifactId>
+        <version>2.1.0</version>
+      </dependency>
       <!-- Test scoped -->
       <dependency>
         <groupId>org.mockito</groupId>
@@ -136,19 +131,16 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
   <repositories>
     <repository>
       <id>spring-releases</id>
       <url>https://repo.spring.io/libs-release</url>
     </repository>
   </repositories>
-
   <pluginRepositories>
     <pluginRepository>
       <id>spring-releases</id>
       <url>https://repo.spring.io/libs-release</url>
     </pluginRepository>
   </pluginRepositories>
-
 </project>

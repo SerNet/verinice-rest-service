@@ -175,7 +175,7 @@ public class VeriniceAuthenticationProvider extends AbstractUserDetailsAuthentic
     }
 
     @Override
-    protected void doAfterPropertiesSet() throws Exception {
+    protected void doAfterPropertiesSet() {
         Assert.notNull(this.userDetailsService, "A UserDetailsService must be set");
     }
 

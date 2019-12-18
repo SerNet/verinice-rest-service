@@ -76,7 +76,8 @@ public class CnaLink implements Serializable {
     @Column(name = "risktreatmentvalue")
     private String risktreatmentvalue;
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "CnaLink [dependantId=" + dependantId + ", dependencyId=" + dependencyId
                 + ", typeId=" + typeId + ",\n link_type=" + linkType + "]";
     }
@@ -188,16 +189,17 @@ public class CnaLink implements Serializable {
         if (o == null || getClass() != o.getClass())
             return false;
         CnaLink cnaLink = (CnaLink) o;
-        return dependantId == cnaLink.dependantId && dependencyId == cnaLink.dependencyId && Objects
-                .equals(typeId, cnaLink.typeId) && Objects.equals(linkType, cnaLink.linkType)
-                && Objects.equals(comment, cnaLink.comment) && Objects
-                .equals(riskconfidentiality, cnaLink.riskconfidentiality) && Objects
-                .equals(riskintegrity, cnaLink.riskintegrity) && Objects
-                .equals(riskavailability, cnaLink.riskavailability) && Objects
-                .equals(riskcwithcontrols, cnaLink.riskcwithcontrols) && Objects
-                .equals(riskiwithcontrols, cnaLink.riskiwithcontrols) && Objects
-                .equals(riskawithcontrols, cnaLink.riskawithcontrols) && Objects
-                .equals(risktreatmentvalue, cnaLink.risktreatmentvalue);
+        return dependantId == cnaLink.dependantId && dependencyId == cnaLink.dependencyId
+                && Objects.equals(typeId, cnaLink.typeId)
+                && Objects.equals(linkType, cnaLink.linkType)
+                && Objects.equals(comment, cnaLink.comment)
+                && Objects.equals(riskconfidentiality, cnaLink.riskconfidentiality)
+                && Objects.equals(riskintegrity, cnaLink.riskintegrity)
+                && Objects.equals(riskavailability, cnaLink.riskavailability)
+                && Objects.equals(riskcwithcontrols, cnaLink.riskcwithcontrols)
+                && Objects.equals(riskiwithcontrols, cnaLink.riskiwithcontrols)
+                && Objects.equals(riskawithcontrols, cnaLink.riskawithcontrols)
+                && Objects.equals(risktreatmentvalue, cnaLink.risktreatmentvalue);
     }
 
     @Override
@@ -208,7 +210,10 @@ public class CnaLink implements Serializable {
                         riskawithcontrols, risktreatmentvalue);
     }
 
-    public static class CompositeId  implements Serializable {
+    public static class CompositeId implements Serializable {
+
+        private static final long serialVersionUID = 1L;
+
         private long dependantId;
         private long dependencyId;
         private String typeId;
@@ -253,8 +258,8 @@ public class CnaLink implements Serializable {
             if (o == null || getClass() != o.getClass())
                 return false;
             CompositeId that = (CompositeId) o;
-            return dependantId == that.dependantId && dependencyId == that.dependencyId && Objects
-                    .equals(typeId, that.typeId);
+            return dependantId == that.dependantId && dependencyId == that.dependencyId
+                    && Objects.equals(typeId, that.typeId);
         }
 
         @Override

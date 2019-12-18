@@ -130,5 +130,18 @@ class ElementTest(RestTest):
             response = requests.put(self.url, auth=self.auth, json=data)
             self.assertEqual(response.status_code, 400, response.text)
 
+    def test_get_links(self):
+        self.url = self.url + '/links'
+        response = requests.get(self.url, auth=self.auth)
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertTrue(len(response.json()) >= 288)
+
+    def test_create_link(self):
+        self.url = self.url + '/links'
+        with open('new-link.json') as file:
+            data = json.load(file)
+            response = requests.post(self.url, auth=self.auth, json=data)
+            self.assertEqual(response.status_code, 201, response.text)
+
 if __name__ == '__main__':
     unittest.main()

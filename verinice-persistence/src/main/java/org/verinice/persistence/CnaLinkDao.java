@@ -34,4 +34,5 @@ public interface CnaLinkDao {
      *                    the map is null or empty
      */
     List<CnaLink> find(Map<String, String> queryParams);
+    CnaLink insert(CnaLink link);
 }
