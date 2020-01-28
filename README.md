@@ -6,15 +6,9 @@ for a verinice database. The verinice REST service is a [Spring
 Boot](http://projects.spring.io/spring-boot/) application build with
 [Maven](https://maven.apache.org/).
 
-## Run
-
-call e.g.
-
-	mvn spring-boot:run -Dlogging.level.org.springframework=TRACE -Drun.arguments="--server.port=8081"
-
 ## Modules
 
-The project consist of several modules to seperate concerns. This section
+The project consist of several modules to separate concerns. This section
 describes the modules of the project.
 
 ### verinice-interface
@@ -41,7 +35,9 @@ To build the application run
 
 	mvn install
 
-If want to start SpringBoot you can then run
+you can then install the *./verinice-rest/target/verinice-rest-xxx.jar*.
+
+If want to start SpringBoot in development you can then run
 
 	mvn -pl verinice-rest spring-boot:run
 
@@ -51,7 +47,7 @@ assuming you have proper database setup up, see [application.properties](verinic
 Integration tests are written in python using [Requests][]
 and standard python [unittest][py-unittest].
 
-Since no maven plugin has been found wich could start spring-boot and run the
+Since no maven plugin has been found which could start spring-boot and run the
 test against a custom database a shell script has been written to batch several
 steps. To run the integration tests execute
 
@@ -59,13 +55,14 @@ steps. To run the integration tests execute
 
 The script uses the following variables
 
-- `VERINICEDB` The database name to connect to at localhost.
-- `VERINICEUSER` The user which spring should use for the database. Has to exists.
-- `VERINICEPASSWORD` The password for the database `$VERINICEUSER`.
-- `VERINICEDUMP` The location to a database dumb which shall be used to recreate the `$VERINICEDB`.
-- `SPRINGDELAY`  Time to sleep before running the tests to give spring time to boot.
+- `VERINICEDBSERVER` the database server URL
+- `VERINICEDB` the database name to connect to at $VERINICEDBSERVER
+- `VERINICEUSER` the user which spring should use for the database (has to exists)
+- `VERINICEPASSWORD` the password for the database `$VERINICEUSER`
+- `VERINICEDUMP` the location to a database dumb which shall be used to recreate the `$VERINICEDB`
+- `SPRINGDELAY`  time to sleep before running the tests to give spring time to boot
 
-i.e. to run the test against a custom database with a special user run
+i. e. to run the test against a custom database with a special user run
 
 	VERINICEDB=databasename VERINICEUSER=user VERINICEPASSWORD=password ./integration-test
 
@@ -135,25 +132,7 @@ To release a new version (here 0.1 is assumed) of the project, you should
 		git merge --no-ff release/0.1
 		git push origin develop
 
-## Logging
-Logging can be change and start time by setting the environment variable family
-`logging.level.*`
-
-### Received Requests
-
-	-Dlogging.level.org.springframework.web.servlet=DEBUG
-
-### verinice specific logging
-
-	-Dlogging.level.org.verinice=TRACE
-
-## Misc
-To run the created jar with customizations run, e. g.
-
-	java -jar verinice-rest-0.1.0.jar --spring.datasource.url=jdbc:postgresql://127.0.0.1:5432/verinicedb --server.port=8888
-
 ## Troubleshooting
-
 ### Could not resolve dependencies
 If you get an error like this
 
