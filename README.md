@@ -151,3 +151,17 @@ Logging can be change and start time by setting the environment variable family
 To run the created jar with customizations run, e. g.
 
 	java -jar verinice-rest-0.1.0.jar --spring.datasource.url=jdbc:postgresql://127.0.0.1:5432/verinicedb --server.port=8888
+
+## Troubleshooting
+
+### Could not resolve dependencies
+If you get an error like this
+
+	[ERROR] Failed to execute goal on project verinice-rest: Could not resolve dependencies for project org.verinice:verinice-rest:jar:0.3: The following artifacts could not be resolved: org.verinice:verinice-interface:jar:0.3, org.verinice:verinice-service:jar:0.3: Failure to find org.verinice:verinice-interface:jar:0.3 in https://repo.spring.io/libs-release was cached in the local repository, resolution will not be reattempted until the update interval of spring-releases has elapsed or updates are forced -> [Help 1]
+
+you have to run
+
+	mvn install
+
+before.
+
