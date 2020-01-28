@@ -55,9 +55,7 @@ Since no maven plugin has been found wich could start spring-boot and run the
 test against a custom database a shell script has been written to batch several
 steps. To run the integration tests execute
 
-```sh
-./integration-test
-```
+	./integration-test
 
 The script uses the following variables
 
@@ -69,9 +67,7 @@ The script uses the following variables
 
 i.e. to run the test against a custom database with a special user run
 
-```sh
-VERINICEDB=databasename VERINICEUSER=user VERINICEPASSWORD=password ./integration-test
-```
+	VERINICEDB=databasename VERINICEUSER=user VERINICEPASSWORD=password ./integration-test
 
 [Requests]: http://docs.python-requests.org/en/latest/ "Requests: HTTP for Humans"
 [py-unittest]: https://docs.python.org/3/library/unittest.html "unittest in python"
