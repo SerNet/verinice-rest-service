@@ -208,6 +208,6 @@ Logging can be change and start time by setting the environment variable family
 	-Dlogging.level.org.verinice=TRACE
 
 ## Misc
-To run the create jar with customizations run
+To run the created jar with customizations run, e. g.
 
-	java -jar verinice-rest-0.1.0.jar --spring.datasource.url=jdbc:postgresql://127.0.0.1:5432/verinicedb --server.port=8888¶
+	java -jar verinice-rest-0.1.0.jar --spring.datasource.url=jdbc:postgresql://127.0.0.1:5432/verinicedb --server.port=8888
