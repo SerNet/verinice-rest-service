@@ -6,15 +6,9 @@ for a verinice database. The verinice REST service is a [Spring
 Boot](http://projects.spring.io/spring-boot/) application build with
 [Maven](https://maven.apache.org/).
 
-## Run
-
-call e.g.
-
-	mvn spring-boot:run -Dlogging.level.org.springframework=TRACE -Drun.arguments="--server.port=8081"
-
 ## Modules
 
-The project consist of several modules to seperate concerns. This section
+The project consist of several modules to separate concerns. This section
 describes the modules of the project.
 
 ### verinice-interface
@@ -37,97 +31,40 @@ Module _verinice-rest_ contains the REST controller for the service.
 
 
 ## Build
+To build the application run
 
-### Oracle JDBC Driver
+	mvn install
 
-This project depends on Oracle's JDBC driver to be build successfully. It is not
-available in Maven Central but only in Oracle's Maven repository
-(https://maven.oracle.com).
+you can then install the *./verinice-rest/target/verinice-rest-xxx.jar*.
 
-In order to use it, it is necessary have an Oracle account, acknowledge the
-terms of service agreement and configure the local Maven installation with
-credentials for accessing the repository. The whole process is [explained in the
-Oracle Help
-Center](http://docs.oracle.com/middleware/1213/core/MAVEN/config_maven_repo.htm).
+If want to start SpringBoot in development you can then run
 
-An [article](https://blogs.oracle.com/dev2dev/entry/how_to_get_oracle_jdbc) on
-Oracle's developer blog explains how to include Oracle's JDBC drivers into a
-Maven build, also explaining the details of accessing Oracle's Maven repository.
+	mvn -pl verinice-rest spring-boot:run
 
-In short, add the following to your local Maven configuration:
-
-```xml
-~/.m2/security-settings.xml
-
-<settingsSecurity>
-<master>{maven-master-password}</master>
-</settingsSecurity>
-```
-
-```xml
-~/.m2/settings.xml
-
-<settings>
-  <servers>
-    <server>
-      <id>maven.oracle.com
-      </id>
-      <username>oracle-account-username</username>
-      <password>{oracle-account-password}</password>
-      <configuration>
-        <basicAuthScope>
-          <host>ANY</host>
-          <port>ANY</port>
-          <realm>OAM 11g</realm>
-        </basicAuthScope>
-        <httpConfiguration>
-          <all>
-            <params>
-              <property>
-                <name>http.protocol.allow-circular-redirects</name>
-                <value>%b,true</value>
-              </property>
-            </params>
-          </all>
-        </httpConfiguration>
-      </configuration>
-    </server>
-  </servers>
-</settings>
-```
-
-Substitute `maven-master-password` with the encrypted version of a random
-password. Encrypt the password via `mvn -emp`.
-
-Substitute `oracle-account-username` with the user name of your Oracle account
-and `oracle-account-password` with an encrypted version of your Oracle account
-password. Use `mvn -ep` to encrypt it.
+assuming you have proper database setup up, see [application.properties](verinice-rest/src/main/resources/application.properties).
 
 ## Testing
 Integration tests are written in python using [Requests][]
 and standard python [unittest][py-unittest].
 
-Since no maven plugin has been found wich could start spring-boot and run the
+Since no maven plugin has been found which could start spring-boot and run the
 test against a custom database a shell script has been written to batch several
 steps. To run the integration tests execute
 
-```sh
-./integration-test
-```
+	./integration-test
 
 The script uses the following variables
 
-- `VERINICEDB` The database name to connect to at localhost.
-- `VERINICEUSER` The user which spring should use for the database. Has to exists.
-- `VERINICEPASSWORD` The password for the database `$VERINICEUSER`.
-- `VERINICEDUMP` The location to a database dumb which shall be used to recreate the `$VERINICEDB`.
-- `SPRINGDELAY`  Time to sleep before running the tests to give spring time to boot.
+- `VERINICEDBSERVER` the database server URL
+- `VERINICEDB` the database name to connect to at $VERINICEDBSERVER
+- `VERINICEUSER` the user which spring should use for the database (has to exists)
+- `VERINICEPASSWORD` the password for the database `$VERINICEUSER`
+- `VERINICEDUMP` the location to a database dumb which shall be used to recreate the `$VERINICEDB`
+- `SPRINGDELAY`  time to sleep before running the tests to give spring time to boot
 
-i.e. to run the test against a custom database with a special user run
+i. e. to run the test against a custom database with a special user run
 
-```sh
-VERINICEDB=databasename VERINICEUSER=user VERINICEPASSWORD=password ./integration-test
-```
+	VERINICEDB=databasename VERINICEUSER=user VERINICEPASSWORD=password ./integration-test
 
 [Requests]: http://docs.python-requests.org/en/latest/ "Requests: HTTP for Humans"
 [py-unittest]: https://docs.python.org/3/library/unittest.html "unittest in python"
@@ -195,19 +132,15 @@ To release a new version (here 0.1 is assumed) of the project, you should
 		git merge --no-ff release/0.1
 		git push origin develop
 
-## Logging
-Logging can be change and start time by setting the environment variable family
-`logging.level.*`
+## Troubleshooting
+### Could not resolve dependencies
+If you get an error like this
 
-### Received Requests
+	[ERROR] Failed to execute goal on project verinice-rest: Could not resolve dependencies for project org.verinice:verinice-rest:jar:0.3: The following artifacts could not be resolved: org.verinice:verinice-interface:jar:0.3, org.verinice:verinice-service:jar:0.3: Failure to find org.verinice:verinice-interface:jar:0.3 in https://repo.spring.io/libs-release was cached in the local repository, resolution will not be reattempted until the update interval of spring-releases has elapsed or updates are forced -> [Help 1]
 
-	-Dlogging.level.org.springframework.web.servlet=DEBUG
+you have to run
 
-### verinice specific logging
+	mvn install
 
-	-Dlogging.level.org.verinice=TRACE
+before.
 
-## Misc
-To run the create jar with customizations run
-
-	java -jar verinice-rest-0.1.0.jar --spring.datasource.url=jdbc:postgresql://127.0.0.1:5432/verinicedb --server.port=8888¶

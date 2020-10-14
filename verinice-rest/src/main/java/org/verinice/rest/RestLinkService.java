@@ -18,6 +18,7 @@ package org.verinice.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
@@ -49,8 +50,8 @@ public class RestLinkService {
      *                    the map is null or empty
      */
     @GetMapping("/links")
-    @Operation(description = "Load links by query")
-    public Set<Vlink> loadLinks(@Parameter(description = "key-value-pairs of properties to filter links", name = "{key}={value}") @RequestParam(required = false) Map<String, String> queryParams) {
+    @Operation(description = "Load links by query", parameters = {@Parameter(in = ParameterIn.QUERY, required = false, name="comment", description = "Key-Value-pairs of properties to filter links for. In this examples the key is set to 'comment'.", example = "mycomment")})
+    public Set<Vlink> loadLinks(@RequestParam(required = false) Map<String, String> queryParams) {
         return linkService.loadLinks(queryParams);
     }
 

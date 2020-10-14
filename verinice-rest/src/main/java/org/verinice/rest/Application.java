@@ -21,8 +21,13 @@ package org.verinice.rest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
 
 /**
  *
@@ -35,7 +40,7 @@ import org.springframework.context.annotation.Configuration;
                 "org.verinice.rest",
                 "org.verinice.service"})
 public class Application {
-    
+
     public Application() {
         super();
     }
@@ -43,4 +48,15 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+          .info(new Info()
+            .title("verinice.REST API")
+            .version("v0.4")
+            .termsOfService("https://shop.verinice.com/de/agb")
+            .license(new License().name("LGPLv3").url("https://v.de")));
+	}
 }
