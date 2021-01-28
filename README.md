@@ -6,201 +6,9 @@ for a verinice database. The verinice REST service is a [Spring
 Boot](http://projects.spring.io/spring-boot/) application build with
 [Maven](https://maven.apache.org/).
 
-
-## Service
-
-This section describes the methods of the service. The term _element_ in this
-article means _CnATreeElement_.
-
-### Load element by UUID
-
-#### URL
-
-* ``/element/{uuid}``
-* Example: ``/element/f35b982c-8ad4-4515-96ee-df5fdd4247b9``
-
-#### URL Params
-Required:
-* ``uuid=[string]``
-* Example: ``uuid=f35b982c-8ad4-4515-96ee-df5fdd4247b9``
-
-#### Success Response
-* Code: 200
-* Content (If an element with the given UUID exists):
-```json
-{
-  "uuid": "f35b982c-8ad4-4515-96ee-df5fdd4247b9",
-  "type": "asset",
-  "title": "Asset (Kopie 4)  (Kopie 2) ",
-  "sourceId": null,
-  "extId": null,
-  "parentId": 405,
-  "scopeId": 373,
-  "properties": {
-    "asset_value_confidentiality": [
-      "0"
-    ],
-    "asset_value_method_confidentiality": [
-      "1"
-    ]
-  }
-}
-```
-
-### Load element by source-id and ext-id
-
-#### URL
-
-* ``/elements/source-id/{sourceId}/ext-id/{extId}`
-* Example: ``/elements/source-id/SerNet-verinice.PRO-4/ext-id/entity-34523``
-
-#### URL Params
-Required:
-* source-id/[string]
-* Example: source-id/SerNet-verinice.PRO-4
-
-
-* ext-id/[string]
-* Example: ext-id/entity-34523
-
-#### Success Response
-* Code: 200
-* Content (If an element with the given source-id and ext-id exists):
-```json
-{
- "uuid": "f35b982c-8ad4-4515-96ee-df5fdd4247b9",
- "type": "asset",
- "title": "Kundenverwaltungssoftware",
- "srcId": "SerNet-verinice.PRO-4",
- "extId": "entity-34523",
- "parentId": "35675",
- "scopeId": "23567",
- "properties": {
-   "asset_value_method_availability": ["1"],
-   "asset_name": ["Kundenverwaltungssoftware"],
- }
-}
-```
-
-### Load elements of scope
-
-Load all elements of one scope.
-
-#### URL
-* ``/scope/{scopeId}/elements?key={key}&value={value}&size={size}&firstResult={firstResult}``
-* Example: ``/scope/23567/elements?key=asset_value_method_availability&value=1&size=10&firstResult=5``
-
-#### Method
-``GET``
-
-#### URL Params
-Required:
-* ``scopeId=[integer]``
-* Example: ``scopeId=23567``
-
-Optional:
-* ``key=[string]``
-* Example: ``key=asset_value_method_availability``
-* Hint: %25 (URL Encoding for %) is a place holder for any string (e.g. ``key=%25asset%25``)
-
-
-* ``value=[string]``
-* Example: ``value=1``
-* Hint: %25 (URL Encoding for %) is a place holder for any string (e.g. ``key=%25asset%25``)
-
-
-* ``size=[integer]``
-* Example: ``value=100``
-* Default: 500, adaptable through property
-
-
-* ``firstResult=[integer]``
-* Example: ``value=5``
-* Default: 0, adaptable through property
-
-#### Success Response:
-* Code: 200
-* Content:
-```json
-[{
-  "uuid": "bbca9b32-2fa7-4939-87fc-a3c046bcb510",
-  "type": "response_group",
-  "title": "Reaktionen",
-  "sourceId": null,
-  "extId": null,
-  "parentId": 373,
-  "scopeId": 373,
-  "properties": {
-  "response_group_name": [
-   "Reaktionen"
-  ]}
-},
-{
-  "uuid": "f59f1d6c-45ca-435e-a666-b8668969f0e0",
-  "type": "asset",
-  "title": "Asset (Kopie 1)  (Kopie 3)  (Kopie 2) ",
-  "sourceId": null,
-  "extId": null,
-  "parentId": 405,
-  "scopeId": 373,
-  "properties": {
-    "asset_value_confidentiality": [
-      "0"
-    ],
-    "asset_value_method_confidentiality": [
-      "1"
-    ],
-    "asset_value_method_availability": [
-      "1"
-    ]}
-}]
-```
-#### Error Response:
-* Code: ``401 UNAUTHORIZED``
-* Content: ``{ error : "Log in" }``
-
-### Search elements by property
-Search elements by property key and value.
-
-#### URL
-* ``/elements?key={key}&value={value}&size={size}&firstResult={firstResult}``
-* Example: ``/elements?key=asset_value_method_availability&value=1&size=10&firstResult=5``
-
-#### Method:
-``GET``
-
-#### URL Params
-Optional:
-* ``key=[string]``
-* Example: ``key=asset_value_method_availability``
-* Hint: %25 (URL Encoding for %) is a place holder for any string (e.g. ``key=%25asset%25``)
-
-
-* ``value=[string]``
-* Example: ``value=1``
-* Hint: %25 (URL Encoding for %) is a place holder for any string (e.g. ``key=%25asset%25``)
-
-
-* ``size=[integer]``
-* Example: ``size=100``
-* Default: 500, adaptable through property
-
-
-* ``firstResult=[integer]``
-* Example: ``firstResult=5``
-* Default: 0, adaptable through property
-
-#### Success Response:
-* Code: ``200``
-* Content: See capter _Load elements of scope_
-
-#### Error Response:
-* Code: ``401 UNAUTHORIZED``
-* Content: ``{ error : "Log in" }``
-
 ## Modules
 
-The project consist of several modules to seperate concerns. This section
+The project consist of several modules to separate concerns. This section
 describes the modules of the project.
 
 ### verinice-interface
@@ -223,73 +31,116 @@ Module _verinice-rest_ contains the REST controller for the service.
 
 
 ## Build
+To build the application run
 
-### Oracle JDBC Driver
+	mvn install
 
-This project depends on Oracle's JDBC driver to be build successfully. It is not
-available in Maven Central but only in Oracle's Maven repository
-(https://maven.oracle.com).
+you can then install the *./verinice-rest/target/verinice-rest-xxx.jar*.
 
-In order to use it, it is necessary have an Oracle account, acknowledge the
-terms of service agreement and configure the local Maven installation with
-credentials for accessing the repository. The whole process is [explained in the
-Oracle Help
-Center](http://docs.oracle.com/middleware/1213/core/MAVEN/config_maven_repo.htm).
+If want to start SpringBoot in development you can then run
 
-An [article](https://blogs.oracle.com/dev2dev/entry/how_to_get_oracle_jdbc) on
-Oracle's developer blog explains how to include Oracle's JDBC drivers into a
-Maven build, also explaining the details of accessing Oracle's Maven repository.
+	mvn -pl verinice-rest spring-boot:run
 
-In short, add the following to your local Maven configuration:
+assuming you have proper database setup up, see [application.properties](verinice-rest/src/main/resources/application.properties).
 
-```xml
-~/.m2/security-settings.xml
+## Testing
+Integration tests are written in python using [Requests][]
+and standard python [unittest][py-unittest].
 
-<settingsSecurity>
-<master>{maven-master-password}</master>
-</settingsSecurity>
-```
+Since no maven plugin has been found which could start spring-boot and run the
+test against a custom database a shell script has been written to batch several
+steps. To run the integration tests execute
 
-```xml
-~/.m2/settings.xml
+	./integration-test
 
-<settings>
-  <servers>
-    <server>
-      <id>maven.oracle.com
-      </id>
-      <username>oracle-account-username</username>
-      <password>{oracle-account-password}</password>
-      <configuration>
-        <basicAuthScope>
-          <host>ANY
-          </host>
-          <port>ANY
-          </port>
-          <realm>OAM 11g
-          </realm>
-        </basicAuthScope>
-        <httpConfiguration>
-          <all>
-            <params>
-              <property>
-                <name>http.protocol.allow-circular-redirects
-                </name>
-                <value>%b,true
-                </value>
-              </property>
-            </params>
-          </all>
-        </httpConfiguration>
-      </configuration>
-    </server>
-  </servers>
-</settings>
-```
+The script uses the following variables
 
-Substitute `maven-master-password` with the encrypted version of a random
-password. Encrypt the password via `mvn -emp`.
+- `VERINICEDBSERVER` the database server URL
+- `VERINICEDB` the database name to connect to at $VERINICEDBSERVER
+- `VERINICEUSER` the user which spring should use for the database (has to exists)
+- `VERINICEPASSWORD` the password for the database `$VERINICEUSER`
+- `VERINICEDUMP` the location to a database dumb which shall be used to recreate the `$VERINICEDB`
+- `SPRINGDELAY`  time to sleep before running the tests to give spring time to boot
 
-Substitute `oracle-account-username` with the user name of your Oracle account
-and `oracle-account-password` with an encrypted version of your Oracle account
-password. Use `mvn -ep` to encrypt it.
+i. e. to run the test against a custom database with a special user run
+
+	VERINICEDB=databasename VERINICEUSER=user VERINICEPASSWORD=password ./integration-test
+
+[Requests]: http://docs.python-requests.org/en/latest/ "Requests: HTTP for Humans"
+[py-unittest]: https://docs.python.org/3/library/unittest.html "unittest in python"
+
+## Documentation
+The Rest-API is documented using the spring-swagger-framework. To view the
+documentation run the application and visit
+[localhost:8081/swagger-ui.html](localhost:8081/swagger-ui.html).
+
+## Releasing
+To release a new version (here 0.1 is assumed) of the project, you should
+
+1. Initially checkout the `develop` branch.
+2. Create a new branch `release/0.1`
+
+		git checkout -b release/0.1
+
+3. Until QA gives green light:
+	1. Update project version using maven.
+
+			mvn versions:set -DnewVersion=0.1-beta1
+
+	2. Commit, tag and push the release branch with updated version.
+
+			git commit -a
+			git push origin release/0.1
+			git tag -s 0.1-beta1
+			git push origin 0.1-beta1
+
+	3. Checkout the beta tag.
+
+			git checkout 0.1-beta1
+
+	4. Do a deployment build.
+
+			mvn clean package
+
+	5. Put deployment to QA.
+	6. If QA fails, fix bugs onto branch `feature/0.1` and jump back to 3.1.
+4. Update the project version.
+
+		mvn versions:set -DnewVersion=0.1
+		git commit -a
+		git push origin release/0.1
+
+5. Merge the release branch to master and tag.
+
+		git checkout master
+		git merge --no-ff release/0.1
+		git tag -s 0.1
+
+6. Checkout the tag.
+
+		git checkout 0.1
+
+7. Do a deployment build.
+
+		mvn clean package
+
+8. Release deployment.
+
+9. Merge the release branch to develop to get bugfixes.
+
+		git co develop
+		git merge --no-ff release/0.1
+		git push origin develop
+
+## Troubleshooting
+### Could not resolve dependencies
+If you get an error like this
+
+	[ERROR] Failed to execute goal on project verinice-rest: Could not resolve dependencies for project org.verinice:verinice-rest:jar:0.3: The following artifacts could not be resolved: org.verinice:verinice-interface:jar:0.3, org.verinice:verinice-service:jar:0.3: Failure to find org.verinice:verinice-interface:jar:0.3 in https://repo.spring.io/libs-release was cached in the local repository, resolution will not be reattempted until the update interval of spring-releases has elapsed or updates are forced -> [Help 1]
+
+you have to run
+
+	mvn install
+
+before.
+

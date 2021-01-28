@@ -9,14 +9,10 @@
   <parent>
     <groupId>org.verinice</groupId>
     <artifactId>verinice-rest-service</artifactId>
-    <version>0.1.0</version>
+    <version>0.4</version>
   </parent>
 
   <artifactId>verinice-persistence</artifactId>
-
-  <properties>
-    <oracle.jdbc.version>12.1.0.2</oracle.jdbc.version>
-  </properties>
 
   <dependencies>
     <!-- Project -->
@@ -39,11 +35,6 @@
       <artifactId>guava</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.oracle.jdbc</groupId>
-      <artifactId>ojdbc7</artifactId>
-      <version>${oracle.jdbc.version}</version>
-    </dependency>
-    <dependency>
       <groupId>javax.el</groupId>
       <artifactId>javax.el-api</artifactId>
     </dependency>
@@ -52,20 +43,12 @@
       <artifactId>commons-lang3</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-validator</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
     </dependency>
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate.javax.persistence</groupId>
-      <artifactId>hibernate-jpa-2.1-api</artifactId>
     </dependency>
 
     <!-- Spring -->
@@ -104,6 +87,10 @@
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-config</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.modelmapper</groupId>
+      <artifactId>modelmapper</artifactId>
     </dependency>
 
     <!-- Test scoped -->

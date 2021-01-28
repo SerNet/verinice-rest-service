@@ -34,7 +34,7 @@
     <!-- You can activate multiple appenders -->
     <appender-ref ref="FILE" />
     <!-- Activate this appender to log to standart out -->
-    <!-- <appender-ref ref="STDOUT" /> -->
+    <appender-ref ref="STDOUT" />
   </root>
 
 </configuration>

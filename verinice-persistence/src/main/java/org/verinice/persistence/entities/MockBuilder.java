@@ -38,6 +38,16 @@ public class MockBuilder {
         return asset;
     }
 
+    public static final CnaLink createLink(String uuid) {
+        createAsset("1");
+        createAsset("2");
+        CnaLink link = new CnaLink();
+        link.setDependantId(1);
+        link.setDependencyId(2);
+        link.setTypeId("link");
+        return link;
+    }
+
     public static final Account createTestAccount() {
         return new Account("test", "test");
     }

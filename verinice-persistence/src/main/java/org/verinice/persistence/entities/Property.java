@@ -19,7 +19,7 @@
  ******************************************************************************/
 package org.verinice.persistence.entities;
 
-import java.io.Serializable;
+import org.verinice.persistence.entities.Property.PropertyId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,8 +29,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.verinice.persistence.entities.Property.PropertyId;
+import java.io.Serializable;
 
 /**
  * Entity class for table properties.
@@ -45,30 +44,22 @@ public class Property implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "properties_id", nullable = false)
-    private long propertiesId;
-
-    @Id
     @Column(name = "propertiesIdx", nullable = false)
     private int propertiesIdx;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @Id
+    @JoinColumn(name = "properties_id", referencedColumnName = "dbid")
+    private PropertyList propertyList;
+
+    @Column(name = "properties_id", nullable = false, insertable = false, updatable = false)
+    private long propertiesId;
 
     @Column(name = "propertytype", nullable = false)
     private String propertytype;
 
     @Column(name = "propertyvalue", nullable = false)
     private String propertyvalue;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "properties_id", referencedColumnName = "dbid", insertable = false, updatable = false)
-    private PropertyList propertyList;
-
-    public long getPropertiesId() {
-        return propertiesId;
-    }
-
-    public void setPropertiesId(long propertiesId) {
-        this.propertiesId = propertiesId;
-    }
 
     public String getPropertytype() {
         return propertytype;
@@ -106,7 +97,6 @@ public class Property implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (int) (propertiesId ^ (propertiesId >>> 32));
         result = prime * result + propertiesIdx;
         result = prime * result + ((propertytype == null) ? 0 : propertytype.hashCode());
         result = prime * result + ((propertyvalue == null) ? 0 : propertyvalue.hashCode());
@@ -125,9 +115,6 @@ public class Property implements Serializable {
             return false;
         }
         Property other = (Property) obj;
-        if (propertiesId != other.propertiesId) {
-            return false;
-        }
         if (propertiesIdx != other.propertiesIdx) {
             return false;
         }
@@ -157,7 +144,7 @@ public class Property implements Serializable {
 
     @Override
     public String toString() {
-        return "Property [propertiesId=" + propertiesId + ", propertytype=" + propertytype + ", propertyvalue="
+        return "Property [propertytype=" + propertytype + ", propertyvalue="
                 + propertyvalue + ", propertiesIdx="
                 + propertiesIdx + "]";
     }
@@ -171,7 +158,7 @@ public class Property implements Serializable {
 
         private static final long serialVersionUID = 1L;
 
-        long propertiesId;
+        long propertyList;
 
         int propertiesIdx;
 
@@ -179,18 +166,18 @@ public class Property implements Serializable {
             // Empty constructor for JPA
         }
 
-        public PropertyId(long propertiesId, int propertiesIdx) {
+        public PropertyId(long propertyList, int propertiesIdx) {
             super();
-            this.propertiesId = propertiesId;
+            this.propertyList = propertyList;
             this.propertiesIdx = propertiesIdx;
         }
 
-        public long getPropertiesId() {
-            return propertiesId;
+        public long getPropertyList() {
+            return propertyList;
         }
 
-        public void setPropertiesId(long propertiesId) {
-            this.propertiesId = propertiesId;
+        public void setPropertyList(long propertyList) {
+            this.propertyList = propertyList;
         }
 
         public int getPropertiesIdx() {
@@ -205,7 +192,7 @@ public class Property implements Serializable {
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result + (int) (propertiesId ^ (propertiesId >>> 32));
+            result = prime * result + (int) (propertyList ^ (propertyList >>> 32));
             result = prime * result + propertiesIdx;
             return result;
         }
@@ -222,13 +209,8 @@ public class Property implements Serializable {
                 return false;
             }
             PropertyId other = (PropertyId) obj;
-            if (propertiesId != other.propertiesId) {
-                return false;
-            }
-            if (propertiesIdx != other.propertiesIdx) {
-                return false;
-            }
-            return true;
+            return propertyList == other.propertyList
+                    && propertiesIdx == other.propertiesIdx;
         }
 
     }

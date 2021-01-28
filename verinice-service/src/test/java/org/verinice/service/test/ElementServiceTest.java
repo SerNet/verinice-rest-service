@@ -19,8 +19,6 @@
  */
 package org.verinice.service.test;
 
-import static org.mockito.Mockito.when;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -32,20 +30,23 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.verinice.interfaces.ElementService;
 import org.verinice.model.Velement;
+import org.verinice.persistence.CnaTreeElementDao;
 import org.verinice.persistence.entities.CnaTreeElement;
+import org.verinice.persistence.entities.Entity;
 import org.verinice.persistence.entities.MockBuilder;
 import org.verinice.service.ElementServiceImpl;
-import org.verinice.persistence.CnaTreeElementDao;
+
+import static org.mockito.Mockito.when;
 /**
  *
  * @author Daniel Murygin
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(ServiceApplicationTest.class)
+@SpringBootTest(classes = ServiceApplicationTest.class)
 public class ElementServiceTest {
     
     @Mock 
@@ -76,6 +77,7 @@ public class ElementServiceTest {
     public void loadElement() {  
         String uuid = "123";
         CnaTreeElement dbEntity = MockBuilder.createAsset(uuid);
+        dbEntity.setEntity(new Entity());
         when(dao.findByUuid(dbEntity.getUuid())).thenReturn(dbEntity);
        
         Velement element = elementService.loadElement(uuid);

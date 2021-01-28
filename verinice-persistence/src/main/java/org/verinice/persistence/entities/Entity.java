@@ -21,16 +21,17 @@ package org.verinice.persistence.entities;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.Serializable;
-import java.util.Set;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Entity class for table entity.
@@ -42,7 +43,7 @@ import javax.persistence.Table;
 public class Entity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "dbid", nullable = false)
@@ -54,8 +55,9 @@ public class Entity implements Serializable {
     @Column(name = "entitytype")
     private String entitytype;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "entity")
-    private Set<PropertyList> propertyLists;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "entity", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @MapKey(name="propertyType")
+    private Map<String, PropertyList> propertyLists;
 
     public long getDbid() {
         return dbid;
@@ -65,11 +67,11 @@ public class Entity implements Serializable {
         this.dbid = dbid;
     }
 
-    public Set<PropertyList> getPropertyLists() {
+    public Map<String, PropertyList> getPropertyLists() {
         return propertyLists;
     }
 
-    public void setPropertyLists(Set<PropertyList> propertyLists) {
+    public void setPropertyLists(Map<String, PropertyList> propertyLists) {
         this.propertyLists = propertyLists;
     }
 
@@ -88,7 +90,6 @@ public class Entity implements Serializable {
     public void setEntitytype(String entitytype) {
         this.entitytype = entitytype;
     }
-
 
     @Override
     public int hashCode() {
@@ -143,9 +144,7 @@ public class Entity implements Serializable {
     @Override
     public String toString() {
         return "Entity [dbid=" + dbid + ", uuid=" + uuid + ", entitytype=" + entitytype
-                + ",\n propertyLists="
-                + StringUtils.join(propertyLists, "\n\t")
-                + "\n]";
+                + ",\n propertyLists=" + StringUtils.join(propertyLists, "\n\t") + "\n]";
     }
 
 }

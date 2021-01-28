@@ -1,0 +1,14 @@
+{
+  "dependantId": 45529,
+  "dependencyId": 24231,
+  "typeId": "anwendung_client",
+  "linkType": 1,
+  "comment": null,
+  "riskconfidentiality": null,
+  "riskintegrity": null,
+  "riskavailability": null,
+  "riskcwithcontrols": null,
+  "riskiwithcontrols": null,
+  "riskawithcontrols": null,
+  "risktreatmentvalue": null
+}

@@ -26,7 +26,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.verinice.model.Account;
-import org.verinice.service.AccountServiceImpl;
+import org.verinice.interfaces.AccountService;
 
 /**
  * Spring security configuration. This class load an account by the given 
@@ -40,7 +40,7 @@ import org.verinice.service.AccountServiceImpl;
 public class SpringUserDetailsService implements UserDetailsService {
 
     @Autowired
-    AccountServiceImpl accountService;
+    AccountService accountService;
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
