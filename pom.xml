@@ -76,7 +76,7 @@
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>28.1-jre</version>
+        <version>31.1-jre</version>
       </dependency>
       <dependency>
         <groupId>javax.el</groupId>
@@ -86,12 +86,12 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.9</version>
+        <version>3.12.0</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>jcl-over-slf4j</artifactId>
-        <version>1.7.27</version>
+        <version>1.7.36</version>
       </dependency>
       <dependency>
         <groupId>javax.validation</groupId>
@@ -106,28 +106,28 @@
       <dependency>
         <groupId>org.modelmapper</groupId>
         <artifactId>modelmapper</artifactId>
-        <version>2.3.0</version>
+        <version>3.1.0</version>
       </dependency>
       <dependency>
         <groupId>org.springdoc</groupId>
         <artifactId>springdoc-openapi-ui</artifactId>
-        <version>1.2.17</version>
+        <version>1.6.6</version>
       </dependency>
       <dependency>
         <groupId>io.swagger.core.v3</groupId>
         <artifactId>swagger-annotations</artifactId>
-        <version>2.1.0</version>
+        <version>2.1.13</version>
       </dependency>
       <!-- Test scoped -->
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.1.0</version>
+        <version>4.4.0</version>
       </dependency>
       <dependency>
         <groupId>com.h2database</groupId>
         <artifactId>h2</artifactId>
-        <version>1.4.199</version>
+        <version>2.1.210</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
