@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) "201"6 Daniel Murygin <dm{a}sernet{dot}de>.
+ * Copyright (c) "2016 Daniel Murygin <dm{a}sernet{dot}de>.
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License

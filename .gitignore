@@ -16,3 +16,7 @@ nbdist/
 nbactions.xml
 .nb-gradle/
 pom.xml.versionsBackup
+
+.idea/
+
+.vscode/
