@@ -2,9 +2,11 @@ pipeline {
     agent {
         docker {
             image 'maven:3-jdk-11'
+            args '-v $MAVEN_REPOSITORY_BASE/repository$EXECUTOR_NUMBER:/root/.m2/repository'
         }
     }
     environment {
+        JAVA_HOME = '/usr/local/openjdk-11'
         MAVEN_OPTS = "-DproxySet=true -DproxyHost=cache.sernet.private -DproxyPort=3128"
     }
     options {
@@ -31,7 +33,7 @@ pipeline {
             recordIssues(tools: [javaDoc()])
             recordIssues(tools: [taskScanner(highTags: 'FIXME', ignoreCase: true, normalTags: 'TODO', includePattern: '**/*.java, **/.xml')])
             jacoco classPattern: '**/target/classes/java/main'
-            junit allowEmptyResults: true, testResults: '**/target/test-results/**/*.xml'
+            junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
         }
         success {
             archiveArtifacts artifacts: 'verinice-rest/target/verinice-rest*.jar', fingerprint: true
