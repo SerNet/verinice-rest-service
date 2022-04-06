@@ -9,7 +9,7 @@
   <groupId>org.verinice</groupId>
   <artifactId>verinice-rest-service</artifactId>
   <packaging>pom</packaging>
-  <version>0.5-SNAPSHOT</version>
+  <version>0.5</version>
   <organization>
     <name>SerNet Service Network GmbH</name>
     <url>https://www.sernet.de/en</url>
