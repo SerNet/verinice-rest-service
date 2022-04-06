@@ -33,7 +33,7 @@ pipeline {
             recordIssues(tools: [javaDoc()])
             recordIssues(tools: [taskScanner(highTags: 'FIXME', ignoreCase: true, normalTags: 'TODO', includePattern: '**/*.java, **/.xml')])
             jacoco classPattern: '**/target/classes/java/main'
-            junit allowEmptyResults: true, testResults: '**/target/test-results/**/*.xml'
+            junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
         }
         success {
             archiveArtifacts artifacts: 'verinice-rest/target/verinice-rest*.jar', fingerprint: true
