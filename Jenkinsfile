@@ -2,6 +2,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3-jdk-11'
+            args '-v $MAVEN_REPOSITORY_BASE/repository$EXECUTOR_NUMBER:/root/.m2/repository'
         }
     }
     environment {
