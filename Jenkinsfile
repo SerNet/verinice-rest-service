@@ -5,6 +5,7 @@ pipeline {
         }
     }
     environment {
+        JAVA_HOME = '/usr/local/openjdk-11'
         MAVEN_OPTS = "-DproxySet=true -DproxyHost=cache.sernet.private -DproxyPort=3128"
     }
     options {
