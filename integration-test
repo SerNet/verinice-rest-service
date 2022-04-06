@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 BASEDIR=$(dirname "$0")
 
@@ -8,14 +8,17 @@ VERINICEUSER=${VERINICEUSER:-verinice}
 VERINICEPASSWORD=${VERINICEPASSWORD:-verinice}
 VERINICEDUMP=${VERINICEDUMP:-$BASEDIR/verinice-rest/src/test/resources/test-dump.sql}
 SPRINGDELAY=${SPRINGDELAY:-15}
+SKIPINIT=${SKIPINIT:-0}
 
-# refresh the verinice database
-if ! (psql -qd postgres -c "DROP DATABASE IF EXISTS $VERINICEDB" \
-	&& createdb -O $VERINICEUSER $VERINICEDB \
-	&& psql -q -U $VERINICEUSER -d $VERINICEDB -f $VERINICEDUMP > /dev/null)
-then
-	echo "Unable to clean up database $VERINICEDB."
-	exit 1
+if [ "$SKIPINIT" != "1" ]; then
+  # refresh the verinice database
+  if ! (psql -qd postgres -c "DROP DATABASE IF EXISTS $VERINICEDB" \
+    && createdb -O $VERINICEUSER $VERINICEDB \
+    && psql -q -U $VERINICEUSER -d $VERINICEDB -f $VERINICEDUMP > /dev/null)
+  then
+    echo "Unable to clean up database $VERINICEDB."
+    exit 1
+  fi
 fi
 
 export spring_datasource_url="jdbc:postgresql://$VERINICEDBSERVER/$VERINICEDB"
@@ -23,14 +26,14 @@ export spring_datasource_username="$VERINICEUSER"
 export spring_datasource_password="$VERINICEPASSWORD"
 export veriniceserver_url_hitroconfig="file://$PWD/verinice-service/src/test/resources/SNCA.xml"
 
-mvn -B -pl verinice-rest spring-boot:run &
+./mvnw -B -pl verinice-rest spring-boot:run &
 spring_pid=$!
 
 sleep $SPRINGDELAY
 
 CURDIR=$PWD
 cd $BASEDIR/verinice-rest/src/test/python
-python3 api_test.py
+py.test-3 --junitxml results.xml api_test.py
 cd $CURDIR
 
 ## clean up
