@@ -55,8 +55,8 @@ public class Application {
         return new OpenAPI()
           .info(new Info()
             .title("verinice.REST API")
-            .version("v0.4")
+            .version("0.5-SNAPSHOT")
             .termsOfService("https://shop.verinice.com/de/agb")
-            .license(new License().name("LGPLv3").url("https://v.de")));
+            .license(new License().name("LGPLv3").url("https://www.gnu.org/licenses/lgpl-3.0.de.html")));
 	}
 }
