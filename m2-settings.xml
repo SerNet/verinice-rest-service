@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<settings>
+  <localRepository>/m2/repository</localRepository>
+  <proxies>
+    <proxy>
+      <id>sernet-proxy</id>
+      <active>true</active>
+      <protocol>http</protocol>
+      <host>cache.int.sernet.de</host>
+      <port>3128</port>
+      <nonProxyHosts>localhost|127.0.0.1</nonProxyHosts>
+    </proxy>
+    <proxy>
+      <id>sernet-proxy-https</id>
+      <active>true</active>
+      <protocol>https</protocol>
+      <host>cache.int.sernet.de</host>
+      <port>3128</port>
+      <nonProxyHosts>localhost|127.0.0.1</nonProxyHosts>
+    </proxy>
+  </proxies>
+</settings>
