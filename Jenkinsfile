@@ -1,13 +1,11 @@
 pipeline {
     agent {
-        docker {
-            image 'maven:3-jdk-11'
-            args '-v $MAVEN_REPOSITORY_BASE/repository$EXECUTOR_NUMBER:/root/.m2/repository'
+        dockerfile {
+            args '-v $MAVEN_REPOSITORY_BASE/repository$EXECUTOR_NUMBER:/m2/repository'
         }
     }
     environment {
         JAVA_HOME = '/usr/local/openjdk-11'
-        MAVEN_OPTS = "-DproxySet=true -DproxyHost=cache.sernet.private -DproxyPort=3128"
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '3'))
@@ -21,7 +19,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn clean install'
+                sh './mvnw clean install'
             }
         }
     }
