@@ -19,18 +19,15 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh './mvnw clean install'
+                sh './mvnw clean package'
             }
         }
     }
     post {
         always {
-            recordIssues(tools: [spotBugs(pattern: '**/target/reports/spotbugs/main.xml', useRankAsPriority: true)])
-            recordIssues(tools: [pmdParser(pattern: '**/target/reports/pmd/main.xml')])
             recordIssues(tools: [java()])
             recordIssues(tools: [javaDoc()])
             recordIssues(tools: [taskScanner(highTags: 'FIXME', ignoreCase: true, normalTags: 'TODO', includePattern: '**/*.java, **/.xml')])
-            jacoco classPattern: '**/target/classes/java/main'
             junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
         }
         success {
