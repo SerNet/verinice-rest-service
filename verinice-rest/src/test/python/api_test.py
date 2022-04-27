@@ -14,7 +14,7 @@ import json
 
 class RestTest(unittest.TestCase):
     def setUp(self):
-        self.url = 'http://127.0.0.1:8081'
+        self.url = 'http://localhost:8081'
         self.auth = ('nn', 'geheim')
         # self.auth = ('rr', 'geheim')
 
