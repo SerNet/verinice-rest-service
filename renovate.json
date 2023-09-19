@@ -1,0 +1,9 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "reviewers": [
+    "jk"
+  ],
+  "automerge": true,
+  "automergeType": "pr",
+  "assignAutomerge": true
+}
